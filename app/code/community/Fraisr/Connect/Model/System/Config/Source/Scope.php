@@ -17,6 +17,8 @@
  */
 
 /**
+ * Scope Source Model
+ * 
  * @category   Fraisr
  * @package    Fraisr_Connect
  * @author     André Herrn <andre.herrn@das-medienkombinat.de>

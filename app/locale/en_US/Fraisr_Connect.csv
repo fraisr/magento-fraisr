@@ -6,3 +6,5 @@
 "Catalog export","Catalog export"
 "Global","Global"
 "Please select ""Global"" or a store as catalog export base.","Please select ""Global"" or a store as catalog export base."
+"Attribute for product description","Attribute for product description"
+"This attribute will be taken as product description for the export to Fraisr.","This attribute will be taken as product description for the export to Fraisr."

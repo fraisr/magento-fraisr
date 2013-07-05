@@ -87,6 +87,10 @@
             <general>
                 <active>0</active>
             </general>
+            <catalog_export>
+                <scope>#global#</scope>
+                <description_attribute>description</description_attribute>
+            </catalog_export>
         </fraisrconnect>
     </default>
 </config>
