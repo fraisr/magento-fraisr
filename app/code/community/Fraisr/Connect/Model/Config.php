@@ -17,12 +17,21 @@
  */
 
 /**
- * Main Helper
+ * Config Model
  * 
  * @category   Fraisr
  * @package    Fraisr_Connect
  * @author     André Herrn <andre.herrn@das-medienkombinat.de>
  */
-class Fraisr_Connect_Helper_Data extends Mage_Core_Helper_Abstract
+class Fraisr_Connect_Model_Config
 {
+    /**
+     * Get support email address 
+     * 
+     * @return string
+     */
+    public function getSupportEmail()
+    {
+        return (string) Mage::getStoreConfig("fraisrconnect/static/support_email");
+    }
 }

@@ -8,3 +8,7 @@
 "Please select ""Global"" or a store as catalog export base.","Please select ""Global"" or a store as catalog export base."
 "Attribute for product description","Attribute for product description"
 "This attribute will be taken as product description for the export to Fraisr.","This attribute will be taken as product description for the export to Fraisr."
+"Support information","Support information"
+"Magento version: ","Magento version: "
+"Extension version: ","Extension version: "
+"Shop URL: ","Shop URL: "
