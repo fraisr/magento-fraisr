@@ -1,0 +1,4 @@
+app/code/community/Fraisr/Connect app/code/community/Fraisr/Connect
+app/etc/modules/Fraisr_Connect.xml app/etc/modules/Fraisr_Connect.xml
+app/locale/de_DE/Fraisr_Connect.csv app/locale/de_DE/Fraisr_Connect.csv
+app/locale/en_US/Fraisr_Connect.csv app/locale/en_US/Fraisr_Connect.csv

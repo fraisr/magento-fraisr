@@ -1,0 +1,92 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ *
+ * @category   Fraisr
+ * @package    Fraisr_Connect
+ * @copyright  Copyright (c) 2013 das MedienKombinat Gmbh <kontakt@das-medienkombinat.de>
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @author     André Herrn <andre.herrn@das-medienkombinat.de>
+ */
+-->
+<config>
+    <sections>
+        <fraisrconnect translate="label"  module="fraisrconnect">
+            <label>Fraisr</label>
+            <tab>service</tab>
+            <sort_order>500</sort_order>
+            <frontend_type>text</frontend_type>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <general translate="label comment" module="fraisrconnect">
+                    <label>Basic configuration</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>100</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <active translate="label comment" module="adminhtml">
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </active>
+                        <key translate="label comment">
+                            <label>Key</label>
+                            <comment><![CDATA[Your key is visible in the Fraisr-Backend.]]></comment>
+                            <frontend_type>text</frontend_type>
+                            <validate>required-entry</validate>
+                            <sort_order>200</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </key>
+                        <secret translate="label comment">
+                            <label>Secret</label>
+                            <comment><![CDATA[Your secret is visible in the Fraisr-Backend.]]></comment>
+                            <frontend_type>password</frontend_type>
+                            <validate>required-entry</validate>
+                            <sort_order>300</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </secret>
+                    </fields>
+                </general>
+                <catalog_export>
+                    <label>Catalog export</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>200</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>0</show_in_website>
+                    <show_in_store>0</show_in_store>
+                    <fields>
+                        <scope translate="label comment">
+                            <label>Scope</label>
+                            <comment><![CDATA[Please select "Global" or a store as catalog export base.]]></comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>fraisrconnect/system_config_source_scope</source_model>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </scope>
+                    </fields>
+                </catalog_export>
+            </groups>
+        </fraisrconnect>
+    </sections>
+</config>
