@@ -40,4 +40,20 @@ class Fraisr_Connect_Helper_Adminhtml_Data extends Fraisr_Connect_Helper_Data
         //Log the message
         //TODO
     }
+
+    /**
+     * Log a message to the logging system and output the message to admin session as success
+     * 
+     * @param  string $message
+     * @param  string $task
+     * @return void
+     */
+    public function logAndAdminOutputSuccess($message, $task = "")
+    {
+        //Add admin error message
+        Mage::getSingleton("adminhtml/session")->addSuccess($message);
+
+        //Log the message
+        //TODO
+    }
 }

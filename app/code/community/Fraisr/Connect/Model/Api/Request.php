@@ -148,10 +148,25 @@ class Fraisr_Connect_Model_Api_Request extends Zend_Http_Client
     /**
      * Set Authentication Header
      *
+     * @throws Fraisr_Connect_Exception
      * @return void
      */
     protected function setAuthenticationHeader()
     {
+        if (true === is_null($this->getConfig()->getApiKey())
+            || "" == $this->getConfig()->getApiKey()) {
+            throw new Fraisr_Connect_Exception(
+                Mage::helper("fraisrconnect/data")->__("Api key is empty. Please complete the configuration.")
+            );
+        }
+
+        if (true === is_null($this->getConfig()->getApiSecret())
+            || "" == $this->getConfig()->getApiSecret()) {
+            throw new Fraisr_Connect_Exception(
+                Mage::helper("fraisrconnect/data")->__("Api secret is empty. Please complete the configuration.")
+            );
+        }
+
         $this->setHeaders(
             array(
                 self::API_KEY_KEY => $this->getConfig()->getApiKey(),
