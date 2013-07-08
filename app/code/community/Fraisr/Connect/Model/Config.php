@@ -26,6 +26,46 @@
 class Fraisr_Connect_Model_Config
 {
     /**
+     * Is extension activated
+     *
+     * @return boolean
+     */
+    public function isActive()
+    {
+        return (1 == Mage::getStoreConfig("fraisrconnect/general/active"));
+    }
+
+    /**
+     * Is sandbox mode on
+     *
+     * @return boolean
+     */
+    public function isSandboxMode()
+    {
+        return (1 == Mage::getStoreConfig("fraisrconnect/general/sandbox"));
+    }
+
+    /**
+     * Get Api Key
+     *
+     * @return string
+     */
+    public function getApiKey()
+    {
+        return (string) Mage::getStoreConfig("fraisrconnect/general/key");
+    }
+
+    /**
+     * Get Api Secret
+     *
+     * @return string
+     */
+    public function getApiSecret()
+    {
+        return (string) Mage::getStoreConfig("fraisrconnect/general/secret");
+    }
+
+    /**
      * Get support email address 
      * 
      * @return string
@@ -33,5 +73,49 @@ class Fraisr_Connect_Model_Config
     public function getSupportEmail()
     {
         return (string) Mage::getStoreConfig("fraisrconnect/static/support_email");
+    }
+
+    /**
+     * Get API URL depending on Sandbox/Live settings
+     * 
+     * @return string
+     */
+    public function getApiUri()
+    {
+        if (true === $this->isSandboxMode()) {
+            return $this->getSandboxApiUri();
+        } else {
+            return $this->getLiveApiUri();
+        }
+    }
+
+    /**
+     * Get Live API URL
+     * 
+     * @return string
+     */
+    public function getLiveApiUri()
+    {
+        return (string) Mage::getStoreConfig("fraisrconnect/static/api/live");
+    }
+
+    /**
+     * Get Sandbox API URL
+     * 
+     * @return string
+     */
+    public function getSandboxApiUri()
+    {
+        return (string) Mage::getStoreConfig("fraisrconnect/static/api/sandbox");
+    }
+
+    /**
+     * Get cause api url
+     * 
+     * @return string
+     */
+    public function getCauseApiUri()
+    {
+        return (string) Mage::getStoreConfig("fraisrconnect/static/api/cause");
     }
 }

@@ -66,7 +66,7 @@
                 <use>admin</use>
                 <args>
                     <module>Fraisr_Connect</module>
-                    <frontName>fraisr</frontName>
+                    <frontName>fraisrconnect</frontName>
                 </args>
             </fraisrconnect>
         </routers>
@@ -86,6 +86,7 @@
         <fraisrconnect>
             <general>
                 <active>0</active>
+                <sandbox>1</sandbox>
             </general>
             <catalog_export>
                 <scope>#global#</scope>
@@ -93,6 +94,11 @@
             </catalog_export>
             <static>
                 <support_email>support@fraisr.com</support_email>
+                <api>
+                    <live> </live>
+                    <sandbox>https://fraisr-test.herokuapp.com/</sandbox>
+                    <cause>api/v1/causes</cause>
+                </api>
             </static>
         </fraisrconnect>
     </default>
