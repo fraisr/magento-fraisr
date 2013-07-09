@@ -111,6 +111,14 @@
                     <model>fraisrconnect/observer::synchronizeCauses</model>
                 </run>
             </fraisrconnect_synchronisation_cause>
+            <fraisrconnect_synchronisation_category>
+                <schedule>
+                    <cron_expr>0 2 * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>fraisrconnect/observer::synchronizeCategories</model>
+                </run>
+            </fraisrconnect_synchronisation_category>
         </jobs>
     </crontab>
     <default>
