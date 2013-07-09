@@ -18,17 +18,12 @@
 $installer = $this;
 $installer->startSetup();
 
-
 $installer->run("
-    DROP TABLE IF EXISTS {$this->getTable('fraisrconnect/cause')};
-    CREATE TABLE {$this->getTable('fraisrconnect/cause')} (
+    DROP TABLE IF EXISTS {$this->getTable('fraisrconnect/category')};
+    CREATE TABLE {$this->getTable('fraisrconnect/category')} (
         `id` varchar(50) NOT NULL,
-        `description` TEXT,
         `name` varchar(255),
-        `url` varchar(255), 
-        `image_url` varchar(255),
-        `official` smallint(1),
-        `created_at` timestamp default CURRENT_TIMESTAMP,
+        `parent_id` varchar(50), 
         PRIMARY KEY (`id`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 ");

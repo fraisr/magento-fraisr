@@ -33,4 +33,14 @@ class Fraisr_Connect_Model_Observer
     {
         Mage::getModel("fraisrconnect/cause")->synchronize();
     }
+
+    /**
+     * Initiate category synchronisation
+     * 
+     * @return void
+     */
+    public function synchronizeCategories()
+    {
+        Mage::getModel("fraisrconnect/category")->synchronize();
+    }
 }

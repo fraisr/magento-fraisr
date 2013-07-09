@@ -60,4 +60,16 @@ class Fraisr_Connect_Adminhtml_SynchronisationController extends Mage_Adminhtml_
         $this->loadLayout();
         $this->renderLayout();
     }
+
+    /**
+     * Trigger category synchronisation
+     * 
+     * @return void
+     */
+    public function categoryAction()
+    {
+        Mage::getModel('fraisrconnect/observer')->synchronizeCategories();
+        $this->loadLayout();
+        $this->renderLayout();
+    }
 }

@@ -16,13 +16,13 @@
  */
 
 /**
- * Cause Resource Model
+ * Category Resource Model
  * 
  * @category   Fraisr
  * @package    Fraisr_Connect
  * @author     André Herrn <andre.herrn@das-medienkombinat.de>
  */
-class Fraisr_Connect_Model_Mysql4_Cause extends Mage_Core_Model_Mysql4_Abstract
+class Fraisr_Connect_Model_Mysql4_Category extends Mage_Core_Model_Mysql4_Abstract
 {
     /**
      * Primery key auto increment flag
@@ -38,20 +38,20 @@ class Fraisr_Connect_Model_Mysql4_Cause extends Mage_Core_Model_Mysql4_Abstract
      */
     protected function _construct()
     {
-        $this->_init('fraisrconnect/cause', 'id');
+        $this->_init('fraisrconnect/category', 'id');
     }
 
     /**
-     * Delete all causes
+     * Delete all categories
      * 
      * @return void
      */
-    public function deleteAllCauses()
+    public function deleteAllCategories()
     {
         $this
             ->_getConnection('core_write')
             ->delete(
-                $this->getTable('fraisrconnect/cause')
+                $this->getTable('fraisrconnect/category')
             );
     }
 }

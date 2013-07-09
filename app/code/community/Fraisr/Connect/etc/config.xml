@@ -19,7 +19,7 @@
 <config>
     <modules>
         <Fraisr_Connect>
-            <version>0.1.0</version>
+            <version>0.1.2</version>
         </Fraisr_Connect>
     </modules>
     <global>
@@ -39,6 +39,9 @@
                     <cause>
                         <table>fraisrconnect_cause</table>
                     </cause>
+                    <category>
+                        <table>fraisrconnect_category</table>
+                    </category>
                 </entities>
             </fraisrconnect_mysql4>
         </models>
@@ -126,6 +129,7 @@
                     <live> </live>
                     <sandbox>https://fraisr-test.herokuapp.com/</sandbox>
                     <cause>api/v1/causes</cause>
+                    <category>api/v1/categories</category>
                 </api>
             </static>
         </fraisrconnect>

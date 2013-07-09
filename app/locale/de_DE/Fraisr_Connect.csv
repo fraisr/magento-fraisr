@@ -30,3 +30,8 @@
 "Api response class is '%s' instead of '%s'.","Die Api-Response-Klasse ist '%s' anstatt '%s'."
 "Api response code is '%s' instead of '%s'.","Der Api-Response-Code ist '%s' anstatt '%s'."
 "Api response is no valid JSON.","Die Api-Response ist kein valides Json"
+"0 categories retrieved. Abort synchronisation.","Es wurden 0 Kategorien importiert. Die Synchronisierung wird abgebrochen."
+"Category synchronisation succeeded. Imported %s categories.","Die Kategorie-Synchronisierung wurde erfolgreich abgeschlossen (%s Kategorien)."
+"Category synchronisation failed during API request with message: '%s'.","Die Kategorie-Synchronisierung ist während der Api-Anfrage fehlgeschlagen: '%s'."
+"Category synchronisation failed with message: '%s'.","Die Kategorie-Synchronisierung ist fehlgeschlagen: '%s'."
+"An unknown error during category synchronisation happened with message: '%s'","Ein unbekannter Fehler ist bei der Kategorie-Synchronisierung aufgetreten: '%s'"

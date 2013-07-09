@@ -118,4 +118,14 @@ class Fraisr_Connect_Model_Config
     {
         return (string) Mage::getStoreConfig("fraisrconnect/static/api/cause");
     }
+
+    /**
+     * Get category api url
+     * 
+     * @return string
+     */
+    public function getCategoryApiUri()
+    {
+        return (string) Mage::getStoreConfig("fraisrconnect/static/api/category");
+    }
 }
