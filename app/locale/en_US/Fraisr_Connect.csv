@@ -44,3 +44,6 @@
 "visibility_shop","Shop"
 "visibility_fraisr","Fraisr"
 "Fraisr ID","Fraisr ID"
+"Set 'Fraisr enabled' to 'No' for %s products because their cause is not available anymore. Skus: %s.","Set 'Fraisr enabled' to 'No' for %s products because their cause is not available anymore. Skus: %s."
+"Product cause check failed with message: '%s'.","Product cause check failed with message: '%s'."
+"An unknown error during product cause check happened with message: '%s'","An unknown error during product cause check happened with message: '%s'"

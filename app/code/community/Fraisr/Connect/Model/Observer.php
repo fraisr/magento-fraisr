@@ -26,12 +26,20 @@ class Fraisr_Connect_Model_Observer
 {
     /**
      * Initiate cause synchronisation
+     * & check for products with non-existing causes
      * 
      * @return void
      */
     public function synchronizeCauses()
     {
+        //Retrieve and save causes
         Mage::getModel("fraisrconnect/cause")->synchronize();
+
+        /**
+         * Check if products exists which causes doesn't exist anymore
+         * If some were find, set "fraisr_enabled" to false
+         */
+        Mage::getModel("fraisrconnect/cause")->productCheck();
     }
 
     /**

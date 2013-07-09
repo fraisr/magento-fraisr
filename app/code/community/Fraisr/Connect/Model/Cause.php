@@ -99,7 +99,7 @@ class Fraisr_Connect_Model_Cause extends Mage_Core_Model_Abstract
      * @param  array $retrievedCauses
      * @return void
      */
-    public function saveRetrievedCauses($retrievedCauses)
+    protected function saveRetrievedCauses($retrievedCauses)
     {
         //For every retrieved cause
         foreach ($retrievedCauses as $retrievedCause) {
@@ -116,5 +116,93 @@ class Fraisr_Connect_Model_Cause extends Mage_Core_Model_Abstract
                 ->setOfficial($retrievedCause["official"])
                 ->save();
         }
+    }
+
+    /**
+     * Check if products exists which causes doesn't exist anymore
+     * If some were find, set "fraisr_enabled" to false
+     * 
+     * @return void
+     */
+    public function productCheck()
+    {
+        try {
+            //Get all current cause ids
+            $causeIds = $this->getCollection()->getAllIds();
+
+            //Stop if no cause ids were given
+            if (false === is_array($causeIds) || count($causeIds) == 0) {
+                return;
+            }
+
+            //Get products which match multiple criterias so that their fraisr-active-status has to be disabled
+            $productsToDisableInFraisr = $this->getProductsToDisableInFraisr($causeIds);
+
+            //Stop processing if no products has to be Fraisr-disabled
+            if ($productsToDisableInFraisr->count() == 0) {
+                return;
+            }
+
+            //Set Fraisr products as inactive
+            $this->disableProductsInFraisr($productsToDisableInFraisr);
+        } catch (Fraisr_Connect_Exception $e) {
+            $helper->logAndAdminOutputException(
+                $helper->__(
+                    "Product cause check failed with message: '%s'.",
+                    $e->getMessage()
+                )
+            );
+        } catch (Exception $e) {
+            $helper->logAndAdminOutputException(
+                $helper->__(
+                    "An unknown error during product cause check happened with message: '%s'",
+                    $e->getMessage()
+                )
+            );
+        }
+    }
+
+    /**
+     * Get products which match multiple criterias so 
+     * that their fraisr-active-status has to be disabled
+     * 
+     * @param  array $causeIds 
+     * @return Mage_Catalog_Model_Resource_Product_Collection
+     */
+    protected function getProductsToDisableInFraisr($causeIds)
+    {
+        $products = Mage::getModel("catalog/product")->getCollection();
+        $products
+            ->addFieldToFilter("fraisr_enabled", 1) //Only products which are enabled for Fraisr sync
+            ->addFieldToFilter("fraisr_cause", array("notnull" => true)) //fraisr_cause is not null -> has values
+            ->addFieldToFilter("fraisr_cause", array("nin" => $causeIds)); //fraisr_cause is non of the current causes
+        return $products;
+    }
+
+    /**
+     * Set "fraisr_enabled" to no for all given products
+     * 
+     * @param  Mage_Catalog_Model_Resource_Product_Collection $productsToDisableInFraisr
+     * @return void
+     */
+    protected function disableProductsInFraisr($productsToDisableInFraisr)
+    {
+        $helper = Mage::helper("fraisrconnect/adminhtml_data");
+        
+        $disabledSkus = array();
+        foreach ($productsToDisableInFraisr as $product) {
+            $product
+                ->setFraisrEnabled(0)
+                ->save();
+            $disabledSkus[] = $product->getSku();
+        }
+
+        $helper->logAndAdminOutputNotice(
+            $helper->__(
+                "Set 'Fraisr enabled' to 'No' for %s products because their cause is not available anymore. Skus: %s.",
+                count($disabledSkus),
+                implode(",", $disabledSkus)
+            )
+        );
     }
 }
