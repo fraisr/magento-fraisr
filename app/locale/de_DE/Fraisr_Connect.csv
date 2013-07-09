@@ -35,3 +35,7 @@
 "Category synchronisation failed during API request with message: '%s'.","Die Kategorie-Synchronisierung ist während der Api-Anfrage fehlgeschlagen: '%s'."
 "Category synchronisation failed with message: '%s'.","Die Kategorie-Synchronisierung ist fehlgeschlagen: '%s'."
 "An unknown error during category synchronisation happened with message: '%s'","Ein unbekannter Fehler ist bei der Kategorie-Synchronisierung aufgetreten: '%s'"
+"Fraisr donation percentage","Fraisr Spendenanteil"
+"Fraisr enabled","Fraisr aktiv"
+"Fraisr cause","Fraisr Spendenanlass"
+"Fraisr category","Fraisr Kategorie"

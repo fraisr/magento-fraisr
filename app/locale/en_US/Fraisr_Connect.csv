@@ -35,3 +35,7 @@
 "Category synchronisation failed during API request with message: '%s'.","Category synchronisation failed during API request with message: '%s'."
 "Category synchronisation failed with message: '%s'.","Category synchronisation failed with message: '%s'."
 "An unknown error during category synchronisation happened with message: '%s'","An unknown error during category synchronisation happened with message: '%s'"
+"Fraisr donation percentage","Fraisr donation percentage"
+"Fraisr enabled","Fraisr enabled"
+"Fraisr cause","Fraisr cause"
+"Fraisr category","Fraisr category"
