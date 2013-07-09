@@ -109,7 +109,7 @@ $setup->addAttribute(
     array(
         'group'                         => $fraisrAttributeGroup,
         'input'                         => 'select',
-        'type'                          => 'int',
+        'type'                          => 'varchar',
         'label'                         => $fraisrHelper->__("Fraisr cause"),
         'source'                        => 'fraisrconnect/entity_attribute_source_cause',
         'default'                       => Fraisr_Connect_Model_Entity_Attribute_Source_Cause::FRAISR_CAUSE_DEFAULT,
@@ -163,7 +163,7 @@ $setup->addAttribute(
     array(
         'group'                         => $fraisrAttributeGroup,
         'input'                         => 'select',
-        'type'                          => 'int',
+        'type'                          => 'varchar',
         'label'                         => $fraisrHelper->__("Fraisr category"),
         'source'                        => 'fraisrconnect/entity_attribute_source_category',
         'default'                       => Fraisr_Connect_Model_Entity_Attribute_Source_Category::FRAISR_CATEGORY_DEFAULT,
@@ -190,7 +190,6 @@ $setup->addAttribute(
     array(
         'group'                         => $fraisrAttributeGroup,
         'input'                         => 'text',
-        'frontend_input_renderer'       => 'fraisrconnect/adminhtml_entity_attribute_fraisrId',
         'type'                          => 'varchar',
         'label'                         => $fraisrHelper->__("Fraisr ID"),
                                            //See explanation about german note in setup of attribute "fraisr_visibility"
