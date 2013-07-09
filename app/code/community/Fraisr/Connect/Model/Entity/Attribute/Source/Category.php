@@ -47,12 +47,13 @@ class Fraisr_Connect_Model_Entity_Attribute_Source_Category
 
             //For every synched category => create a select option
             foreach (Mage::getModel("fraisrconnect/category")->getCollection() as $category) {
+                //Parent product -> Just create an optgroup option
                 if (true === is_null($category->getParentId())) {
                     $this->_options[$category->getId()] = array(
                         'label' => $category->getName(),
                         'value' =>  array(),
                     );
-                } else {
+                } else { //Create a real selectable value for the category children
                     $this->_options[$category->getParentId()]["value"][] = array(
                         'label' => $category->getName(),
                         'value' =>  $category->getId(),

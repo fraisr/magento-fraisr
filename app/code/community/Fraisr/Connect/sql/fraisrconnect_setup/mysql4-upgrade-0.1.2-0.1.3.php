@@ -67,6 +67,41 @@ $setup->addAttribute(
     )
 );
 
+//Is Fraisr article -> Yes/No
+$setup->addAttribute(
+    'catalog_product',
+    'fraisr_visibility',
+    array(
+        'group'                         => $fraisrAttributeGroup,
+        'input'                         => 'select',
+        'type'                          => 'int',
+        'label'                         => $fraisrHelper->__("Fraisr visibility"),
+                                           /**
+                                            * There seems to be a BUG in Magento that the attribute note cannot be translated.
+                                            * As this extension is done for the german market, directly take the german description.
+                                            *
+                                            * English one is:
+                                            * If 'Fraisr' is selected you have to define yourself how to hide the product in the shop frontend. This can be done for example by selecting 'Visibility':'Not Visible Individually'.
+                                            */
+        'note'                          => $fraisrHelper->__("Sofern 'Fraisr' ausgewählt ist, müssen Sie selbst festlegen, wie Ihr Produkt im Frontend ausgeblendet werden soll. Dies kann zum Bespiel mit der Einstellung 'Sichtbarkeit':'Alleine nicht sichtbar' vorgenommen werden."),
+        'source'                        => 'fraisrconnect/entity_attribute_source_visibility',
+        'default'                       => Fraisr_Connect_Model_Entity_Attribute_Source_Visibility::FRAISR_VISIBILITY_BOTH,
+        'global'                        => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
+        'apply_to'                      => $productTypes,
+        'sort_order'                    => 150,
+        'visible'                       => 1,
+        'required'                      => 0,
+        'user_defined'                  => 1,
+        'searchable'                    => 1,
+        'filterable'                    => 0,
+        'comparable'                    => 1,
+        'visible_on_front'              => 1,
+        'visible_in_advanced_search'    => 0,
+        'is_html_allowed_on_front'      => 0,
+        'used_in_product_listing'       => 1,
+    )
+);
+
 //Cause
 $setup->addAttribute(
     'catalog_product',
@@ -148,6 +183,32 @@ $setup->addAttribute(
     )
 );
 
-//exit("manual setup end");
+//Interne Fraisr ID
+$setup->addAttribute(
+    'catalog_product',
+    'fraisr_id',
+    array(
+        'group'                         => $fraisrAttributeGroup,
+        'input'                         => 'text',
+        'frontend_input_renderer'       => 'fraisrconnect/adminhtml_entity_attribute_fraisrId',
+        'type'                          => 'varchar',
+        'label'                         => $fraisrHelper->__("Fraisr ID"),
+                                           //See explanation about german note in setup of attribute "fraisr_visibility"
+        'note'                          => $fraisrHelper->__("Wird bei der Produkt-Synchronisation vergeben."),
+        'global'                        => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
+        'apply_to'                      => $productTypes,
+        'sort_order'                    => 500,
+        'visible'                       => 1,
+        'required'                      => 0,
+        'user_defined'                  => 1,
+        'searchable'                    => 1,
+        'filterable'                    => 0,
+        'comparable'                    => 1,
+        'visible_on_front'              => 1,
+        'visible_in_advanced_search'    => 0,
+        'is_html_allowed_on_front'      => 0,
+        'used_in_product_listing'       => 1,
+    )
+);
 
 $installer->endSetup();
