@@ -21,29 +21,55 @@ $installer->startSetup();
 $fraisrHelper = Mage::helper("fraisrconnect/data");
 
 /**
- * Change attribute type to varchar because Fraisr IDs consist alphabetic chars too
+ * Setup values
+ */
+$productTypes = array(
+    'bundle',
+    'virtual',
+    'simple',
+    'configurable',
+    'downloadable'
+); //All types except "grouped"
+
+/**
+ * Update product types
  */
 $setup->updateAttribute(
     'catalog_product',
-    'fraisr_category',
-    'backend_type',
-    'varchar'
+    'fraisr_enabled',
+    'apply_to',
+    implode(",", $productTypes)
+);
+$setup->updateAttribute(
+    'catalog_product',
+    'fraisr_visibility',
+    'apply_to',
+    implode(",", $productTypes)
 );
 $setup->updateAttribute(
     'catalog_product',
     'fraisr_cause',
-    'backend_type',
-    'varchar'
+    'apply_to',
+    implode(",", $productTypes)
 );
-
-/**
- * Set frontend input renderer for fraisr ID to set this field as readonly in the backend
- */
+$setup->updateAttribute(
+    'catalog_product',
+    'fraisr_donation_percentage',
+    'apply_to',
+    implode(",", $productTypes)
+);
+$setup->updateAttribute(
+    'catalog_product',
+    'fraisr_category',
+    'apply_to',
+    implode(",", $productTypes)
+);
 $setup->updateAttribute(
     'catalog_product',
     'fraisr_id',
-    'frontend_input_renderer',
-    'fraisrconnect/adminhtml_entity_attribute_fraisrId'
+    'apply_to',
+    implode(",", $productTypes)
 );
+
 
 $installer->endSetup();

@@ -24,7 +24,13 @@ $fraisrHelper = Mage::helper("fraisrconnect/data");
  * Setup values
  */
 $fraisrAttributeGroup = "Fraisr";
-$productTypes = array('simple');
+$productTypes = array(
+    'bundle',
+    'virtual',
+    'simple',
+    'configurable',
+    'downloadable'
+); //All types except "grouped"
 
 /**
  * Add attribute group "Fraisr" too all attribute sets
@@ -52,7 +58,7 @@ $setup->addAttribute(
         'source'                        => 'eav/entity_attribute_source_boolean',
         'default'                       => 0,
         'global'                        => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
-        'apply_to'                      => $productTypes,
+        'apply_to'                      => implode(",", $productTypes),
         'sort_order'                    => 100,
         'visible'                       => 1,
         'required'                      => 0,
@@ -87,7 +93,7 @@ $setup->addAttribute(
         'source'                        => 'fraisrconnect/entity_attribute_source_visibility',
         'default'                       => Fraisr_Connect_Model_Entity_Attribute_Source_Visibility::FRAISR_VISIBILITY_BOTH,
         'global'                        => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
-        'apply_to'                      => $productTypes,
+        'apply_to'                      => implode(",", $productTypes),
         'sort_order'                    => 150,
         'visible'                       => 1,
         'required'                      => 0,
@@ -114,7 +120,7 @@ $setup->addAttribute(
         'source'                        => 'fraisrconnect/entity_attribute_source_cause',
         'default'                       => Fraisr_Connect_Model_Entity_Attribute_Source_Cause::FRAISR_CAUSE_DEFAULT,
         'global'                        => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
-        'apply_to'                      => $productTypes,
+        'apply_to'                      => implode(",", $productTypes),
         'sort_order'                    => 200,
         'visible'                       => 1,
         'required'                      => 0,
@@ -141,7 +147,7 @@ $setup->addAttribute(
         'source'                        => 'fraisrconnect/entity_attribute_source_donationPercentage',
         'default'                       => Fraisr_Connect_Model_Entity_Attribute_Source_DonationPercentage::FRAISR_DONATION_PERCENTAGE_DEFAULT,
         'global'                        => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
-        'apply_to'                      => $productTypes,
+        'apply_to'                      => implode(",", $productTypes),
         'sort_order'                    => 300,
         'visible'                       => 1,
         'required'                      => 0,
@@ -168,7 +174,7 @@ $setup->addAttribute(
         'source'                        => 'fraisrconnect/entity_attribute_source_category',
         'default'                       => Fraisr_Connect_Model_Entity_Attribute_Source_Category::FRAISR_CATEGORY_DEFAULT,
         'global'                        => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
-        'apply_to'                      => $productTypes,
+        'apply_to'                      => implode(",", $productTypes),
         'sort_order'                    => 400,
         'visible'                       => 1,
         'required'                      => 0,
@@ -195,7 +201,7 @@ $setup->addAttribute(
                                            //See explanation about german note in setup of attribute "fraisr_visibility"
         'note'                          => $fraisrHelper->__("Wird bei der Produkt-Synchronisation vergeben."),
         'global'                        => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
-        'apply_to'                      => $productTypes,
+        'apply_to'                      => implode(",", $productTypes),
         'sort_order'                    => 500,
         'visible'                       => 1,
         'required'                      => 0,
