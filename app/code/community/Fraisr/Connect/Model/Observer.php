@@ -32,6 +32,11 @@ class Fraisr_Connect_Model_Observer
      */
     public function synchronizeCauses()
     {
+        //Check if extension is active
+        if (false === Mage::helper("fraisrconnect/adminhtml_data")->isActive(true)) {
+            return;
+        }
+
         //Retrieve and save causes
         Mage::getModel("fraisrconnect/cause")->synchronize();
 
@@ -49,6 +54,10 @@ class Fraisr_Connect_Model_Observer
      */
     public function synchronizeCategories()
     {
+        //Check if extension is active
+        if (false === Mage::helper("fraisrconnect/adminhtml_data")->isActive(true)) {
+            return;
+        }
         Mage::getModel("fraisrconnect/category")->synchronize();
     }
 }

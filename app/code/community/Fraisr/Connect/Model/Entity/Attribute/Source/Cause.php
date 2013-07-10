@@ -45,8 +45,17 @@ class Fraisr_Connect_Model_Entity_Attribute_Source_Cause
                 )
             );
 
+            $causeCollection = Mage::getModel("fraisrconnect/cause")->getCollection();
+            //If no causes exist, add a notice that causes have to be synched
+            if (true === Mage::getModel("fraisrconnect/config")->isActive()
+                && $causeCollection->count() === 0) {
+                Mage::getSingleton("adminhtml/session")->addNotice(
+                    Mage::helper('fraisrconnect/data')->__("Fraisr causes have to be synchronized.")
+                );
+            }
+
             //For every synched cause => create a select option
-            foreach (Mage::getModel("fraisrconnect/cause")->getCollection() as $cause) {
+            foreach ($causeCollection as $cause) {
                 $this->_options[] = array(
                     'label' => $cause->getName(),
                     'value' =>  $cause->getId(),

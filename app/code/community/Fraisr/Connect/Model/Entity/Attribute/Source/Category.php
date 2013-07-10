@@ -45,8 +45,17 @@ class Fraisr_Connect_Model_Entity_Attribute_Source_Category
                 )
             );
 
+            $categoryCollection = Mage::getModel("fraisrconnect/category")->getCollection();
+            //If no categories exist, add a notice that categories have to be synched
+            if (true === Mage::getModel("fraisrconnect/config")->isActive()
+                && $categoryCollection->count() === 0) {
+                Mage::getSingleton("adminhtml/session")->addNotice(
+                    Mage::helper('fraisrconnect/data')->__("Fraisr categories have to be synchronized.")
+                );
+            }
+
             //For every synched category => create a select option
-            foreach (Mage::getModel("fraisrconnect/category")->getCollection() as $category) {
+            foreach ($categoryCollection as $category) {
                 //Parent product -> Just create an optgroup option
                 if (true === is_null($category->getParentId())) {
                     $this->_options[$category->getId()] = array(

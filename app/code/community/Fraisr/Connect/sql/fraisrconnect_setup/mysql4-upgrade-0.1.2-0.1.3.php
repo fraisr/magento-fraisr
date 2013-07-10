@@ -81,9 +81,9 @@ $setup->addAttribute(
                                             * As this extension is done for the german market, directly take the german description.
                                             *
                                             * English one is:
-                                            * If 'Fraisr' is selected you have to define yourself how to hide the product in the shop frontend. This can be done for example by selecting 'Visibility':'Not Visible Individually'.
+                                            * The Fraisr-extension doesn't influence the visibility of the products in the shop frontend. This can be done for example by selecting 'Visibility':'Not Visible Individually'.
                                             */
-        'note'                          => $fraisrHelper->__("Sofern 'Fraisr' ausgewählt ist, müssen Sie selbst festlegen, wie Ihr Produkt im Frontend ausgeblendet werden soll. Dies kann zum Bespiel mit der Einstellung 'Sichtbarkeit':'Alleine nicht sichtbar' vorgenommen werden."),
+        'note'                          => $fraisrHelper->__("Die Fraisr-Extension beeinflusst nicht die Sichtbarkeit der Produkte im Frontend. Diese kann zum Bespiel mit der Einstellung 'Sichtbarkeit':'Alleine nicht sichtbar' vorgenommen werden."),
         'source'                        => 'fraisrconnect/entity_attribute_source_visibility',
         'default'                       => Fraisr_Connect_Model_Entity_Attribute_Source_Visibility::FRAISR_VISIBILITY_BOTH,
         'global'                        => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,

@@ -72,4 +72,27 @@ class Fraisr_Connect_Helper_Adminhtml_Data extends Fraisr_Connect_Helper_Data
         //Log the message
         //TODO
     }
+
+    /**
+     * Check is extension is active and output message
+     * 
+     * @param  boolean $withMessage
+     * @return boolean
+     */
+    public function isActive($withMessage = false)
+    {
+        //If activated, just return
+        if (true === Mage::getModel("fraisrconnect/config")->isActive()) {
+            return true;
+        }
+
+        //Add message
+        if (true === $withMessage) {
+            Mage::getSingleton("adminhtml/session")->addError(
+                $this->__("The Fraisr-extension was disabled in the configuration.")
+            );
+        }
+
+        return false;
+    }
 }

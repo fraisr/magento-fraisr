@@ -47,3 +47,6 @@
 "Set 'Fraisr enabled' to 'No' for %s products because their cause is not available anymore. Skus: %s.","Für %s Produkte wurde 'Fraisr aktiv' auf 'Nein' geändert, da deren Spendenanlass nicht mehr verfügbar ist. Skus: %s."
 "Product cause check failed with message: '%s'.","Der Spendenanlass-Produckt-Check ist fehlgeschlagen: '%s'."
 "An unknown error during product cause check happened with message: '%s'","Ein unbekannter Fehler ist bei dem Spendenanlass-Produckt-Check aufgetreten: '%s'"
+"The Fraisr-extension was disabled in the configuration.","Die Fraisr-Extension wurde im Konfigurationsbereich deaktiviert"
+"Fraisr causes have to be synchronized.","Eine Synchronisierung der Fraisr-Spendenanlässe ist notwendig."
+"Fraisr categories have to be synchronized.","Eine Synchronisierung der Fraisr-Kategorien ist notwendig."
