@@ -25,7 +25,7 @@
 class Fraisr_Connect_Block_Adminhtml_Entity_Attribute_FraisrId extends Varien_Data_Form_Element_Text
 {
     /**
-     * Set Fraisr ID Attribute to readonly (disable), because it should be only filled by API Sync
+     * Set fraisr ID Attribute to readonly (disable), because it should be only filled by API Sync
      *
      * @return string
      */

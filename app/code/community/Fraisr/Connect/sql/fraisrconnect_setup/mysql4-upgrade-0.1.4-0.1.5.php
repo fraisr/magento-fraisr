@@ -21,13 +21,13 @@ $installer->startSetup();
 $fraisrHelper = Mage::helper("fraisrconnect/data");
 
 /**
- * Change Fraisr Visibility Note
+ * Change fraisr Visibility Note
  */
 $setup->updateAttribute(
     'catalog_product',
     'fraisr_visibility',
     'note',
-    $fraisrHelper->__("Die Fraisr-Extension beeinflusst nicht die Sichtbarkeit der Produkte im Frontend. Diese kann zum Bespiel mit der Einstellung 'Sichtbarkeit':'Alleine nicht sichtbar' vorgenommen werden.")
+    $fraisrHelper->__("Die fraisr-Extension beeinflusst nicht die Sichtbarkeit der Produkte im Frontend. Diese kann zum Bespiel mit der Einstellung 'Sichtbarkeit':'Alleine nicht sichtbar' vorgenommen werden.")
 );
 
 $installer->endSetup();

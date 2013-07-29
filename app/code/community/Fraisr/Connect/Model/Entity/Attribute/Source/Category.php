@@ -50,7 +50,7 @@ class Fraisr_Connect_Model_Entity_Attribute_Source_Category
             if (true === Mage::getModel("fraisrconnect/config")->isActive()
                 && $categoryCollection->count() === 0) {
                 Mage::getSingleton("adminhtml/session")->addNotice(
-                    Mage::helper('fraisrconnect/data')->__("Fraisr categories have to be synchronized.")
+                    Mage::helper('fraisrconnect/data')->__("fraisr categories have to be synchronized.")
                 );
             }
 

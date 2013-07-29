@@ -31,7 +31,7 @@ class Fraisr_Connect_Model_Entity_Attribute_Source_Visibility
     const FRAISR_VISIBILITY_KEY = "visibility_";
 
    /**
-     * @const FRAISR_VISIBILITY_BOTH Visible in Fraisr and in the shop
+     * @const FRAISR_VISIBILITY_BOTH Visible in fraisr and in the shop
      */
     const FRAISR_VISIBILITY_BOTH = "both";
 
@@ -41,7 +41,7 @@ class Fraisr_Connect_Model_Entity_Attribute_Source_Visibility
     const FRAISR_VISIBILITY_SHOP = "shop";
 
    /**
-     * @const FRAISR_VISIBILITY_FRAISR Visible in Fraisr only
+     * @const FRAISR_VISIBILITY_FRAISR Visible in fraisr only
      */
     const FRAISR_VISIBILITY_FRAISR = "fraisr";
 

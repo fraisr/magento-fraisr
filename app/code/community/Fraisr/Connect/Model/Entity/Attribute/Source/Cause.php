@@ -50,7 +50,7 @@ class Fraisr_Connect_Model_Entity_Attribute_Source_Cause
             if (true === Mage::getModel("fraisrconnect/config")->isActive()
                 && $causeCollection->count() === 0) {
                 Mage::getSingleton("adminhtml/session")->addNotice(
-                    Mage::helper('fraisrconnect/data')->__("Fraisr causes have to be synchronized.")
+                    Mage::helper('fraisrconnect/data')->__("fraisr causes have to be synchronized.")
                 );
             }
 

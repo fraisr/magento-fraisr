@@ -89,7 +89,7 @@ class Fraisr_Connect_Helper_Adminhtml_Data extends Fraisr_Connect_Helper_Data
         //Add message
         if (true === $withMessage) {
             Mage::getSingleton("adminhtml/session")->addError(
-                $this->__("The Fraisr-extension was disabled in the configuration.")
+                $this->__("The fraisr-extension was disabled in the configuration.")
             );
         }
 

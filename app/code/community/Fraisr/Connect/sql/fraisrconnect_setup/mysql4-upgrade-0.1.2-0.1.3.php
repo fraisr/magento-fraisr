@@ -23,7 +23,7 @@ $fraisrHelper = Mage::helper("fraisrconnect/data");
 /**
  * Setup values
  */
-$fraisrAttributeGroup = "Fraisr";
+$fraisrAttributeGroup = "fraisr";
 $productTypes = array(
     'bundle',
     'virtual',
@@ -33,7 +33,7 @@ $productTypes = array(
 ); //All types except "grouped"
 
 /**
- * Add attribute group "Fraisr" too all attribute sets
+ * Add attribute group "fraisr" too all attribute sets
  */
 $setup->addAttributeGroup(
     'catalog_product',
@@ -43,10 +43,10 @@ $setup->addAttributeGroup(
 );
 
 /**
- * Add Fraisr-Attributes to "Fraisr" attribute group
+ * Add fraisr-Attributes to "fraisr" attribute group
  */
 
-//Is Fraisr article -> Yes/No
+//Is fraisr article -> Yes/No
 $setup->addAttribute(
     'catalog_product',
     'fraisr_enabled',
@@ -54,7 +54,7 @@ $setup->addAttribute(
         'group'                         => $fraisrAttributeGroup,
         'input'                         => 'select',
         'type'                          => 'int',
-        'label'                         => $fraisrHelper->__("Fraisr enabled"),
+        'label'                         => $fraisrHelper->__("fraisr enabled"),
         'source'                        => 'eav/entity_attribute_source_boolean',
         'default'                       => 0,
         'global'                        => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
@@ -73,7 +73,7 @@ $setup->addAttribute(
     )
 );
 
-//Is Fraisr article -> Yes/No
+//Is fraisr article -> Yes/No
 $setup->addAttribute(
     'catalog_product',
     'fraisr_visibility',
@@ -81,15 +81,15 @@ $setup->addAttribute(
         'group'                         => $fraisrAttributeGroup,
         'input'                         => 'select',
         'type'                          => 'int',
-        'label'                         => $fraisrHelper->__("Fraisr visibility"),
+        'label'                         => $fraisrHelper->__("fraisr visibility"),
                                            /**
                                             * There seems to be a BUG in Magento that the attribute note cannot be translated.
                                             * As this extension is done for the german market, directly take the german description.
                                             *
                                             * English one is:
-                                            * The Fraisr-extension doesn't influence the visibility of the products in the shop frontend. This can be done for example by selecting 'Visibility':'Not Visible Individually'.
+                                            * The fraisr-extension doesn't influence the visibility of the products in the shop frontend. This can be done for example by selecting 'Visibility':'Not Visible Individually'.
                                             */
-        'note'                          => $fraisrHelper->__("Die Fraisr-Extension beeinflusst nicht die Sichtbarkeit der Produkte im Frontend. Diese kann zum Bespiel mit der Einstellung 'Sichtbarkeit':'Alleine nicht sichtbar' vorgenommen werden."),
+        'note'                          => $fraisrHelper->__("Die fraisr-Extension beeinflusst nicht die Sichtbarkeit der Produkte im Frontend. Diese kann zum Bespiel mit der Einstellung 'Sichtbarkeit':'Alleine nicht sichtbar' vorgenommen werden."),
         'source'                        => 'fraisrconnect/entity_attribute_source_visibility',
         'default'                       => Fraisr_Connect_Model_Entity_Attribute_Source_Visibility::FRAISR_VISIBILITY_BOTH,
         'global'                        => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
@@ -116,7 +116,7 @@ $setup->addAttribute(
         'group'                         => $fraisrAttributeGroup,
         'input'                         => 'select',
         'type'                          => 'varchar',
-        'label'                         => $fraisrHelper->__("Fraisr cause"),
+        'label'                         => $fraisrHelper->__("fraisr cause"),
         'source'                        => 'fraisrconnect/entity_attribute_source_cause',
         'default'                       => Fraisr_Connect_Model_Entity_Attribute_Source_Cause::FRAISR_CAUSE_DEFAULT,
         'global'                        => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
@@ -143,7 +143,7 @@ $setup->addAttribute(
         'group'                         => $fraisrAttributeGroup,
         'input'                         => 'select',
         'type'                          => 'int',
-        'label'                         => $fraisrHelper->__("Fraisr donation percentage"),
+        'label'                         => $fraisrHelper->__("fraisr donation percentage"),
         'source'                        => 'fraisrconnect/entity_attribute_source_donationPercentage',
         'default'                       => Fraisr_Connect_Model_Entity_Attribute_Source_DonationPercentage::FRAISR_DONATION_PERCENTAGE_DEFAULT,
         'global'                        => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
@@ -170,7 +170,7 @@ $setup->addAttribute(
         'group'                         => $fraisrAttributeGroup,
         'input'                         => 'select',
         'type'                          => 'varchar',
-        'label'                         => $fraisrHelper->__("Fraisr category"),
+        'label'                         => $fraisrHelper->__("fraisr category"),
         'source'                        => 'fraisrconnect/entity_attribute_source_category',
         'default'                       => Fraisr_Connect_Model_Entity_Attribute_Source_Category::FRAISR_CATEGORY_DEFAULT,
         'global'                        => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
@@ -189,7 +189,7 @@ $setup->addAttribute(
     )
 );
 
-//Interne Fraisr ID
+//Interne fraisr ID
 $setup->addAttribute(
     'catalog_product',
     'fraisr_id',
@@ -197,7 +197,7 @@ $setup->addAttribute(
         'group'                         => $fraisrAttributeGroup,
         'input'                         => 'text',
         'type'                          => 'varchar',
-        'label'                         => $fraisrHelper->__("Fraisr ID"),
+        'label'                         => $fraisrHelper->__("fraisr ID"),
                                            //See explanation about german note in setup of attribute "fraisr_visibility"
         'note'                          => $fraisrHelper->__("Wird bei der Produkt-Synchronisation vergeben."),
         'global'                        => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,

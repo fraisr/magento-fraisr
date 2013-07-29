@@ -21,7 +21,7 @@ $installer->startSetup();
 $fraisrHelper = Mage::helper("fraisrconnect/data");
 
 /**
- * Change attribute type to varchar because Fraisr IDs consist alphabetic chars too
+ * Change attribute type to varchar because fraisr IDs consist alphabetic chars too
  */
 $setup->updateAttribute(
     'catalog_product',

@@ -138,12 +138,12 @@ class Fraisr_Connect_Model_Cause extends Mage_Core_Model_Abstract
             //Get products which match multiple criterias so that their fraisr-active-status has to be disabled
             $productsToDisableInFraisr = $this->getProductsToDisableInFraisr($causeIds);
 
-            //Stop processing if no products has to be Fraisr-disabled
+            //Stop processing if no products has to be fraisr-disabled
             if ($productsToDisableInFraisr->count() == 0) {
                 return;
             }
 
-            //Set Fraisr products as inactive
+            //Set fraisr products as inactive
             $this->disableProductsInFraisr($productsToDisableInFraisr);
         } catch (Fraisr_Connect_Exception $e) {
             $helper->logAndAdminOutputException(
