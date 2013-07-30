@@ -51,8 +51,8 @@ class Fraisr_Connect_Model_Cause extends Mage_Core_Model_Abstract
 
             //Check is causes were retrieved
             if (0 === count($causes)) {
-                throw new Fraisr_Connect_Model_Api_Exception(
-                    $helper->__("0 causes retrieved. Abort synchronisation.")
+                $helper->logAndAdminOutputNotice(
+                    $helper->__("0 causes retrieved during synchronisation.")
                 );
             }
 
@@ -130,11 +130,6 @@ class Fraisr_Connect_Model_Cause extends Mage_Core_Model_Abstract
             //Get all current cause ids
             $causeIds = $this->getCollection()->getAllIds();
 
-            //Stop if no cause ids were given
-            if (false === is_array($causeIds) || count($causeIds) == 0) {
-                return;
-            }
-
             //Get products which match multiple criterias so that their fraisr-active-status has to be disabled
             $productsToDisableInFraisr = $this->getProductsToDisableInFraisr($causeIds);
 
@@ -173,9 +168,15 @@ class Fraisr_Connect_Model_Cause extends Mage_Core_Model_Abstract
     {
         $products = Mage::getModel("catalog/product")->getCollection();
         $products
-            ->addFieldToFilter("fraisr_enabled", 1) //Only products which are enabled for Fraisr sync
-            ->addFieldToFilter("fraisr_cause", array("notnull" => true)) //fraisr_cause is not null -> has values
-            ->addFieldToFilter("fraisr_cause", array("nin" => $causeIds)); //fraisr_cause is non of the current causes
+            ->addFieldToFilter("fraisr_enabled", 1); //Only products which are enabled for Fraisr sync
+
+        //If causeIds were given, add them as filter
+        if (count($causeIds) > 0) {
+            $products
+                ->addFieldToFilter("fraisr_cause", array("notnull" => true)) //fraisr_cause is not null -> has values
+                ->addFieldToFilter("fraisr_cause", array("nin" => $causeIds)); //fraisr_cause is non of the current causes
+        }
+
         return $products;
     }
 
@@ -199,7 +200,7 @@ class Fraisr_Connect_Model_Cause extends Mage_Core_Model_Abstract
 
         $helper->logAndAdminOutputNotice(
             $helper->__(
-                "Set 'Fraisr enabled' to 'No' for %s products because their cause is not available anymore. Skus: %s.",
+                "Set 'Fraisr enabled' to 'No' for %s products because their cause is not available anymore. Skus: '%s'. In case of questions please the contact fraisr support.",
                 count($disabledSkus),
                 implode(",", $disabledSkus)
             )
