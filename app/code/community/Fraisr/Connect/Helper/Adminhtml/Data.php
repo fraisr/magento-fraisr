@@ -38,7 +38,10 @@ class Fraisr_Connect_Helper_Adminhtml_Data extends Fraisr_Connect_Helper_Data
         Mage::getSingleton('adminhtml/session')->addError($message);
 
         //Log the message
-        //TODO
+        Mage::getModel("fraisrconnect/log")
+            ->setTitle($message)
+            ->setTask($task)
+            ->logError();
     }
 
     /**
@@ -54,7 +57,10 @@ class Fraisr_Connect_Helper_Adminhtml_Data extends Fraisr_Connect_Helper_Data
         Mage::getSingleton('adminhtml/session')->addSuccess($message);
 
         //Log the message
-        //TODO
+        Mage::getModel("fraisrconnect/log")
+            ->setTitle($message)
+            ->setTask($task)
+            ->logSuccess();
     }
 
     /**
@@ -70,7 +76,29 @@ class Fraisr_Connect_Helper_Adminhtml_Data extends Fraisr_Connect_Helper_Data
         Mage::getSingleton('adminhtml/session')->addNotice($message);
 
         //Log the message
-        //TODO
+        Mage::getModel("fraisrconnect/log")
+            ->setTitle($message)
+            ->setTask($task)
+            ->logNotice();
+    }
+
+    /**
+     * Log a message to the logging system and output the message to admin session as warning
+     * 
+     * @param  string $message
+     * @param  string $task
+     * @return void
+     */
+    public function logAndAdminOutputWarning($message, $task = '')
+    {
+        //Add admin notice message
+        Mage::getSingleton('adminhtml/session')->addNotice($message);
+
+        //Log the message
+        Mage::getModel("fraisrconnect/log")
+            ->setTitle($message)
+            ->setTask($task)
+            ->logWarning();
     }
 
     /**

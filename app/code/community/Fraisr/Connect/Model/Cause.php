@@ -52,7 +52,8 @@ class Fraisr_Connect_Model_Cause extends Mage_Core_Model_Abstract
             //Check is causes were retrieved
             if (0 === count($causes)) {
                 $helper->logAndAdminOutputNotice(
-                    $helper->__('0 causes retrieved during synchronisation.')
+                    $helper->__('0 causes retrieved during synchronisation.'),
+                    Fraisr_Connect_Model_Log::LOG_TASK_CAUSE_SYNC
                 );
             }
 
@@ -67,28 +68,32 @@ class Fraisr_Connect_Model_Cause extends Mage_Core_Model_Abstract
                 $helper->__(
                     'Cause synchronisation succeeded. Imported %s causes.',
                     count($causes)
-                )
+                ),
+                Fraisr_Connect_Model_Log::LOG_TASK_CAUSE_SYNC
             );
         } catch (Fraisr_Connect_Model_Api_Exception $e) {
             $helper->logAndAdminOutputException(
                 $helper->__(
                     'Cause synchronisation failed during API request with message: "%s".',
                     $e->getMessage()
-                )
+                ),
+                Fraisr_Connect_Model_Log::LOG_TASK_CAUSE_SYNC
             );
         } catch (Fraisr_Connect_Exception $e) {
             $helper->logAndAdminOutputException(
                 $helper->__(
                     'Cause synchronisation failed with message: "%s".',
                     $e->getMessage()
-                )
+                ),
+                Fraisr_Connect_Model_Log::LOG_TASK_CAUSE_SYNC
             );
         } catch (Exception $e) {
             $helper->logAndAdminOutputException(
                 $helper->__(
                     'An unknown error during cause synchronisation happened with message: "%s"',
                     $e->getMessage()
-                )
+                ),
+                Fraisr_Connect_Model_Log::LOG_TASK_CAUSE_SYNC
             );
         }
     }
@@ -145,14 +150,16 @@ class Fraisr_Connect_Model_Cause extends Mage_Core_Model_Abstract
                 $helper->__(
                     'Product cause check failed with message: "%s".',
                     $e->getMessage()
-                )
+                ),
+                Fraisr_Connect_Model_Log::LOG_TASK_CAUSE_SYNC
             );
         } catch (Exception $e) {
             $helper->logAndAdminOutputException(
                 $helper->__(
                     'An unknown error during product cause check happened with message: "%s"',
                     $e->getMessage()
-                )
+                ),
+                Fraisr_Connect_Model_Log::LOG_TASK_CAUSE_SYNC
             );
         }
     }
@@ -202,7 +209,8 @@ class Fraisr_Connect_Model_Cause extends Mage_Core_Model_Abstract
                 'Set "Fraisr enabled" to "No" for %s products because their cause is not available anymore. Skus: "%s". In case of questions please the contact fraisr support.',
                 count($disabledSkus),
                 implode(',', $disabledSkus)
-            )
+            ),
+            Fraisr_Connect_Model_Log::LOG_TASK_CAUSE_SYNC
         );
     }
 }

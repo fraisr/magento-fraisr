@@ -52,7 +52,8 @@ class Fraisr_Connect_Model_Category extends Mage_Core_Model_Abstract
             //Check is categories were retrieved
             if (0 === count($categories)) {
                 throw new Fraisr_Connect_Model_Api_Exception(
-                    $helper->__('0 categories retrieved. Abort synchronisation.')
+                    $helper->__('0 categories retrieved. Abort synchronisation.'),
+                    Fraisr_Connect_Model_Log::LOG_TASK_CATEGORY_SYNC
                 );
             }
 
@@ -67,28 +68,32 @@ class Fraisr_Connect_Model_Category extends Mage_Core_Model_Abstract
                 $helper->__(
                     'Category synchronisation succeeded. Imported %s categories.',
                     count($categories)
-                )
+                ),
+                Fraisr_Connect_Model_Log::LOG_TASK_CATEGORY_SYNC
             );
         } catch (Fraisr_Connect_Model_Api_Exception $e) {
             $helper->logAndAdminOutputException(
                 $helper->__(
                     'Category synchronisation failed during API request with message: "%s".',
                     $e->getMessage()
-                )
+                ),
+                Fraisr_Connect_Model_Log::LOG_TASK_CATEGORY_SYNC
             );
         } catch (Fraisr_Connect_Exception $e) {
             $helper->logAndAdminOutputException(
                 $helper->__(
                     'Category synchronisation failed with message: "%s".',
                     $e->getMessage()
-                )
+                ),
+                Fraisr_Connect_Model_Log::LOG_TASK_CATEGORY_SYNC
             );
         } catch (Exception $e) {
             $helper->logAndAdminOutputException(
                 $helper->__(
                     'An unknown error during category synchronisation happened with message: "%s"',
                     $e->getMessage()
-                )
+                ),
+                Fraisr_Connect_Model_Log::LOG_TASK_CATEGORY_SYNC
             );
         }
     }

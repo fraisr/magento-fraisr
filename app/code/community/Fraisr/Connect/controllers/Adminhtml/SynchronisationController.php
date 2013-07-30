@@ -57,8 +57,8 @@ class Fraisr_Connect_Adminhtml_SynchronisationController extends Mage_Adminhtml_
     public function causeAction()
     {
         Mage::getModel('fraisrconnect/observer')->synchronizeCauses();
-        $this->loadLayout();
-        $this->renderLayout();
+        $this->_redirectReferer();
+        return;
     }
 
     /**
@@ -69,7 +69,7 @@ class Fraisr_Connect_Adminhtml_SynchronisationController extends Mage_Adminhtml_
     public function categoryAction()
     {
         Mage::getModel('fraisrconnect/observer')->synchronizeCategories();
-        $this->loadLayout();
-        $this->renderLayout();
+        $this->_redirectReferer();
+        return;
     }
 }
