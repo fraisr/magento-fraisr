@@ -60,4 +60,18 @@ class Fraisr_Connect_Model_Observer
         }
         Mage::getModel('fraisrconnect/category')->synchronize();
     }
+
+    /**
+     * Initiate product synchronisation
+     * 
+     * @return void
+     */
+    public function synchronizeProducts()
+    {
+        //Check if extension is active
+        if (false === Mage::helper('fraisrconnect/adminhtml_data')->isActive(true)) {
+            return;
+        }
+        Mage::getModel('fraisrconnect/product')->synchronize();
+    }
 }

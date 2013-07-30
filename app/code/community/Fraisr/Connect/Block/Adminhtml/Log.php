@@ -33,11 +33,24 @@ class Fraisr_Connect_Block_Adminhtml_Log extends Mage_Adminhtml_Block_Widget_Gri
     {
         parent::__construct();
         $helper = Mage::helper('fraisrconnect/data');
-        $urlModel  = Mage::getModel('adminhtml/url');
 
         $this->_blockGroup = 'fraisrconnect';
         $this->_controller = 'adminhtml_log';
         $this->_headerText = $helper->__('fraisr log');
+
+        $this->changeButtons();
+    }
+
+    /**
+     * Remove default buttons and add new sync buttons
+     * 
+     * @return void
+     */
+    protected function changeButtons()
+    {
+        $helper = Mage::helper('fraisrconnect/data');
+        $urlModel  = Mage::getModel('adminhtml/url');
+        
         $this->_removeButton('add');
 
         //Add cause sync button
@@ -51,6 +64,13 @@ class Fraisr_Connect_Block_Adminhtml_Log extends Mage_Adminhtml_Block_Widget_Gri
         $this->_addButton('category_synchronisation', array(
             'label'     => $helper->__('Synchronize categories'),
             'onclick'   => 'setLocation(\'' . $urlModel->getUrl('fraisrconnect/adminhtml_synchronisation/category') .'\')',
+            'class'     => 'add',
+        ));
+
+        //Add product sync button
+        $this->_addButton('product_synchronisation', array(
+            'label'     => $helper->__('Synchronize products'),
+            'onclick'   => 'setLocation(\'' . $urlModel->getUrl('fraisrconnect/adminhtml_synchronisation/product') .'\')',
             'class'     => 'add',
         ));
     }

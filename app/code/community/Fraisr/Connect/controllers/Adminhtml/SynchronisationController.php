@@ -72,4 +72,16 @@ class Fraisr_Connect_Adminhtml_SynchronisationController extends Mage_Adminhtml_
         $this->_redirectReferer();
         return;
     }
+
+    /**
+     * Trigger product synchronisation
+     * 
+     * @return void
+     */
+    public function productAction()
+    {
+        Mage::getModel('fraisrconnect/observer')->synchronizeProducts();
+        $this->_redirectReferer();
+        return;
+    }
 }

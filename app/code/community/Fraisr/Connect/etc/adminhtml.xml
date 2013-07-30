@@ -68,12 +68,12 @@
                                     <sort_order>200</sort_order>
                                     <action>fraisrconnect/adminhtml_synchronisation/category</action>
                                 </category>
-                                <!--
                                 <product translate="title">
                                     <title>Synchronize products</title>
                                     <sort_order>300</sort_order>
                                     <action>fraisrconnect/adminhtml_synchronisation/product</action>
                                 </product>
+                                <!--
                                 <order translate="title">
                                     <title>Synchronize orders</title>
                                     <sort_order>400</sort_order>
