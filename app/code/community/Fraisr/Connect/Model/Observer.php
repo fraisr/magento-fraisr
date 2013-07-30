@@ -33,18 +33,18 @@ class Fraisr_Connect_Model_Observer
     public function synchronizeCauses()
     {
         //Check if extension is active
-        if (false === Mage::helper("fraisrconnect/adminhtml_data")->isActive(true)) {
+        if (false === Mage::helper('fraisrconnect/adminhtml_data')->isActive(true)) {
             return;
         }
 
         //Retrieve and save causes
-        Mage::getModel("fraisrconnect/cause")->synchronize();
+        Mage::getModel('fraisrconnect/cause')->synchronize();
 
         /**
          * Check if products exists which causes doesn't exist anymore
-         * If some were find, set "fraisr_enabled" to false
+         * If some were find, set 'fraisr_enabled' to false
          */
-        Mage::getModel("fraisrconnect/cause")->productCheck();
+        Mage::getModel('fraisrconnect/cause')->productCheck();
     }
 
     /**
@@ -55,9 +55,9 @@ class Fraisr_Connect_Model_Observer
     public function synchronizeCategories()
     {
         //Check if extension is active
-        if (false === Mage::helper("fraisrconnect/adminhtml_data")->isActive(true)) {
+        if (false === Mage::helper('fraisrconnect/adminhtml_data')->isActive(true)) {
             return;
         }
-        Mage::getModel("fraisrconnect/category")->synchronize();
+        Mage::getModel('fraisrconnect/category')->synchronize();
     }
 }

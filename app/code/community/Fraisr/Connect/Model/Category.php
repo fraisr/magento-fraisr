@@ -41,23 +41,23 @@ class Fraisr_Connect_Model_Category extends Mage_Core_Model_Abstract
      */
     public function synchronize()
     {
-        $helper = Mage::helper("fraisrconnect/adminhtml_data");
+        $helper = Mage::helper('fraisrconnect/adminhtml_data');
 
         try {
             //Retrieve category data
-            $categories = Mage::getModel("fraisrconnect/api_request")->requestPaginatedGet(
-                Mage::getModel("fraisrconnect/config")->getCategoryApiUri()
+            $categories = Mage::getModel('fraisrconnect/api_request')->requestPaginatedGet(
+                Mage::getModel('fraisrconnect/config')->getCategoryApiUri()
             );
 
             //Check is categories were retrieved
             if (0 === count($categories)) {
                 throw new Fraisr_Connect_Model_Api_Exception(
-                    $helper->__("0 categories retrieved. Abort synchronisation.")
+                    $helper->__('0 categories retrieved. Abort synchronisation.')
                 );
             }
 
             //Delete current categories
-            Mage::getResourceModel("fraisrconnect/category")->deleteAllCategories();
+            Mage::getResourceModel('fraisrconnect/category')->deleteAllCategories();
 
             //Save new retrieved categories
             $this->saveRetrievedCategories($categories);
@@ -65,28 +65,28 @@ class Fraisr_Connect_Model_Category extends Mage_Core_Model_Abstract
             //Success Message
             $helper->logAndAdminOutputSuccess(
                 $helper->__(
-                    "Category synchronisation succeeded. Imported %s categories.",
+                    'Category synchronisation succeeded. Imported %s categories.',
                     count($categories)
                 )
             );
         } catch (Fraisr_Connect_Model_Api_Exception $e) {
             $helper->logAndAdminOutputException(
                 $helper->__(
-                    "Category synchronisation failed during API request with message: '%s'.",
+                    'Category synchronisation failed during API request with message: "%s".',
                     $e->getMessage()
                 )
             );
         } catch (Fraisr_Connect_Exception $e) {
             $helper->logAndAdminOutputException(
                 $helper->__(
-                    "Category synchronisation failed with message: '%s'.",
+                    'Category synchronisation failed with message: "%s".',
                     $e->getMessage()
                 )
             );
         } catch (Exception $e) {
             $helper->logAndAdminOutputException(
                 $helper->__(
-                    "An unknown error during category synchronisation happened with message: '%s'",
+                    'An unknown error during category synchronisation happened with message: "%s"',
                     $e->getMessage()
                 )
             );
@@ -109,21 +109,21 @@ class Fraisr_Connect_Model_Category extends Mage_Core_Model_Abstract
 
             //Add data
             $category
-                ->setId($retrievedCategorie["_id"])
-                ->setName($retrievedCategorie["name"]);
+                ->setId($retrievedCategorie['_id'])
+                ->setName($retrievedCategorie['name']);
 
             //Set label if existing
-            if (true === array_key_exists("label", $retrievedCategorie)) {
-                $category->setLabel($retrievedCategorie["label"]);
+            if (true === array_key_exists('label', $retrievedCategorie)) {
+                $category->setLabel($retrievedCategorie['label']);
             } else {
                 $category->setLabel(null);
             }
 
             //Check if parent category is given
-            if (true === array_key_exists("parent", $retrievedCategorie)
-                && true === is_array($retrievedCategorie["parent"])
-                && true === array_key_exists("_id", $retrievedCategorie["parent"])) {
-                $category->setParentId($retrievedCategorie["parent"]["_id"]);
+            if (true === array_key_exists('parent', $retrievedCategorie)
+                && true === is_array($retrievedCategorie['parent'])
+                && true === array_key_exists('_id', $retrievedCategorie['parent'])) {
+                $category->setParentId($retrievedCategorie['parent']['_id']);
             } else {
                 $category->setParentId(null);
             }

@@ -71,7 +71,7 @@ class Fraisr_Connect_Block_Adminhtml_System_Config_Support
         $mageVersion = Mage::getVersion();
         if (true === is_callable('Mage::getEdition')) {
             $mageVersion = sprintf(
-                "%s %s",
+                '%s %s',
                 Mage::getEdition(),
                 $mageVersion
             );

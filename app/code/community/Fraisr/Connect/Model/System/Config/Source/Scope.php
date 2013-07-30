@@ -28,12 +28,12 @@ class Fraisr_Connect_Model_System_Config_Source_Scope
     /**
      * @const SCOPE_GLOBAL Select value for global scope
      */
-    const SCOPE_GLOBAL = "#global#";
+    const SCOPE_GLOBAL = '#global#';
 
     /**
      * @const KEY_WEBSITE Value prefix to build optgroups in scope select box
      */
-    const KEY_WEBSITE = "#website#_";
+    const KEY_WEBSITE = '#website#_';
 
     /**
      * Get scope options for extension configuration
@@ -44,7 +44,7 @@ class Fraisr_Connect_Model_System_Config_Source_Scope
     {
         //Build option for global scope
         $scopes[] = array(
-            'label' => Mage::helper("fraisrconnect/data")->__("Global"),
+            'label' => Mage::helper('fraisrconnect/data')->__('Global'),
             'value' => self::SCOPE_GLOBAL
         );
 

@@ -28,7 +28,7 @@ class Fraisr_Connect_Model_Entity_Attribute_Source_Cause
    /**
      * @const FRAISR_CAUSE_DEFAULT Default case value
      */
-    const FRAISR_CAUSE_DEFAULT = "";
+    const FRAISR_CAUSE_DEFAULT = '';
 
     /**
      * Retrieve all causes
@@ -40,17 +40,17 @@ class Fraisr_Connect_Model_Entity_Attribute_Source_Cause
         if (is_null($this->_options)) {
             $this->_options = array(
                 array(
-                    'label' => Mage::helper('adminhtml/data')->__("-- Please Select --"),
-                    'value' => "",
+                    'label' => Mage::helper('adminhtml/data')->__('-- Please Select --'),
+                    'value' => '',
                 )
             );
 
-            $causeCollection = Mage::getModel("fraisrconnect/cause")->getCollection();
+            $causeCollection = Mage::getModel('fraisrconnect/cause')->getCollection();
             //If no causes exist, add a notice that causes have to be synched
-            if (true === Mage::getModel("fraisrconnect/config")->isActive()
+            if (true === Mage::getModel('fraisrconnect/config')->isActive()
                 && $causeCollection->count() === 0) {
-                Mage::getSingleton("adminhtml/session")->addNotice(
-                    Mage::helper('fraisrconnect/data')->__("fraisr causes have to be synchronized.")
+                Mage::getSingleton('adminhtml/session')->addNotice(
+                    Mage::helper('fraisrconnect/data')->__('fraisr causes have to be synchronized.')
                 );
             }
 

@@ -37,7 +37,7 @@ class Fraisr_Connect_Model_Entity_Attribute_Source_DonationPercentage
    /**
      * @const FRAISR_DONATION_PERCENTAGE_DEFAULT Default donation value
      */
-    const FRAISR_DONATION_PERCENTAGE_DEFAULT = "";
+    const FRAISR_DONATION_PERCENTAGE_DEFAULT = '';
 
     /**
      * Retrieve all donation percentages
@@ -49,15 +49,15 @@ class Fraisr_Connect_Model_Entity_Attribute_Source_DonationPercentage
         if (is_null($this->_options)) {
             $this->_options = array(
                 array(
-                    'label' => Mage::helper('adminhtml/data')->__("-- Please Select --"),
-                    'value' => "",
+                    'label' => Mage::helper('adminhtml/data')->__('-- Please Select --'),
+                    'value' => '',
                 )
             );
 
             //For every defined percentage => create a select option
             foreach ($this->donationPercentages as $percentage) {
                 $this->_options[] = array(
-                    'label' => Mage::helper('fraisrconnect/data')->__("%s %s", $percentage, "%"),
+                    'label' => Mage::helper('fraisrconnect/data')->__('%s %s', $percentage, '%'),
                     'value' =>  $percentage,
                 );
             }

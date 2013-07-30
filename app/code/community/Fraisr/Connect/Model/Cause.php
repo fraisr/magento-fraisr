@@ -41,23 +41,23 @@ class Fraisr_Connect_Model_Cause extends Mage_Core_Model_Abstract
      */
     public function synchronize()
     {
-        $helper = Mage::helper("fraisrconnect/adminhtml_data");
+        $helper = Mage::helper('fraisrconnect/adminhtml_data');
 
         try {
             //Retrieve Cause data
-            $causes = Mage::getModel("fraisrconnect/api_request")->requestPaginatedGet(
-                Mage::getModel("fraisrconnect/config")->getCauseApiUri()
+            $causes = Mage::getModel('fraisrconnect/api_request')->requestPaginatedGet(
+                Mage::getModel('fraisrconnect/config')->getCauseApiUri()
             );
 
             //Check is causes were retrieved
             if (0 === count($causes)) {
                 $helper->logAndAdminOutputNotice(
-                    $helper->__("0 causes retrieved during synchronisation.")
+                    $helper->__('0 causes retrieved during synchronisation.')
                 );
             }
 
             //Delete current causes
-            Mage::getResourceModel("fraisrconnect/cause")->deleteAllCauses();
+            Mage::getResourceModel('fraisrconnect/cause')->deleteAllCauses();
 
             //Save new retrieved causes
             $this->saveRetrievedCauses($causes);
@@ -65,28 +65,28 @@ class Fraisr_Connect_Model_Cause extends Mage_Core_Model_Abstract
             //Success Message
             $helper->logAndAdminOutputSuccess(
                 $helper->__(
-                    "Cause synchronisation succeeded. Imported %s causes.",
+                    'Cause synchronisation succeeded. Imported %s causes.',
                     count($causes)
                 )
             );
         } catch (Fraisr_Connect_Model_Api_Exception $e) {
             $helper->logAndAdminOutputException(
                 $helper->__(
-                    "Cause synchronisation failed during API request with message: '%s'.",
+                    'Cause synchronisation failed during API request with message: "%s".',
                     $e->getMessage()
                 )
             );
         } catch (Fraisr_Connect_Exception $e) {
             $helper->logAndAdminOutputException(
                 $helper->__(
-                    "Cause synchronisation failed with message: '%s'.",
+                    'Cause synchronisation failed with message: "%s".',
                     $e->getMessage()
                 )
             );
         } catch (Exception $e) {
             $helper->logAndAdminOutputException(
                 $helper->__(
-                    "An unknown error during cause synchronisation happened with message: '%s'",
+                    'An unknown error during cause synchronisation happened with message: "%s"',
                     $e->getMessage()
                 )
             );
@@ -108,19 +108,19 @@ class Fraisr_Connect_Model_Cause extends Mage_Core_Model_Abstract
 
             //Add data and save item
             $cause
-                ->setId($retrievedCause["_id"])
-                ->setName($retrievedCause["name"])
-                ->setDescription($retrievedCause["description"])
-                ->setUrl($retrievedCause["url"])
-                ->setImageUrl($retrievedCause["images"]["source"])
-                ->setOfficial($retrievedCause["official"])
+                ->setId($retrievedCause['_id'])
+                ->setName($retrievedCause['name'])
+                ->setDescription($retrievedCause['description'])
+                ->setUrl($retrievedCause['url'])
+                ->setImageUrl($retrievedCause['images']['source'])
+                ->setOfficial($retrievedCause['official'])
                 ->save();
         }
     }
 
     /**
      * Check if products exists which causes doesn't exist anymore
-     * If some were find, set "fraisr_enabled" to false
+     * If some were find, set 'fraisr_enabled' to false
      * 
      * @return void
      */
@@ -143,14 +143,14 @@ class Fraisr_Connect_Model_Cause extends Mage_Core_Model_Abstract
         } catch (Fraisr_Connect_Exception $e) {
             $helper->logAndAdminOutputException(
                 $helper->__(
-                    "Product cause check failed with message: '%s'.",
+                    'Product cause check failed with message: "%s".',
                     $e->getMessage()
                 )
             );
         } catch (Exception $e) {
             $helper->logAndAdminOutputException(
                 $helper->__(
-                    "An unknown error during product cause check happened with message: '%s'",
+                    'An unknown error during product cause check happened with message: "%s"',
                     $e->getMessage()
                 )
             );
@@ -166,29 +166,28 @@ class Fraisr_Connect_Model_Cause extends Mage_Core_Model_Abstract
      */
     protected function getProductsToDisableInFraisr($causeIds)
     {
-        $products = Mage::getModel("catalog/product")->getCollection();
+        $products = Mage::getModel('catalog/product')->getCollection();
         $products
-            ->addFieldToFilter("fraisr_enabled", 1); //Only products which are enabled for Fraisr sync
+            ->addFieldToFilter('fraisr_enabled', 1); //Only products which are enabled for Fraisr sync
 
         //If causeIds were given, add them as filter
         if (count($causeIds) > 0) {
             $products
-                ->addFieldToFilter("fraisr_cause", array("notnull" => true)) //fraisr_cause is not null -> has values
-                ->addFieldToFilter("fraisr_cause", array("nin" => $causeIds)); //fraisr_cause is non of the current causes
+                ->addFieldToFilter('fraisr_cause', array('notnull' => true)) //fraisr_cause is not null -> has values
+                ->addFieldToFilter('fraisr_cause', array('nin' => $causeIds)); //fraisr_cause is non of the current causes
         }
-
         return $products;
     }
 
     /**
-     * Set "fraisr_enabled" to no for all given products
+     * Set 'fraisr_enabled' to no for all given products
      * 
      * @param  Mage_Catalog_Model_Resource_Product_Collection $productsToDisableInFraisr
      * @return void
      */
     protected function disableProductsInFraisr($productsToDisableInFraisr)
     {
-        $helper = Mage::helper("fraisrconnect/adminhtml_data");
+        $helper = Mage::helper('fraisrconnect/adminhtml_data');
         
         $disabledSkus = array();
         foreach ($productsToDisableInFraisr as $product) {
@@ -200,9 +199,9 @@ class Fraisr_Connect_Model_Cause extends Mage_Core_Model_Abstract
 
         $helper->logAndAdminOutputNotice(
             $helper->__(
-                "Set 'Fraisr enabled' to 'No' for %s products because their cause is not available anymore. Skus: '%s'. In case of questions please the contact fraisr support.",
+                'Set "Fraisr enabled" to "No" for %s products because their cause is not available anymore. Skus: "%s". In case of questions please the contact fraisr support.',
                 count($disabledSkus),
-                implode(",", $disabledSkus)
+                implode(',', $disabledSkus)
             )
         );
     }

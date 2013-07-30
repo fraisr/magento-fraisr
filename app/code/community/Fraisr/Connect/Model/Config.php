@@ -32,7 +32,7 @@ class Fraisr_Connect_Model_Config
      */
     public function isActive()
     {
-        return (1 == Mage::getStoreConfig("fraisrconnect/general/active"));
+        return (1 == Mage::getStoreConfig('fraisrconnect/general/active'));
     }
 
     /**
@@ -42,7 +42,7 @@ class Fraisr_Connect_Model_Config
      */
     public function isSandboxMode()
     {
-        return (1 == Mage::getStoreConfig("fraisrconnect/general/sandbox"));
+        return (1 == Mage::getStoreConfig('fraisrconnect/general/sandbox'));
     }
 
     /**
@@ -52,7 +52,7 @@ class Fraisr_Connect_Model_Config
      */
     public function getApiKey()
     {
-        return (string) Mage::getStoreConfig("fraisrconnect/general/key");
+        return (string) Mage::getStoreConfig('fraisrconnect/general/key');
     }
 
     /**
@@ -62,7 +62,7 @@ class Fraisr_Connect_Model_Config
      */
     public function getApiSecret()
     {
-        return (string) Mage::getStoreConfig("fraisrconnect/general/secret");
+        return (string) Mage::getStoreConfig('fraisrconnect/general/secret');
     }
 
     /**
@@ -72,7 +72,7 @@ class Fraisr_Connect_Model_Config
      */
     public function getSupportEmail()
     {
-        return (string) Mage::getStoreConfig("fraisrconnect/static/support_email");
+        return (string) Mage::getStoreConfig('fraisrconnect/static/support_email');
     }
 
     /**
@@ -96,7 +96,7 @@ class Fraisr_Connect_Model_Config
      */
     public function getLiveApiUri()
     {
-        return (string) Mage::getStoreConfig("fraisrconnect/static/api/live");
+        return (string) Mage::getStoreConfig('fraisrconnect/static/api/live');
     }
 
     /**
@@ -106,7 +106,7 @@ class Fraisr_Connect_Model_Config
      */
     public function getSandboxApiUri()
     {
-        return (string) Mage::getStoreConfig("fraisrconnect/static/api/sandbox");
+        return (string) Mage::getStoreConfig('fraisrconnect/static/api/sandbox');
     }
 
     /**
@@ -116,7 +116,7 @@ class Fraisr_Connect_Model_Config
      */
     public function getCauseApiUri()
     {
-        return (string) Mage::getStoreConfig("fraisrconnect/static/api/cause");
+        return (string) Mage::getStoreConfig('fraisrconnect/static/api/cause');
     }
 
     /**
@@ -126,6 +126,6 @@ class Fraisr_Connect_Model_Config
      */
     public function getCategoryApiUri()
     {
-        return (string) Mage::getStoreConfig("fraisrconnect/static/api/category");
+        return (string) Mage::getStoreConfig('fraisrconnect/static/api/category');
     }
 }

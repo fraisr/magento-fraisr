@@ -28,7 +28,7 @@ class Fraisr_Connect_Model_Entity_Attribute_Source_Category
    /**
      * @const FRAISR_CATEGORY_DEFAULT Default category value
      */
-    const FRAISR_CATEGORY_DEFAULT = "";
+    const FRAISR_CATEGORY_DEFAULT = '';
 
     /**
      * Retrieve all categories
@@ -40,17 +40,17 @@ class Fraisr_Connect_Model_Entity_Attribute_Source_Category
         if (is_null($this->_options)) {
             $this->_options = array(
                 array(
-                    'label' => Mage::helper('adminhtml/data')->__("-- Please Select --"),
-                    'value' => "",
+                    'label' => Mage::helper('adminhtml/data')->__('-- Please Select --'),
+                    'value' => '',
                 )
             );
 
-            $categoryCollection = Mage::getModel("fraisrconnect/category")->getCollection();
+            $categoryCollection = Mage::getModel('fraisrconnect/category')->getCollection();
             //If no categories exist, add a notice that categories have to be synched
-            if (true === Mage::getModel("fraisrconnect/config")->isActive()
+            if (true === Mage::getModel('fraisrconnect/config')->isActive()
                 && $categoryCollection->count() === 0) {
-                Mage::getSingleton("adminhtml/session")->addNotice(
-                    Mage::helper('fraisrconnect/data')->__("fraisr categories have to be synchronized.")
+                Mage::getSingleton('adminhtml/session')->addNotice(
+                    Mage::helper('fraisrconnect/data')->__('fraisr categories have to be synchronized.')
                 );
             }
 
@@ -67,10 +67,10 @@ class Fraisr_Connect_Model_Entity_Attribute_Source_Category
 
                     //Add label in brackets if existing
                     if (false === is_null($category->getLabel())) {
-                        $label .= " (".$category->getLabel().")";
+                        $label .= ' ('.$category->getLabel().')';
                     }
 
-                    $this->_options[$category->getParentId()]["value"][] = array(
+                    $this->_options[$category->getParentId()]['value'][] = array(
                         'label' => $label,
                         'value' =>  $category->getId(),
                     );

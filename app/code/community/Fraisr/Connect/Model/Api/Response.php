@@ -40,18 +40,18 @@ class Fraisr_Connect_Model_Api_Response
     {
         if (!$this->response instanceOf Zend_Http_Response) {
             throw new Fraisr_Connect_Model_Api_Exception(
-                Mage::helper("fraisrconnect/data")->__(
-                    "Api response class is '%s' instead of '%s'.",
+                Mage::helper('fraisrconnect/data')->__(
+                    'Api response class is "%s" instead of "%s".',
                     gettype($this->response),
-                    "Zend_Http_Response"
+                    'Zend_Http_Response'
                 )
             );
         }
 
         if ($this->response->getStatus() != 200) {
             throw new Fraisr_Connect_Model_Api_Exception(
-                Mage::helper("fraisrconnect/data")->__(
-                    "Api response code is '%s' instead of '%s'.",
+                Mage::helper('fraisrconnect/data')->__(
+                    'Api response code is "%s" instead of "%s".',
                     $this->response->getStatus(),
                     200
                 )
@@ -61,15 +61,15 @@ class Fraisr_Connect_Model_Api_Response
         try {
             $jsonData = Zend_Json::decode($this->response->getBody());
             if (false === is_array($jsonData)
-                || false === array_key_exists("data", $jsonData)
-                || false === is_array($jsonData["data"])) {
+                || false === array_key_exists('data', $jsonData)
+                || false === is_array($jsonData['data'])) {
                 throw new Fraisr_Connect_Model_Api_Exception(
-                    Mage::helper("fraisrconnect/data")->__("Api response is no valid JSON.")
+                    Mage::helper('fraisrconnect/data')->__('Api response is no valid JSON.')
                 );
             }
         } catch (Exception $e) {
             throw new Fraisr_Connect_Model_Api_Exception(
-                Mage::helper("fraisrconnect/data")->__("Api response is no valid JSON.")
+                Mage::helper('fraisrconnect/data')->__('Api response is no valid JSON.')
             );
         }
     }
@@ -85,24 +85,24 @@ class Fraisr_Connect_Model_Api_Response
     }
 
     /**
-     * Get Json Response from "data"-node
+     * Get Json Response from 'data'-node
      * 
      * @return array
      */
     public function getJsonResponseData()
     {
         $jsonData = $this->getJsonResponse();
-        return $jsonData["data"];
+        return $jsonData['data'];
     }
 
     /**
-     * Check if the response contains a "next_url"
+     * Check if the response contains a 'next_url'
      * 
      * @return boolean
      */
     public function isPaginateNextPage()
     {
-        return array_key_exists("next_url", $this->getJsonResponse());
+        return array_key_exists('next_url', $this->getJsonResponse());
     }
 
     /**

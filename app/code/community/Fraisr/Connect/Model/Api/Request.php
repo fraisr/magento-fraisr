@@ -32,22 +32,22 @@ class Fraisr_Connect_Model_Api_Request extends Zend_Http_Client
     /**
      * @const API_KEY_LIMIT Limit Get Key
      */
-    const API_KEY_LIMIT = "limit";
+    const API_KEY_LIMIT = 'limit';
 
     /**
      * @const API_KEY_PAGE Limit Page Key
      */
-    const API_KEY_PAGE = "page";
+    const API_KEY_PAGE = 'page';
 
     /**
      * @const API_KEY_KEY Api Key
      */
-    const API_KEY_KEY = "key";
+    const API_KEY_KEY = 'key';
 
     /**
      * @const API_KEY_SECRET Api Secret
      */
-    const API_KEY_SECRET = "secret";
+    const API_KEY_SECRET = 'secret';
 
     /**
      * Paginated data
@@ -132,7 +132,7 @@ class Fraisr_Connect_Model_Api_Request extends Zend_Http_Client
      */
     protected function getConfig()
     {
-        return Mage::getModel("fraisrconnect/config");
+        return Mage::getModel('fraisrconnect/config');
     }
 
     /**
@@ -142,7 +142,7 @@ class Fraisr_Connect_Model_Api_Request extends Zend_Http_Client
      */
     protected function getResponseHandler()
     {
-        return Mage::getModel("fraisrconnect/api_response");
+        return Mage::getModel('fraisrconnect/api_response');
     }
 
     /**
@@ -154,16 +154,16 @@ class Fraisr_Connect_Model_Api_Request extends Zend_Http_Client
     protected function setAuthenticationHeader()
     {
         if (true === is_null($this->getConfig()->getApiKey())
-            || "" == $this->getConfig()->getApiKey()) {
+            || '' == $this->getConfig()->getApiKey()) {
             throw new Fraisr_Connect_Exception(
-                Mage::helper("fraisrconnect/data")->__("Api key is empty. Please complete the configuration.")
+                Mage::helper('fraisrconnect/data')->__('Api key is empty. Please complete the configuration.')
             );
         }
 
         if (true === is_null($this->getConfig()->getApiSecret())
-            || "" == $this->getConfig()->getApiSecret()) {
+            || '' == $this->getConfig()->getApiSecret()) {
             throw new Fraisr_Connect_Exception(
-                Mage::helper("fraisrconnect/data")->__("Api secret is empty. Please complete the configuration.")
+                Mage::helper('fraisrconnect/data')->__('Api secret is empty. Please complete the configuration.')
             );
         }
 

@@ -32,10 +32,10 @@ class Fraisr_Connect_Helper_Adminhtml_Data extends Fraisr_Connect_Helper_Data
      * @param  string $task
      * @return void
      */
-    public function logAndAdminOutputException($message, $task = "")
+    public function logAndAdminOutputException($message, $task = '')
     {
         //Add admin error message
-        Mage::getSingleton("adminhtml/session")->addError($message);
+        Mage::getSingleton('adminhtml/session')->addError($message);
 
         //Log the message
         //TODO
@@ -48,10 +48,10 @@ class Fraisr_Connect_Helper_Adminhtml_Data extends Fraisr_Connect_Helper_Data
      * @param  string $task
      * @return void
      */
-    public function logAndAdminOutputSuccess($message, $task = "")
+    public function logAndAdminOutputSuccess($message, $task = '')
     {
         //Add admin success message
-        Mage::getSingleton("adminhtml/session")->addSuccess($message);
+        Mage::getSingleton('adminhtml/session')->addSuccess($message);
 
         //Log the message
         //TODO
@@ -64,10 +64,10 @@ class Fraisr_Connect_Helper_Adminhtml_Data extends Fraisr_Connect_Helper_Data
      * @param  string $task
      * @return void
      */
-    public function logAndAdminOutputNotice($message, $task = "")
+    public function logAndAdminOutputNotice($message, $task = '')
     {
         //Add admin notice message
-        Mage::getSingleton("adminhtml/session")->addNotice($message);
+        Mage::getSingleton('adminhtml/session')->addNotice($message);
 
         //Log the message
         //TODO
@@ -82,14 +82,14 @@ class Fraisr_Connect_Helper_Adminhtml_Data extends Fraisr_Connect_Helper_Data
     public function isActive($withMessage = false)
     {
         //If activated, just return
-        if (true === Mage::getModel("fraisrconnect/config")->isActive()) {
+        if (true === Mage::getModel('fraisrconnect/config')->isActive()) {
             return true;
         }
 
         //Add message
         if (true === $withMessage) {
-            Mage::getSingleton("adminhtml/session")->addError(
-                $this->__("The fraisr-extension was disabled in the configuration.")
+            Mage::getSingleton('adminhtml/session')->addError(
+                $this->__('The fraisr-extension was disabled in the configuration.')
             );
         }
 

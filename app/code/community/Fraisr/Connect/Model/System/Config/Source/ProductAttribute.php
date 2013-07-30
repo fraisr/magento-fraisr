@@ -51,7 +51,7 @@ class Fraisr_Connect_Model_System_Config_Source_ProductAttribute
      */
     protected function getProductAttributesCollection() {
         $collection = Mage::getResourceModel( 'catalog/product_attribute_collection' );
-        $collection->addFilter( "is_visible", 1 );
+        $collection->addFilter( 'is_visible', 1 );
         return $collection;
     }
 }
