@@ -63,8 +63,15 @@ class Fraisr_Connect_Model_Entity_Attribute_Source_Category
                         'value' =>  array(),
                     );
                 } else { //Create a real selectable value for the category children
+                    $label = $category->getName();
+
+                    //Add label in brackets if existing
+                    if (false === is_null($category->getLabel())) {
+                        $label .= " (".$category->getLabel().")";
+                    }
+
                     $this->_options[$category->getParentId()]["value"][] = array(
-                        'label' => $category->getName(),
+                        'label' => $label,
                         'value' =>  $category->getId(),
                     );
                 }

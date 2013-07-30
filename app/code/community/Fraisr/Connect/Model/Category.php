@@ -112,6 +112,13 @@ class Fraisr_Connect_Model_Category extends Mage_Core_Model_Abstract
                 ->setId($retrievedCategorie["_id"])
                 ->setName($retrievedCategorie["name"]);
 
+            //Set label if existing
+            if (true === array_key_exists("label", $retrievedCategorie)) {
+                $category->setLabel($retrievedCategorie["label"]);
+            } else {
+                $category->setLabel(null);
+            }
+
             //Check if parent category is given
             if (true === array_key_exists("parent", $retrievedCategorie)
                 && true === is_array($retrievedCategorie["parent"])
