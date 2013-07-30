@@ -18,4 +18,13 @@
 $installer = $this;
 $setup = new Mage_Eav_Model_Entity_Setup('core_setup');
 $installer->startSetup();
+
+/**
+ * Delete visibility attribute -> is not needed anymore
+ */
+$setup->removeAttribute(
+    'catalog_product',
+    'fraisr_visibility'
+);
+
 $installer->endSetup();

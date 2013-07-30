@@ -42,12 +42,6 @@ $setup->updateAttribute(
 );
 $setup->updateAttribute(
     'catalog_product',
-    'fraisr_visibility',
-    'apply_to',
-    implode(",", $productTypes)
-);
-$setup->updateAttribute(
-    'catalog_product',
     'fraisr_cause',
     'apply_to',
     implode(",", $productTypes)
