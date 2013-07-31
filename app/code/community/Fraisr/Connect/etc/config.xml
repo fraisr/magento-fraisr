@@ -19,7 +19,7 @@
 <config>
     <modules>
         <Fraisr_Connect>
-            <version>0.2.0</version>
+            <version>0.2.1</version>
         </Fraisr_Connect>
     </modules>
     <global>
@@ -81,6 +81,13 @@
                 </Fraisr_Connect>
             </modules>
         </translate>
+        <layout>
+            <updates>
+                <fraisrconnect>
+                    <file>fraisrconnect.xml</file>
+                </fraisrconnect>
+            </updates>
+        </layout>
     </frontend>
     <admin>
         <routers>

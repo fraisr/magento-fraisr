@@ -1,4 +1,3 @@
-
 <?php
 /**
  * Magento
@@ -25,4 +24,20 @@
  */
 class Fraisr_Connect_Helper_Data extends Mage_Core_Helper_Abstract
 {
+    /**
+     * Build product JSON entry
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @return array
+     */
+    public function buildProductJsonEntry($product)
+    {
+        return array(
+            'cause' => $product->getFraisrCause(),
+            'donation' => $product->getFraisrDonationPercentage(),
+            'category' => $product->getFraisrCategory(),
+            'internalid' => $product->getSku(),
+            'name' => $product->getName(),
+        );
+    }
 }

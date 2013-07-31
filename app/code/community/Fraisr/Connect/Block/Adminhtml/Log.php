@@ -75,4 +75,3 @@ class Fraisr_Connect_Block_Adminhtml_Log extends Mage_Adminhtml_Block_Widget_Gri
         ));
     }
 }
-?>
