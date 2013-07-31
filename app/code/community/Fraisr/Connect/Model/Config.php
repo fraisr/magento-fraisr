@@ -128,4 +128,14 @@ class Fraisr_Connect_Model_Config
     {
         return (string) Mage::getStoreConfig('fraisrconnect/static/api/category');
     }
+
+    /**
+     * Get store id for the product synchronisation
+     * 
+     * @return int
+     */
+    public function getCatalogExportStoreId()
+    {
+        return (int) Mage::getStoreConfig('fraisrconnect/catalog_export/scope');
+    }
 }

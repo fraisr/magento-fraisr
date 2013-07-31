@@ -162,6 +162,7 @@ $setup->addAttribute(
         'group'                         => $fraisrAttributeGroup,
         'input'                         => 'text',
         'type'                          => 'varchar',
+        'default'                       => null,
         'label'                         => $fraisrHelper->__("fraisr ID"),
                                            //See explanation about german note in setup of attribute "fraisr_visibility"
         'note'                          => $fraisrHelper->__("Wird bei der Produkt-Synchronisation vergeben."),
