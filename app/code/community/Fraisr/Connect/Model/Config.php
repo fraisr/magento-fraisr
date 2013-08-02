@@ -130,6 +130,20 @@ class Fraisr_Connect_Model_Config
     }
 
     /**
+     * Get product api url
+     *
+     * @param string $fraisrId
+     * @return string
+     */
+    public function getProductApiUri($fraisrId = '')
+    {
+        return (string) sprintf(
+            Mage::getStoreConfig('fraisrconnect/static/api/product'),
+            $fraisrId
+        );
+    }
+
+    /**
      * Get store id for the product synchronisation
      * 
      * @return int

@@ -33,7 +33,7 @@ class Fraisr_Connect_Block_Adminhtml_Log_Grid extends Mage_Adminhtml_Block_Widge
     {
         parent::__construct();
         $this->setId('fraisrconnectLogIndex');
-        $this->setDefaultSort('created_at');
+        $this->setDefaultSort('id');
         $this->setDefaultDir('desc');
     }
 
@@ -56,6 +56,13 @@ class Fraisr_Connect_Block_Adminhtml_Log_Grid extends Mage_Adminhtml_Block_Widge
      */ 
     protected function _prepareColumns()
     {
+        $this->addColumn('id', array(
+            'header'    => Mage::helper('fraisrconnect/data')->__('Id'),
+            'align'         => 'left',
+            'filter_index'  => 'id',
+            'index'         => 'id',
+        ));
+
         $this->addColumn('type', array(
             'header'    => Mage::helper('fraisrconnect/data')->__('Type'),
             'align'     => 'left',

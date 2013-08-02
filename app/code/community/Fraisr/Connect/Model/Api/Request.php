@@ -102,7 +102,7 @@ class Fraisr_Connect_Model_Api_Request extends Zend_Http_Client
         $responseHandler = $this->getResponseHandler();
         $responseHandler
             ->setResponse($this->getLastResponse()) //Zend_Http_Response
-            ->validate();
+            ->validateGet();
 
         //Set result data
         $this->paginateData = array_merge($this->paginateData, $responseHandler->getJsonResponseData());
@@ -113,6 +113,80 @@ class Fraisr_Connect_Model_Api_Request extends Zend_Http_Client
         }
         return $this->paginateData;
     }
+
+    /**
+     * Run POST Request to Fraisr
+     * 
+     * @param string $taskApiUri
+     * @param array $postParameter
+     * @return array
+     */
+    public function requestPost($taskApiUri, $postParameter)
+    {
+        //Set Api Uri
+        $this->setUri($this->buildUri($taskApiUri));
+
+        //Set Adapter
+        $this->setAdapter('Zend_Http_Client_Adapter_Curl');
+        $adapter = $this->getAdapter();
+
+        //Set Authentication Header
+        $this->setAuthenticationHeader();
+
+        //Set POST-Method
+        $this->setMethod(Zend_Http_Client::POST);
+
+        //Set POST data
+        $this->setParameterPost($postParameter);
+
+        //Trigger request
+        parent::request();
+
+        //Validate and parse response
+        $responseHandler = $this->getResponseHandler();
+        $responseHandler
+            ->setResponse($this->getLastResponse()) //Zend_Http_Response
+            ->validatePost();
+
+        return Zend_Json::decode($this->getLastResponse()->getBody());
+    }
+
+    /**
+     * Run PUT Request to Fraisr
+     * 
+     * @param string $taskApiUri
+     * @param array $postParameter
+     * @return array
+     */
+    public function requestPut($taskApiUri, $postParameter)
+    {
+        //Set Api Uri
+        $this->setUri($this->buildUri($taskApiUri));
+
+        //Set Adapter
+        $this->setAdapter('Zend_Http_Client_Adapter_Curl');
+        $adapter = $this->getAdapter();
+
+        //Set Authentication Header
+        $this->setAuthenticationHeader();
+
+        //Set PUT-Method
+        $this->setMethod(Zend_Http_Client::PUT);
+        $this->setEncType(Zend_Http_Client::ENC_URLENCODED);
+
+        //Set POST data
+        $this->setParameterPost($postParameter);
+
+        //Trigger request
+        parent::request();
+
+        //Validate response
+        $responseHandler = $this->getResponseHandler();
+        $responseHandler
+            ->setResponse($this->getLastResponse()) //Zend_Http_Response
+            ->validate();
+    }
+
 
     /**
      * Build request Uri
@@ -167,11 +241,10 @@ class Fraisr_Connect_Model_Api_Request extends Zend_Http_Client
             );
         }
 
-        $this->setHeaders(
-            array(
-                self::API_KEY_KEY => $this->getConfig()->getApiKey(),
-                self::API_KEY_SECRET => $this->getConfig()->getApiSecret()
-            )
+        $this->setAuth(
+            $this->getConfig()->getApiKey(),
+            $this->getConfig()->getApiSecret(),
+            self::AUTH_BASIC
         );
     }
 }

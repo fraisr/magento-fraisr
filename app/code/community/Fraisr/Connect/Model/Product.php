@@ -33,39 +33,43 @@ class Fraisr_Connect_Model_Product extends Mage_Core_Model_Abstract
     {
         $helper = Mage::helper('fraisrconnect/adminhtml_data');
 
-        //Synchronize new products
-        ////Synchronize products to update
-        $this->synchronizeNewAndUpdateProducts();
-        
-        //Synchronize products to delete (Flagged with 'Fraisr':'No' but fraisr_id existing)
-        
-        //Synchronize products to delete (From delete queue)
-
         try {
-
+            //Synchronize new products and  products to update
+            $this->synchronizeNewAndUpdateProducts();
+            
+            /**
+             * Synchronize products to delete 
+             * 
+             * Flagged with 'Fraisr':'No' but fraisr_id existing
+             * && From delete queue
+             */
+            $this->synchronizeDeleteProducts();
         } catch (Fraisr_Connect_Model_Api_Exception $e) {
             $helper->logAndAdminOutputException(
                 $helper->__(
-                    'Cause synchronisation failed during API request with message: "%s".',
+                    'Product synchronisation failed during API request with message: "%s".',
                     $e->getMessage()
                 ),
-                Fraisr_Connect_Model_Log::LOG_TASK_CAUSE_SYNC
+                Fraisr_Connect_Model_Log::LOG_TASK_CAUSE_SYNC,
+                $e
             );
         } catch (Fraisr_Connect_Exception $e) {
             $helper->logAndAdminOutputException(
                 $helper->__(
-                    'Cause synchronisation failed with message: "%s".',
+                    'Product synchronisation failed with message: "%s".',
                     $e->getMessage()
                 ),
-                Fraisr_Connect_Model_Log::LOG_TASK_CAUSE_SYNC
+                Fraisr_Connect_Model_Log::LOG_TASK_CAUSE_SYNC,
+                $e
             );
         } catch (Exception $e) {
             $helper->logAndAdminOutputException(
                 $helper->__(
-                    'An unknown error during cause synchronisation happened with message: "%s"',
+                    'An unknown error during product synchronisation happened with message: "%s"',
                     $e->getMessage()
                 ),
-                Fraisr_Connect_Model_Log::LOG_TASK_CAUSE_SYNC
+                Fraisr_Connect_Model_Log::LOG_TASK_CAUSE_SYNC,
+                $e
             );
         }
     }
@@ -77,31 +81,80 @@ class Fraisr_Connect_Model_Product extends Mage_Core_Model_Abstract
      */
     public function synchronizeNewAndUpdateProducts()
     {
+        $helper = Mage::helper('fraisrconnect/adminhtml_data');
+
         //Get product collection
         $newFraisrProducts = $this->getNewAndUpdateFraisrProducts();
 
         //For every product
         foreach ($newFraisrProducts as $product) {
             try {
-                //var_dump($newFraisrProducts->getFirstItem()->getData());
                 $fraisrProductRequestData = $this->buildFaisrProductRequestData($product);
 
                 //New product
                 if (true === is_null($product->getFraisrId())) {
-
+                    $this->requestNewProduct($product);
                 }
                 
                 //Update product
                 if (false === is_null($product->getFraisrId())) {
-                    
+                    $this->requestUpdateProduct($product);
                 }
             } catch (Exception $e) {
+                //TODO
+                //Exception Handling for every product add/update or delete task
                 throw $e;
             }
         }
         
         exit("end synchronizeNewAndUpdateProducts");
     }
+
+    /**
+     * Trigger create product request and save fraisrId
+     * 
+     * @param  Mage_Catalog_Model_Product $product
+     * @return void
+     */
+    protected function requestNewProduct($product)
+    {
+        $helper = Mage::helper('fraisrconnect/adminhtml_data');
+
+        $reponse = Mage::getModel('fraisrconnect/api_request')->requestPost(
+            Mage::getModel('fraisrconnect/config')->getProductApiUri(),
+            $fraisrProductRequestData
+        );
+        
+        //Save FraisrId
+        if (false === isset($reponse["_id"])) {
+            throw new Fraisr_Connect_Model_Api_Exception(
+                $helper->__(
+                    'FraisrId was not given for new product request and sku "%s".',
+                    $product->getSku()
+                )
+            );
+        }
+        $product->setFraisrId($reponse["_id"])->save();
+    }
+
+    /**
+     * Trigger update product request and save fraisrId
+     * 
+     * @param  Mage_Catalog_Model_Product $product
+     * @return void
+     */
+    protected function requestUpdateProduct($product)
+    {
+        $helper = Mage::helper('fraisrconnect/adminhtml_data');
+
+        $reponse = Mage::getModel('fraisrconnect/api_request')->requestPut(
+            Mage::getModel('fraisrconnect/config')->getProductApiUri(
+                $product->getFraisrId()
+            ),
+            $fraisrProductRequestData
+        );
+    }
+
 
     /**
      * Get new and update fraisr products
@@ -145,6 +198,8 @@ class Fraisr_Connect_Model_Product extends Mage_Core_Model_Abstract
         $requestData["price"] = $prices["price"];
         if ($prices["special_price"] > 0) {
             $requestData["special_price"] = $prices["special_price"];
+        } else {
+            $requestData["special_price"] = '';
         }
 
         /**

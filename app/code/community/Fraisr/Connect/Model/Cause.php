@@ -77,7 +77,8 @@ class Fraisr_Connect_Model_Cause extends Mage_Core_Model_Abstract
                     'Cause synchronisation failed during API request with message: "%s".',
                     $e->getMessage()
                 ),
-                Fraisr_Connect_Model_Log::LOG_TASK_CAUSE_SYNC
+                Fraisr_Connect_Model_Log::LOG_TASK_CAUSE_SYNC,
+                $e
             );
         } catch (Fraisr_Connect_Exception $e) {
             $helper->logAndAdminOutputException(
@@ -85,7 +86,8 @@ class Fraisr_Connect_Model_Cause extends Mage_Core_Model_Abstract
                     'Cause synchronisation failed with message: "%s".',
                     $e->getMessage()
                 ),
-                Fraisr_Connect_Model_Log::LOG_TASK_CAUSE_SYNC
+                Fraisr_Connect_Model_Log::LOG_TASK_CAUSE_SYNC,
+                $e
             );
         } catch (Exception $e) {
             $helper->logAndAdminOutputException(
@@ -93,7 +95,8 @@ class Fraisr_Connect_Model_Cause extends Mage_Core_Model_Abstract
                     'An unknown error during cause synchronisation happened with message: "%s"',
                     $e->getMessage()
                 ),
-                Fraisr_Connect_Model_Log::LOG_TASK_CAUSE_SYNC
+                Fraisr_Connect_Model_Log::LOG_TASK_CAUSE_SYNC,
+                $e
             );
         }
     }
