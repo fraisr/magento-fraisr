@@ -152,4 +152,66 @@ class Fraisr_Connect_Model_Config
     {
         return (int) Mage::getStoreConfig('fraisrconnect/catalog_export/scope');
     }
+
+    /**
+     * Get fraisr product delete queue
+     *
+     * returns array(
+     *     'sku' => string '<sku>'
+     *     'fraisr_id' => '<fraisr_id>''
+     * )
+     * 
+     * @return array
+     */
+    public function getProductsFromDeleteQueue()
+    {
+        $productsToDelete = Mage::getStoreConfig('fraisrconnect/dynamic/products_to_delete');
+
+        if (true === is_null($productsToDelete)) {
+            return array();
+        } elseif (true === is_array(unserialize($productsToDelete))) {
+            return unserialize($productsToDelete);
+        } else {
+            return array();
+        }
+    }
+
+    /**
+     * Add a product to the fraisr delete queue
+     * 
+     * @param Mage_Catalog_Model_Product $product
+     * @return void
+     */
+    public function addProductToDeleteQueue($product)
+    {
+        //Get existing queue
+        $productsToDelete = $this->getProductsFromDeleteQueue();
+        $productsToDelete[$product->getSku()] = array(
+            'sku' => $product->getSku(),
+            'fraisr_id' => $product->getFraisrId()
+        );
+
+        Mage::getModel('core/config')
+            ->saveConfig('fraisrconnect/dynamic/products_to_delete', serialize($productsToDelete));
+    }
+
+    /**
+     * Remove a product from fraisr delete queue
+     * 
+     * @param Mage_Catalog_Model_Product $product
+     * @return void
+     */
+    public function removeProductFromDeleteQueue($sku)
+    {
+        //Get existing queue
+        $productsToDelete = $this->getProductsFromDeleteQueue();
+
+        //If sku exists in delete queue, remove it
+        if (true === array_key_exists($sku, $productsToDelete)) {
+            unset($productsToDelete[$sku]);
+
+            Mage::getModel('core/config')
+                ->saveConfig('fraisrconnect/dynamic/products_to_delete', serialize($productsToDelete));
+        }
+    }
 }

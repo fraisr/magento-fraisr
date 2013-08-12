@@ -74,4 +74,22 @@ class Fraisr_Connect_Model_Observer
         }
         Mage::getModel('fraisrconnect/product')->synchronize();
     }
+
+    /**
+     * Add a product to the fraisr delete queue
+     *
+     * @param  Varien_Event_Observer $observer
+     * @return void
+     */
+    public function addProductToQueue($observer)
+    {
+        $product = $observer->getEvent()->getProduct();
+
+        //Check if given product is valid and if the product has a fraisr_id
+        if ($product instanceof Mage_Catalog_Model_Product
+            && false === is_null($product->getFraisrId())) {
+            //Add the product to the fraisr delete queue
+            Mage::getModel('fraisrconnect/config')->addProductToDeleteQueue($product);
+        }
+    }
 }

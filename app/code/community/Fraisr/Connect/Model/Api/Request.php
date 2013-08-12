@@ -187,6 +187,40 @@ class Fraisr_Connect_Model_Api_Request extends Zend_Http_Client
             ->validate();
     }
 
+    /**
+     * Run DELETE Request to Fraisr
+     * 
+     * @param string $taskApiUri
+     * @return array
+     */
+    public function requestDelete($taskApiUri)
+    {
+        //Set Api Uri
+        $this->setUri($this->buildUri($taskApiUri));
+
+        //Set Adapter
+        $this->setAdapter('Zend_Http_Client_Adapter_Curl');
+        $adapter = $this->getAdapter();
+
+        //Set Authentication Header
+        $this->setAuthenticationHeader();
+
+        //Set DELETE-Method
+        $this->setMethod(Zend_Http_Client::DELETE);
+
+        //Trigger request
+        parent::request();
+
+        //Validate and parse response
+        $responseHandler = $this->getResponseHandler();
+        $responseHandler
+            ->setResponse($this->getLastResponse()) //Zend_Http_Response
+            //400 - Bad request is allowed too in case that the product is already deleted in fraisr
+            ->setAllowedHttpStatusCodes(array(200, 400))
+            ->validate();
+
+        return Zend_Json::decode($this->getLastResponse()->getBody());
+    }
 
     /**
      * Build request Uri

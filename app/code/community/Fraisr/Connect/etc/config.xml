@@ -61,6 +61,16 @@
                 </setup>
             </fraisrconnect_setup>
         </resources>
+        <events>
+            <catalog_product_delete_before>
+                <observers>
+                    <fraisr_add_product_to_queue>
+                        <class>fraisrconnect/observer</class>
+                        <method>addProductToQueue</method>
+                    </fraisr_add_product_to_queue>
+                </observers>
+            </catalog_product_delete_before>
+        </events>
     </global>
     <frontend>
         <routers>

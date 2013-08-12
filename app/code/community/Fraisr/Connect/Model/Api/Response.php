@@ -31,6 +31,13 @@ class Fraisr_Connect_Model_Api_Response
     protected $response = null;
 
     /**
+     * Allowed HTTP status codes of the response
+     * 
+     * @var array
+     */
+    protected $allowedHttpStatusCodes = array(200);
+
+    /**
      * Validate GET response
      * 
      * @return void
@@ -109,9 +116,9 @@ class Fraisr_Connect_Model_Api_Response
             );
         }
 
-        if ($this->response->getStatus() != 200) {
+        if (false === in_array($this->response->getStatus(), $this->allowedHttpStatusCodes)) {
             Mage::getModel('fraisrconnect/log')
-                ->setTitle('Wrong API Response Code | Body')
+                ->setTitle('Wrong API Response Code | Detailed Response')
                 ->setMessage($this->response->getBody())
                 ->logError();
 
@@ -119,7 +126,7 @@ class Fraisr_Connect_Model_Api_Response
                 $helper->__(
                     'Api response code is "%s" instead of "%s".',
                     $this->response->getStatus(),
-                    200
+                    implode(',', $this->allowedHttpStatusCodes)
                 )
             );
         }
@@ -167,4 +174,15 @@ class Fraisr_Connect_Model_Api_Response
         return $this;
     }
 
+    /**
+     * Set allowed HTTP status codes for the response
+     * 
+     * @param array $statusCodes
+     * @return Fraisr_Connect_Model_Api_Response
+     */
+    public function setAllowedHttpStatusCodes($statusCodes)
+    {
+        $this->allowedHttpStatusCodes = $statusCodes;
+        return $this;
+    }
 }
