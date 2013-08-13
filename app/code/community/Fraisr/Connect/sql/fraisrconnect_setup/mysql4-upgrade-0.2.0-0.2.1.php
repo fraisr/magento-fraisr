@@ -21,7 +21,7 @@ $installer->startSetup();
 $fraisrHelper = Mage::helper("fraisrconnect/data");
 
 /**
- * Update product product list visibility
+ * Update product list visibility
  */
 $setup->updateAttribute(
     'catalog_product',

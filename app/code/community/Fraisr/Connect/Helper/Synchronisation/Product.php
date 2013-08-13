@@ -45,4 +45,70 @@ class Fraisr_Connect_Helper_Synchronisation_Product extends Mage_Core_Helper_Abs
         }
         return $prices;
     }
+
+    /**
+     * Mark product collection as to synchronize
+     * 
+     * @param Mage_Catalog_Model_Resource_Product_Collection $products
+     * @return void
+     */
+    public function markProductCollectionAsToSynchronize($products)
+    {
+        foreach ($products as $product) {
+            $product
+                ->setFraisrUpdate(Fraisr_Connect_Model_Product::SYNCHRONISATION_ITERATIONS)
+                ->getResource()
+                ->saveAttribute($product, 'fraisr_update');
+        }
+    }
+
+    /**
+     * Get to delete fraisr products
+     *
+     * 1.) fraisr_enabled:no + fraisr_id existing
+     * 
+     * @return Mage_Catalog_Model_Resource_Product_Collection
+     */
+    public function getDeleteFraisrProducts()
+    {
+        return Mage::getModel('catalog/product')
+            ->getCollection()
+            ->addAttributeToSelect('*')
+            ->addStoreFilter(Mage::getModel('fraisrconnect/config')->getCatalogExportStoreId())
+            ->addFieldToFilter('fraisr_enabled', 0)
+            ->addFieldToFilter('fraisr_id', array('notnull' => true));
+    }
+
+    /**
+     * Get new and update fraisr products
+     *
+     * 1.) fraisr_enabled:yes
+     * 
+     * @return Mage_Catalog_Model_Resource_Product_Collection
+     */
+    public function getNewAndUpdateFraisrProducts()
+    {
+        return Mage::getModel('catalog/product')
+            ->getCollection()
+            ->addAttributeToSelect('*')
+            ->addStoreFilter(Mage::getModel('fraisrconnect/config')->getCatalogExportStoreId())
+            ->addFieldToFilter('fraisr_enabled', 1); //Only products which are enabled for Fraisr sync
+    }
+
+    /**
+     * Get products which as marked as to sychronize
+     *
+     * @return Mage_Catalog_Model_Resource_Product_Collection
+     */
+    public function getProductsToSynchronize()
+    {
+        return Mage::getModel('catalog/product')
+            ->getCollection()
+            ->addAttributeToSelect('*')
+            ->addStoreFilter(Mage::getModel('fraisrconnect/config')->getCatalogExportStoreId())
+            ->addFieldToFilter(
+                'fraisr_update',
+                array('gt' => 0)
+            ); //Only products which are marked as to update (iterations > 0)
+    }
 }

@@ -67,6 +67,13 @@ class Fraisr_Connect_Block_Adminhtml_Log extends Mage_Adminhtml_Block_Widget_Gri
             'class'     => 'add',
         ));
 
+        //Add mark products to sync button
+        $this->_addButton('product_mark_to_synchronisation', array(
+            'label'     => $helper->__('Mark products as to synchronize'),
+            'onclick'   => 'setLocation(\'' . $urlModel->getUrl('fraisrconnect/adminhtml_synchronisation/markProduct') .'\')',
+            'class'     => 'add',
+        ));
+
         //Add product sync button
         $this->_addButton('product_synchronisation', array(
             'label'     => $helper->__('Synchronize products'),

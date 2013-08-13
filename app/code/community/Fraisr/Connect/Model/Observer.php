@@ -76,6 +76,20 @@ class Fraisr_Connect_Model_Observer
     }
 
     /**
+     * Initiate mark products for synchronisation action
+     * 
+     * @return void
+     */
+    public function markProductsAsToSynchronize()
+    {
+        //Check if extension is active
+        if (false === Mage::helper('fraisrconnect/adminhtml_data')->isActive(true)) {
+            return;
+        }
+        Mage::getModel('fraisrconnect/product')->markProductsAsToSynchronize();
+    }
+
+    /**
      * Add a product to the fraisr delete queue
      *
      * @param  Varien_Event_Observer $observer

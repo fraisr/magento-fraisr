@@ -59,6 +59,11 @@ class Fraisr_Connect_Model_Product extends Mage_Core_Model_Abstract
     protected $failedProductsReport = array();
 
     /**
+     * @const SYNCHRONISATION_ITERATIONS Synchronisation iterations per product
+     */
+    const SYNCHRONISATION_ITERATIONS = 3;
+
+    /**
      * Synchronize product data
      * 
      * @return void
@@ -66,6 +71,8 @@ class Fraisr_Connect_Model_Product extends Mage_Core_Model_Abstract
     public function synchronize()
     {
         try {
+            //$productsToSynchronize = Mage::helper('fraisrconnect/synchronisation_product')->getProductsToSynchronize();
+
             //Synchronize new products and  products to update
             $this->synchronizeNewAndUpdateProducts();
             
@@ -106,7 +113,7 @@ class Fraisr_Connect_Model_Product extends Mage_Core_Model_Abstract
     public function synchronizeNewAndUpdateProducts()
     {
         //Get product collection
-        $newFraisrProducts = $this->getNewAndUpdateFraisrProducts();
+        $newFraisrProducts = Mage::helper('fraisrconnect/synchronisation_product')->getNewAndUpdateFraisrProducts();
 
         //For every product
         foreach ($newFraisrProducts as $product) {
@@ -189,23 +196,6 @@ class Fraisr_Connect_Model_Product extends Mage_Core_Model_Abstract
             'sku' => $product->getSku(),
             'fraisr_id' => $product->getFraisrId()
         );
-    }
-
-
-    /**
-     * Get new and update fraisr products
-     *
-     * 1.) fraisr_enabled:yes
-     * 
-     * @return Mage_Catalog_Model_Resource_Product_Collection
-     */
-    protected function getNewAndUpdateFraisrProducts()
-    {
-        return Mage::getModel('catalog/product')
-            ->getCollection()
-            ->addAttributeToSelect('*')
-            ->addStoreFilter(Mage::getModel('fraisrconnect/config')->getCatalogExportStoreId())
-            ->addFieldToFilter('fraisr_enabled', 1); //Only products which are enabled for Fraisr sync
     }
 
     /**
@@ -342,7 +332,7 @@ class Fraisr_Connect_Model_Product extends Mage_Core_Model_Abstract
     public function synchronizeDeleteProducts()
     {
         //Get product collection (Flagged with 'Fraisr':'No' but fraisr_id existing)
-        $deleteFraisrProducts = $this->getDeleteFraisrProducts();
+        $deleteFraisrProducts = Mage::helper('fraisrconnect/synchronisation_product')->getDeleteFraisrProducts();
 
         //For every product
         foreach ($deleteFraisrProducts as $product) {
@@ -420,19 +410,64 @@ class Fraisr_Connect_Model_Product extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Get to delete fraisr products
-     *
-     * 1.) fraisr_enabled:no + fraisr_id existing
+     * Mark products as to synchronize
      * 
-     * @return Mage_Catalog_Model_Resource_Product_Collection
+     * @return void
      */
-    protected function getDeleteFraisrProducts()
+    public function markProductsAsToSynchronize()
     {
-        return Mage::getModel('catalog/product')
-            ->getCollection()
-            ->addAttributeToSelect('*')
-            ->addStoreFilter(Mage::getModel('fraisrconnect/config')->getCatalogExportStoreId())
-            ->addFieldToFilter('fraisr_enabled', 0)
-            ->addFieldToFilter('fraisr_id', array('notnull' => true));
+        try {
+            //Get product collection of new and update products
+            $newAndUpdateFraisrProducts = Mage::helper('fraisrconnect/synchronisation_product')->getNewAndUpdateFraisrProducts();
+
+            //Mark as to synchronize
+            Mage::helper('fraisrconnect/synchronisation_product')->markProductCollectionAsToSynchronize(
+                $newAndUpdateFraisrProducts
+            );
+            //Success Message
+            $this->getAdminHelper()->logAndAdminOutputSuccess(
+                $this->getAdminHelper()->__(
+                    '%s product(s) were successfully marked as to synchronize (create/update) to fraisr.',
+                    count($newAndUpdateFraisrProducts)
+                ),
+                Fraisr_Connect_Model_Log::LOG_TASK_CAUSE_SYNC
+            );
+
+            //Get product collection of to delete products
+            $toDeleteProducts = Mage::helper('fraisrconnect/synchronisation_product')->getDeleteFraisrProducts();
+
+            //Mark as to synchronize
+            Mage::helper('fraisrconnect/synchronisation_product')->markProductCollectionAsToSynchronize(
+                $toDeleteProducts
+            );
+            //Success Message
+            $this->getAdminHelper()->logAndAdminOutputSuccess(
+                $this->getAdminHelper()->__(
+                    '%s product(s) were successfully marked as to synchronize (delete) to fraisr.',
+                    count($toDeleteProducts)
+                ),
+                Fraisr_Connect_Model_Log::LOG_TASK_CAUSE_SYNC
+            );
+
+            //Get product collection of to delete products (from queue)
+            $toDeleteProductsByQueue = Mage::getModel('fraisrconnect/config')->getProductsFromDeleteQueue();
+            //Notice Message
+            $this->getAdminHelper()->logAndAdminOutputNotice(
+                $this->getAdminHelper()->__(
+                    '%s product(s) are waiting in the queue to be deleted in fraisr.',
+                    count($toDeleteProductsByQueue)
+                ),
+                Fraisr_Connect_Model_Log::LOG_TASK_CAUSE_SYNC
+            );
+        } catch (Exception $e) {
+            $this->getAdminHelper()->logAndAdminOutputException(
+                $this->getAdminHelper()->__(
+                    'An unknown error happened during mark products to synchronisation action with message: "%s".',
+                    $e->getMessage()
+                ),
+                Fraisr_Connect_Model_Log::LOG_TASK_PRODUCT_SYNC,
+                $e
+            );
+        }
     }
 }
