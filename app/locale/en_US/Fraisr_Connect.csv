@@ -74,3 +74,4 @@
 "%s product(s) were successfully marked as to synchronize (delete) to fraisr.","%s product(s) were successfully marked as to synchronize (delete) to fraisr."
 "%s product(s) are waiting in the queue to be deleted in fraisr.","%s product(s) are waiting in the queue to be deleted in fraisr."
 "fraisr error message: ""%s"".","fraisr error message: ""%s""."
+"Not all products have been synchronized because of a transmission error or a script timeout. Please start the process again.","Not all products have been synchronized because of a transmission error or a script timeout. Please start the process again."

@@ -33,7 +33,7 @@ class Fraisr_Connect_Model_Observer
     public function synchronizeCauses()
     {
         //Check if extension is active
-        if (false === Mage::helper('fraisrconnect/adminhtml_data')->isActive(true)) {
+        if (false === Mage::helper('fraisrconnect/adminhtml_data')->isActive(false)) {
             return;
         }
 
@@ -55,7 +55,7 @@ class Fraisr_Connect_Model_Observer
     public function synchronizeCategories()
     {
         //Check if extension is active
-        if (false === Mage::helper('fraisrconnect/adminhtml_data')->isActive(true)) {
+        if (false === Mage::helper('fraisrconnect/adminhtml_data')->isActive(false)) {
             return;
         }
         Mage::getModel('fraisrconnect/category')->synchronize();
@@ -69,10 +69,29 @@ class Fraisr_Connect_Model_Observer
     public function synchronizeProducts()
     {
         //Check if extension is active
-        if (false === Mage::helper('fraisrconnect/adminhtml_data')->isActive(true)) {
+        if (false === Mage::helper('fraisrconnect/adminhtml_data')->isActive(false)) {
             return;
         }
-        Mage::getModel('fraisrconnect/product')->synchronize();
+
+        //Trigger product synchronisation
+        $productSyncronisation = Mage::getModel('fraisrconnect/product');
+        $productSyncronisation->synchronize();
+
+        //Check if product synchronisation is complete, if not add a next cronjob task manually
+        if (false === $productSyncronisation->isSynchronisationComplete()) {
+            //Add a next cronjob task
+            //TODO: Add next crontask
+            
+            //Log about adding a next cronjob task
+            $logTitle = Mage::helper('fraisrconnect/data')->__(
+                'Not all products have been synchronized because of a transmission error or a script timeout. Therefore another cron task was added for %s.',
+                'xxxx' //TODO: Add correct new cronjob task time here
+            );
+            Mage::getModel('fraisrconnect/log')
+                ->setTitle($message)
+                ->setTask(Fraisr_Connect_Model_Log::LOG_TASK_PRODUCT_SYNC)
+                ->logNotice();
+        }
     }
 
     /**

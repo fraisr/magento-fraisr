@@ -123,6 +123,7 @@
     </adminhtml>
     <crontab>
         <jobs>
+            <!-- Cause synchronisation -->
             <fraisrconnect_synchronisation_cause>
                 <schedule>
                     <cron_expr>30 1 * * *</cron_expr>
@@ -131,6 +132,7 @@
                     <model>fraisrconnect/observer::synchronizeCauses</model>
                 </run>
             </fraisrconnect_synchronisation_cause>
+            <!-- Category synchronisation -->
             <fraisrconnect_synchronisation_category>
                 <schedule>
                     <cron_expr>0 2 * * *</cron_expr>
@@ -139,6 +141,24 @@
                     <model>fraisrconnect/observer::synchronizeCategories</model>
                 </run>
             </fraisrconnect_synchronisation_category>
+            <!-- Mark products for synchronisation -->
+            <fraisrconnect_synchronisation_mark_products>
+                <schedule>
+                    <cron_expr>30 2 * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>fraisrconnect/observer::markProductsAsToSynchronize</model>
+                </run>
+            </fraisrconnect_synchronisation_mark_products>
+            <!-- Products synchronisation -->
+            <fraisrconnect_synchronisation_products>
+                <schedule>
+                    <cron_expr>0 3 * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>fraisrconnect/observer::synchronizeProducts</model>
+                </run>
+            </fraisrconnect_synchronisation_products>
         </jobs>
     </crontab>
     <default>

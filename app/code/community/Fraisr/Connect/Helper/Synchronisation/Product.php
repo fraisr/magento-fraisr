@@ -167,4 +167,40 @@ class Fraisr_Connect_Helper_Synchronisation_Product extends Mage_Core_Helper_Abs
         }
         return $reportMessage;
     }
+
+    /**
+     * Check if the runtime is already exceeded
+     *
+     * Compare the starttime with the current time and the maximum execution time
+     * 
+     * @param int $synchronisationStartTime
+     * @return boolean
+     */
+    public function isRuntimeExceeded($synchronisationStartTime)
+    {
+        //Get maximum execution time
+        $maxExecutionTime = $this->getMaximumExecutionTime();
+
+        //Return true for is exceeded if we are 10sec before the execution time
+        if (($maxExecutionTime - 10) < (time() - $synchronisationStartTime)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Get maximum execution time
+     * 
+     * @return int
+     */
+    protected function getMaximumExecutionTime()
+    {
+        $maxExecutionTime = (int) ini_get('max_execution_time');
+        if (false === is_int($maxExecutionTime) 
+            || $maxExecutionTime < 1) {
+            $maxExecutionTime = INF;
+        }
+        return $maxExecutionTime;
+    }
 }

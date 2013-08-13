@@ -59,6 +59,20 @@ class Fraisr_Connect_Model_Product extends Mage_Core_Model_Abstract
     protected $failedProductsReport = array();
 
     /**
+     * Flag to check if the synchronisation is finished/completed or not
+     * 
+     * @var boolean
+     */
+    public $synchronisationFinished = false;
+
+    /**
+     * Synchronisation start time
+     * 
+     * @var int
+     */
+    public $synchronisationStartTime = null;
+
+    /**
      * @const SYNCHRONISATION_ITERATIONS Synchronisation iterations per product
      */
     const SYNCHRONISATION_ITERATIONS = 3;
@@ -71,11 +85,20 @@ class Fraisr_Connect_Model_Product extends Mage_Core_Model_Abstract
     public function synchronize()
     {
         try {
+            //Set syncronisation start time
+            $this->synchronisationStartTime = time();
+
             //Synchronize create,update and delete products
             $this->synchronizeMarkedProducts();
 
             //Synchronize products to delete (by deleted products from the queue)
             $this->synchronizeDeleteProductsByQueue();
+
+            //Set synchronisation as finished if runtime is not exceeded
+            if (false === Mage::helper('fraisrconnect/synchronisation_product')
+                        ->isRuntimeExceeded($this->synchronisationStartTime)) {
+                $this->synchronisationFinished = true;
+            }
         } catch (Fraisr_Connect_Exception $e) {
             $this->getAdminHelper()->logAndAdminOutputException(
                 $this->getAdminHelper()->__(
@@ -157,6 +180,13 @@ class Fraisr_Connect_Model_Product extends Mage_Core_Model_Abstract
                      */
                     Mage::helper('fraisrconnect/synchronisation_product')->markAsSynchronized($product);
                 }
+            }
+
+            //Check if the script runtime is already close to exceed
+            if (true === Mage::helper('fraisrconnect/synchronisation_product')
+                        ->isRuntimeExceeded($this->synchronisationStartTime)) {
+                //Break the loop, stop the syncronisation and return
+                return;
             }
         }
     }
@@ -382,6 +412,13 @@ class Fraisr_Connect_Model_Product extends Mage_Core_Model_Abstract
 
         //For every product
         foreach ($deleteFraisrProducts as $product) {
+            //Check if the script runtime is already close to exceed
+            if (true === Mage::helper('fraisrconnect/synchronisation_product')
+                        ->isRuntimeExceeded($this->synchronisationStartTime)) {
+                //Break the loop, stop the syncronisation and return
+                return;
+            }
+
             try {
                 //Trigger delete request
                 $this->requestDeleteProduct(
@@ -463,5 +500,25 @@ class Fraisr_Connect_Model_Product extends Mage_Core_Model_Abstract
                 $e
             );
         }
+    }
+
+    /**
+     * Check if synchronisation was complete
+     * 
+     * @return boolean
+     */
+    public function isSynchronisationComplete()
+    {
+        //Return false if the internal synchronisation flag is already marked as false
+        if (false === $this->synchronisationFinished) {
+            return false;
+        }
+
+        //Check if there are products with 'fraisr_update' > 0 are existing
+        if (0 < count(Mage::helper('fraisrconnect/synchronisation_product')->getProductsToSynchronize())) {
+            return false;
+        }
+
+        return true;
     }
 }

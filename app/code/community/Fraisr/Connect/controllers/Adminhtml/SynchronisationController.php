@@ -56,7 +56,10 @@ class Fraisr_Connect_Adminhtml_SynchronisationController extends Mage_Adminhtml_
      */
     public function causeAction()
     {
-        Mage::getModel('fraisrconnect/observer')->synchronizeCauses();
+        if (true === Mage::helper('fraisrconnect/adminhtml_data')->isActive(true)) {
+            Mage::getModel('fraisrconnect/observer')->synchronizeCauses();
+        }
+
         $this->_redirectReferer();
         return;
     }
@@ -68,7 +71,10 @@ class Fraisr_Connect_Adminhtml_SynchronisationController extends Mage_Adminhtml_
      */
     public function categoryAction()
     {
-        Mage::getModel('fraisrconnect/observer')->synchronizeCategories();
+        if (true === Mage::helper('fraisrconnect/adminhtml_data')->isActive(true)) {
+            Mage::getModel('fraisrconnect/observer')->synchronizeCategories();
+        }
+
         $this->_redirectReferer();
         return;
     }
@@ -80,7 +86,17 @@ class Fraisr_Connect_Adminhtml_SynchronisationController extends Mage_Adminhtml_
      */
     public function productAction()
     {
-        Mage::getModel('fraisrconnect/observer')->synchronizeProducts();
+        if (true === Mage::helper('fraisrconnect/adminhtml_data')->isActive(true)) {
+            $productSyncronisation = Mage::getModel('fraisrconnect/product');
+            $productSyncronisation->synchronize();
+
+            if (false === $productSyncronisation->isSynchronisationComplete()) {
+                Mage::getSingleton('adminhtml/session')->addWarning(
+                    Mage::helper('fraisrconnect/data')->__('Not all products have been synchronized because of a transmission error or a script timeout. Please start the process again.')
+                );
+            }
+        }
+
         $this->_redirectReferer();
         return;
     }
@@ -92,7 +108,10 @@ class Fraisr_Connect_Adminhtml_SynchronisationController extends Mage_Adminhtml_
      */
     public function markProductAction()
     {
-        Mage::getModel('fraisrconnect/observer')->markProductsAsToSynchronize();
+        if (true === Mage::helper('fraisrconnect/adminhtml_data')->isActive(true)) {
+            Mage::getModel('fraisrconnect/observer')->markProductsAsToSynchronize();
+        }
+
         $this->_redirectReferer();
         return;
     }
