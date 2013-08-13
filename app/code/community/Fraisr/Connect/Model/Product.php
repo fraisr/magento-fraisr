@@ -71,13 +71,8 @@ class Fraisr_Connect_Model_Product extends Mage_Core_Model_Abstract
     public function synchronize()
     {
         try {
-            //$productsToSynchronize = Mage::helper('fraisrconnect/synchronisation_product')->getProductsToSynchronize();
-
-            //Synchronize new products and  products to update
-            $this->synchronizeNewAndUpdateProducts();
-            
-            //Synchronize products to delete (by existing products)
-            $this->synchronizeDeleteProducts();
+            //Synchronize create,update and delete products
+            $this->synchronizeMarkedProducts();
 
             //Synchronize products to delete (by deleted products from the queue)
             $this->synchronizeDeleteProductsByQueue();
@@ -106,20 +101,30 @@ class Fraisr_Connect_Model_Product extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Synchronize new products
+     * Synchronize marked products
      * 
      * @return void
      */
-    public function synchronizeNewAndUpdateProducts()
+    public function synchronizeMarkedProducts()
     {
-        //Get product collection
-        $newFraisrProducts = Mage::helper('fraisrconnect/synchronisation_product')->getNewAndUpdateFraisrProducts();
+        $productsToSynchronize = Mage::helper('fraisrconnect/synchronisation_product')
+            ->getProductsToSynchronize();
 
-        //For every product
-        foreach ($newFraisrProducts as $product) {
+        foreach ($productsToSynchronize as $product) {
             try {
+                //Delete product
+                if (false === is_null($product->getFraisrId())
+                    && 0 == $product->getFraisrEnabled()) {
+                    //Trigger delete request
+                    $this->requestDeleteProduct($product->getFraisrId(), $product->getSku());
+
+                    //Unset fraisr_id
+                    $product->setFraisrId(null)->save();
+                }
+
                 //Update product
-                if (false === is_null($product->getFraisrId())) {
+                if (false === is_null($product->getFraisrId())
+                    && 1 == $product->getFraisrEnabled()) {
                     $this->requestUpdateProduct($product);
                 }
 
@@ -127,6 +132,9 @@ class Fraisr_Connect_Model_Product extends Mage_Core_Model_Abstract
                 if (true === is_null($product->getFraisrId())) {
                     $this->requestNewProduct($product);
                 }
+
+                //Mark product as successfully synchronized
+                Mage::helper('fraisrconnect/synchronisation_product')->markAsSynchronized($product);
             } catch (Fraisr_Connect_Model_Api_Exception $e) {
                 //Add sku to failed products list
                 $this->failedProductsReport[] = array(
@@ -135,6 +143,20 @@ class Fraisr_Connect_Model_Product extends Mage_Core_Model_Abstract
                     'error_message' => $e->getMessage(),
                     'task' => 'create/update'
                 );
+
+                /*
+                 * If the error code is 5xx, just descrease the synchronisation iterations by 1 because
+                 * it is maybe just a server timeout
+                 */
+                if ('5' == substr($e->getCode(), 0, 1)) {
+                    Mage::helper('fraisrconnect/synchronisation_product')->decreaseSyncIteration($product);
+                } else {
+                    /*
+                     * If the error code is not 5xx (maybe 4xx), mark the product as synchronized
+                     * because there is a logic problem
+                     */
+                    Mage::helper('fraisrconnect/synchronisation_product')->markAsSynchronized($product);
+                }
             }
         }
     }
@@ -195,6 +217,26 @@ class Fraisr_Connect_Model_Product extends Mage_Core_Model_Abstract
         $this->updatedProductsReport[] = array(
             'sku' => $product->getSku(),
             'fraisr_id' => $product->getFraisrId()
+        );
+    }
+
+    /**
+     * Trigger delete product request and unset fraisrId
+     * 
+     * @param string $fraisrId
+     * @param string $sku
+     * @return void
+     */
+    protected function requestDeleteProduct($fraisrId, $sku = '')
+    {
+        $reponse = Mage::getModel('fraisrconnect/api_request')->requestDelete(
+            Mage::getModel('fraisrconnect/config')->getProductApiUri($fraisrId)
+        );
+
+        //Add sku to delete list
+        $this->deletedProductsReport[] = array(
+            'sku' => $sku,
+            'fraisr_id' => $fraisrId
         );
     }
 
@@ -293,14 +335,18 @@ class Fraisr_Connect_Model_Product extends Mage_Core_Model_Abstract
 
         //Write detailed log report
         $logMessage = sprintf(
-            "%s\nDetails: %s\n\n"
-            ."%s\nDetails: %s\n\n"
-            ."%s\nDetails: %s\n\n"
-            ."%s\nDetails: %s\n\n",
-            $newProductsMessage, var_export($this->newProductsReport, true),
-            $updatedProductsMessage, var_export($this->updatedProductsReport, true),
-            $deletedProductsMessage, var_export($this->deletedProductsReport, true),
-            $failedProductsMessage, var_export($this->failedProductsReport, true)
+            "#%s\n%s\n\n"
+            ."#%s\n%s\n\n"
+            ."#%s\n%s\n\n"
+            ."#%s\n%s\n\n",
+            $newProductsMessage,
+            Mage::helper('fraisrconnect/synchronisation_product')->buildSyncReportDetails($this->newProductsReport),
+            $updatedProductsMessage,
+            Mage::helper('fraisrconnect/synchronisation_product')->buildSyncReportDetails($this->updatedProductsReport),
+            $deletedProductsMessage,
+            Mage::helper('fraisrconnect/synchronisation_product')->buildSyncReportDetails($this->deletedProductsReport),
+            $failedProductsMessage,
+            Mage::helper('fraisrconnect/synchronisation_product')->buildSyncReportDetails($this->failedProductsReport)
         );
         Mage::getModel('fraisrconnect/log')
             ->setTitle($this->getAdminHelper()->__('Product synchronisation report'))
@@ -320,38 +366,6 @@ class Fraisr_Connect_Model_Product extends Mage_Core_Model_Abstract
             $this->adminHelper = Mage::helper('fraisrconnect/adminhtml_data');
         }
         return $this->adminHelper;
-    }
-
-    /**
-     * Synchronize products to delete 
-     * 
-     * Flagged with 'Fraisr':'No' but fraisr_id existing
-     * 
-     * @return void
-     */
-    public function synchronizeDeleteProducts()
-    {
-        //Get product collection (Flagged with 'Fraisr':'No' but fraisr_id existing)
-        $deleteFraisrProducts = Mage::helper('fraisrconnect/synchronisation_product')->getDeleteFraisrProducts();
-
-        //For every product
-        foreach ($deleteFraisrProducts as $product) {
-            try {
-                //Trigger delete request
-                $this->requestDeleteProduct($product->getFraisrId(), $product->getSku());
-
-                //Unset fraisr_id
-                $product->setFraisrId(null)->save();
-            } catch (Fraisr_Connect_Model_Api_Exception $e) {
-                //Add sku to delete products list
-                $this->failedProductsReport[] = array(
-                    'sku' => $product->getSku(),
-                    'fraisr_id' => $product->getFraisrId(),
-                    'error_message' => $e->getMessage(),
-                    'task' => 'delete'
-                );
-            }
-        }
     }
 
     /**
@@ -387,26 +401,6 @@ class Fraisr_Connect_Model_Product extends Mage_Core_Model_Abstract
                 );
             }
         }
-    }
-
-    /**
-     * Trigger delete product request and unset fraisrId
-     * 
-     * @param string $fraisrId
-     * @param string $sku
-     * @return void
-     */
-    protected function requestDeleteProduct($fraisrId, $sku = '')
-    {
-        $reponse = Mage::getModel('fraisrconnect/api_request')->requestDelete(
-            Mage::getModel('fraisrconnect/config')->getProductApiUri($fraisrId)
-        );
-
-        //Add sku to delete list
-        $this->deletedProductsReport[] = array(
-            'sku' => $sku,
-            'fraisr_id' => $fraisrId
-        );
     }
 
     /**

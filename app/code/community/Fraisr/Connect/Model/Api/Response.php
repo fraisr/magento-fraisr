@@ -117,17 +117,24 @@ class Fraisr_Connect_Model_Api_Response
         }
 
         if (false === in_array($this->response->getStatus(), $this->allowedHttpStatusCodes)) {
-            Mage::getModel('fraisrconnect/log')
-                ->setTitle('Wrong API Response Code | Detailed Response')
-                ->setMessage($this->response->getBody())
-                ->logError();
+            $fraisrErrorMessage = '';
+            $jsonData = Zend_Json::decode($this->response->getBody());
+            if (true === is_array($jsonData)
+                && true === array_key_exists('error', $jsonData)
+                && true === array_key_exists('message', $jsonData['error'])) {
+                $fraisrErrorMessage = $helper->__(
+                    'fraisr error message: "%s".',
+                    $jsonData['error']['message']
+                );
+            }
 
             throw new Fraisr_Connect_Model_Api_Exception(
                 $helper->__(
                     'Api response code is "%s" instead of "%s".',
                     $this->response->getStatus(),
                     implode(',', $this->allowedHttpStatusCodes)
-                )
+                ).$fraisrErrorMessage,
+                $this->response->getStatus()
             );
         }
     }

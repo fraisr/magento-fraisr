@@ -111,4 +111,60 @@ class Fraisr_Connect_Helper_Synchronisation_Product extends Mage_Core_Helper_Abs
                 array('gt' => 0)
             ); //Only products which are marked as to update (iterations > 0)
     }
+
+    /**
+     * Mark a product as synchronized
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @return void
+     */
+    public function markAsSynchronized($product)
+    {
+        $product
+            ->setFraisrUpdate(0)
+            ->getResource()
+            ->saveAttribute($product, 'fraisr_update');
+    }
+
+    /**
+     * Descrease the synchronisation iterations by 1
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @return void
+     */
+    public function decreaseSyncIteration($product)
+    {
+        $fraisrUpdate = $product->getFraisrUpdate() - 1;
+        if ($fraisrUpdate < 0) {
+            $fraisrUpdate = 0;
+        }
+        $product
+            ->setFraisrUpdate($fraisrUpdate)
+            ->getResource()
+            ->saveAttribute($product, 'fraisr_update');
+    }
+
+    /**
+     * Build syncronisation report details
+     * 
+     * @param array $report
+     * @return string
+     */
+    public function buildSyncReportDetails($reports)
+    {
+        //Return empty string if report is empty
+        if (0 == count($reports)) {
+            return '';
+        }
+
+        //Build message
+        $reportMessage = '';
+        foreach ($reports as $report) {
+            foreach ($report as $key => $value) {
+                $reportMessage .= sprintf('["%s":"%s"]', $key, $value);
+            }
+            $reportMessage .= "\n";
+        }
+        return $reportMessage;
+    }
 }

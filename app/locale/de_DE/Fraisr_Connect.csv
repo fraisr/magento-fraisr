@@ -73,3 +73,4 @@
 "%s product(s) were successfully marked as to synchronize (create/update) to fraisr.","%s Produkt(e) wurden erfolgreich zur fraisr-Sychronisierung (Hinzufügen/Aktualisieren) markiert."
 "%s product(s) were successfully marked as to synchronize (delete) to fraisr.","%s Produkt(e) wurden erfolgreich zur fraisr-Sychronisierung (Löschen) markiert."
 "%s product(s) are waiting in the queue to be deleted in fraisr.","%s Produkt(e) befinden sich in der Warteschleife um in fraisr gelöscht zu werden."
+"fraisr error message: ""%s"".","fraisr Fehlernachricht: ""%s""."
