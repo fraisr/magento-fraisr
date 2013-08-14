@@ -23,8 +23,13 @@
  * @package    Fraisr_Connect
  * @author     André Herrn <andre.herrn@das-medienkombinat.de>
  */
-class Fraisr_Connect_Helper_Synchronisation_Product extends Mage_Core_Helper_Abstract
+class Fraisr_Connect_Helper_Synchronisation_Product extends Fraisr_Connect_Helper_Data
 {
+    /**
+     * @const CRON_TASK_ADDITIONAL_MINUTES Continue cron task will start in x minutes
+     */
+    const CRON_TASK_ADDITIONAL_MINUTES = 15;
+
     /**
     * Calculate price and special price information
     * 
@@ -202,5 +207,40 @@ class Fraisr_Connect_Helper_Synchronisation_Product extends Mage_Core_Helper_Abs
             $maxExecutionTime = INF;
         }
         return $maxExecutionTime;
+    }
+
+    /**
+     * Create a new product synchronisation cron task to continue the previous one (+x minutes)
+     *
+     * @param Mage_Cron_Model_Schedule $observer
+     * @return Mage_Cron_Core_Schedule
+     */
+    public function createProductSyncCronTask($observer)
+    {
+        //Check if the $observer consists the necessary data and has the correct jobCode
+        if ('fraisrconnect_synchronisation_products' != $observer->getJobCode()) {
+            throw new Fraisr_Connect_Exception(
+                $this->__('Observer job code is missing.')
+            );
+        }
+
+        //Create new cron schedule
+        $schedule = Mage::getModel('cron/schedule');
+        $schedule
+            ->setJobCode($observer->getJobCode())
+            ->setStatus(Mage_Cron_Model_Schedule::STATUS_PENDING)
+            ->setScheduledAt(
+                date(
+                    'Y-m-d H:i:s',
+                    strtotime($schedule->getScheduledAt(). ' + '.self::CRON_TASK_ADDITIONAL_MINUTES.' minutes')
+                )
+            )
+            ->setMessages($this->__(
+                'This schedule was created to continue %s (schedule_id)',
+                $observer->getScheduleId())
+            )
+            ->save();
+
+        return $schedule;
     }
 }

@@ -57,7 +57,14 @@ class Fraisr_Connect_Adminhtml_SynchronisationController extends Mage_Adminhtml_
     public function causeAction()
     {
         if (true === Mage::helper('fraisrconnect/adminhtml_data')->isActive(true)) {
-            Mage::getModel('fraisrconnect/observer')->synchronizeCauses();
+            //Retrieve and save causes
+            Mage::getModel('fraisrconnect/cause')->synchronize();
+
+            /**
+             * Check if products exists which causes doesn't exist anymore
+             * If some were find, set 'fraisr_enabled' to false
+             */
+            Mage::getModel('fraisrconnect/cause')->productCheck();
         }
 
         $this->_redirectReferer();
@@ -72,7 +79,7 @@ class Fraisr_Connect_Adminhtml_SynchronisationController extends Mage_Adminhtml_
     public function categoryAction()
     {
         if (true === Mage::helper('fraisrconnect/adminhtml_data')->isActive(true)) {
-            Mage::getModel('fraisrconnect/observer')->synchronizeCategories();
+            Mage::getModel('fraisrconnect/category')->synchronize();
         }
 
         $this->_redirectReferer();
@@ -109,7 +116,7 @@ class Fraisr_Connect_Adminhtml_SynchronisationController extends Mage_Adminhtml_
     public function markProductAction()
     {
         if (true === Mage::helper('fraisrconnect/adminhtml_data')->isActive(true)) {
-            Mage::getModel('fraisrconnect/observer')->markProductsAsToSynchronize();
+            Mage::getModel('fraisrconnect/product')->markProductsAsToSynchronize();
         }
 
         $this->_redirectReferer();

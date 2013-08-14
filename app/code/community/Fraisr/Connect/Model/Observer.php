@@ -27,10 +27,11 @@ class Fraisr_Connect_Model_Observer
     /**
      * Initiate cause synchronisation
      * & check for products with non-existing causes
-     * 
+     *
+     * @param  Mage_Cron_Model_Schedule $observer
      * @return void
      */
-    public function synchronizeCauses()
+    public function synchronizeCauses($observer)
     {
         //Check if extension is active
         if (false === Mage::helper('fraisrconnect/adminhtml_data')->isActive(false)) {
@@ -49,10 +50,11 @@ class Fraisr_Connect_Model_Observer
 
     /**
      * Initiate category synchronisation
-     * 
+     *
+     * @param  Mage_Cron_Model_Schedule $observer
      * @return void
      */
-    public function synchronizeCategories()
+    public function synchronizeCategories($observer)
     {
         //Check if extension is active
         if (false === Mage::helper('fraisrconnect/adminhtml_data')->isActive(false)) {
@@ -63,10 +65,11 @@ class Fraisr_Connect_Model_Observer
 
     /**
      * Initiate product synchronisation
-     * 
+     *
+     * @param  Mage_Cron_Model_Schedule $observer
      * @return void
      */
-    public function synchronizeProducts()
+    public function synchronizeProducts($observer)
     {
         //Check if extension is active
         if (false === Mage::helper('fraisrconnect/adminhtml_data')->isActive(false)) {
@@ -77,29 +80,46 @@ class Fraisr_Connect_Model_Observer
         $productSyncronisation = Mage::getModel('fraisrconnect/product');
         $productSyncronisation->synchronize();
 
-        //Check if product synchronisation is complete, if not add a next cronjob task manually
-        if (false === $productSyncronisation->isSynchronisationComplete()) {
-            //Add a next cronjob task
-            //TODO: Add next crontask
-            
-            //Log about adding a next cronjob task
+        try {
+            //Check if product synchronisation is complete, if not add a next cronjob task manually
+            if (false === $productSyncronisation->isSynchronisationComplete()) {
+                //Add a next cronjob task
+                $cronTask = Mage::helper('fraisrconnect/synchronisation_product')->createProductSyncCronTask(
+                    $observer
+                );
+                
+                //Log about adding a next cronjob task
+                $logTitle = Mage::helper('fraisrconnect/data')->__(
+                    'Not all products have been synchronized because of a transmission error or a script timeout. Therefore another cron task was added for GMT-Datetime %s.',
+                    $cronTask->getScheduledAt()
+                );
+                Mage::getModel('fraisrconnect/log')
+                    ->setTitle($logTitle)
+                    ->setTask(Fraisr_Connect_Model_Log::LOG_TASK_PRODUCT_SYNC)
+                    ->logNotice();
+            }
+        } catch (Exception $e) {
+            //Log error title
             $logTitle = Mage::helper('fraisrconnect/data')->__(
-                'Not all products have been synchronized because of a transmission error or a script timeout. Therefore another cron task was added for %s.',
-                'xxxx' //TODO: Add correct new cronjob task time here
+                'An error occured during the creation of the following cron task for the product sychronisation with message: "%s".',
+                $e->getMessage()
             );
+
+            //Error message that the next crontask may could not be added
             Mage::getModel('fraisrconnect/log')
-                ->setTitle($message)
+                ->setTitle($logTitle)
                 ->setTask(Fraisr_Connect_Model_Log::LOG_TASK_PRODUCT_SYNC)
-                ->logNotice();
+                ->logError();
         }
     }
 
     /**
      * Initiate mark products for synchronisation action
-     * 
+     *
+     * @param  Mage_Cron_Model_Schedule $observer
      * @return void
      */
-    public function markProductsAsToSynchronize()
+    public function markProductsAsToSynchronize($observer)
     {
         //Check if extension is active
         if (false === Mage::helper('fraisrconnect/adminhtml_data')->isActive(true)) {
@@ -111,7 +131,7 @@ class Fraisr_Connect_Model_Observer
     /**
      * Add a product to the fraisr delete queue
      *
-     * @param  Varien_Event_Observer $observer
+     * @param  Mage_Cron_Model_Schedule $observer
      * @return void
      */
     public function addProductToQueue($observer)

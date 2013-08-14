@@ -111,7 +111,7 @@ class Fraisr_Connect_Model_Product extends Mage_Core_Model_Abstract
         } catch (Exception $e) {
             $this->getAdminHelper()->logAndAdminOutputException(
                 $this->getAdminHelper()->__(
-                    'An unknown error during product synchronisation happened with message: "%s"',
+                    'An unknown error during product synchronisation happened with message: "%s".',
                     $e->getMessage()
                 ),
                 Fraisr_Connect_Model_Log::LOG_TASK_PRODUCT_SYNC,
