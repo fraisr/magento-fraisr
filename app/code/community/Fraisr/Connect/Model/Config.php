@@ -193,6 +193,9 @@ class Fraisr_Connect_Model_Config
 
         Mage::getModel('core/config')
             ->saveConfig('fraisrconnect/dynamic/products_to_delete', serialize($productsToDelete));
+
+        //Clean configuration cache - otherwise the queue will be not be used until next cache cleaning
+        Mage::app()->getCacheInstance()->cleanType('config');
     }
 
     /**
