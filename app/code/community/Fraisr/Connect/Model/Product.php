@@ -282,7 +282,11 @@ class Fraisr_Connect_Model_Product extends Mage_Core_Model_Abstract
         $requestData = array(
             'internalid'    => $product->getSku(),
             'name'          => $product->getName(),
-            'description'   => strip_tags($product->getDescription()),
+            'description'   => strip_tags(
+                                    $product->getData(
+                                        Mage::getModel('fraisrconnect/config')->getProductDescriptionAttribute()
+                                    )
+                                ),
             'category'      => $product->getFraisrCategory(),
             'url'           => $product->getProductUrl(false),
             'cause'         => $product->getFraisrCause(),

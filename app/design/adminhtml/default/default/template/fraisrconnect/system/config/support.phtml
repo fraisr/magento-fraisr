@@ -44,8 +44,17 @@
             <td>
                 <a href="mailto:<?php echo $this->getSupportEmail(); ?>?body=<?php echo rawurlencode(implode("\n", $bodyInfo)) ?>">
                     <?php echo $this->getSupportEmail() ?>
+                </a><br /><br />
+            </td>
+        </tr>
+        <tr>
+            <td><?php echo $this->__('Register'); ?>:</td>
+            <td>
+                <?php echo $this->__('Register yourself as a commercial to synchronize your articles by the Magento-extension with fraisr.'); ?><br />
+                <a href="<?php echo $this->getCommercialRegisterUrl(); ?>" target="_blank">
+                    <?php echo $this->__('Register'); ?>
                 </a>
-        </td>
+            </td>
         </tr>
     </tbody>
 </table>

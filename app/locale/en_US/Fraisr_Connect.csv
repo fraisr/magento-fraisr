@@ -84,3 +84,5 @@
 "The transmission of %s product(s) failed during fraisr synchronisation.","The transmission of %s product(s) failed during fraisr synchronisation."
 "Observer job code is missing.","Observer job code is missing."
 "An error occured during the creation of the following cron task for the product sychronisation with message: ""%s"".","An error occured during the creation of the following cron task for the product sychronisation with message: ""%s""."
+"Register yourself as a commercial to synchronize your articles by the Magento-extension with fraisr.","Register yourself as a commercial to synchronize your articles by the Magento-extension with fraisr."
+"Register","Register"

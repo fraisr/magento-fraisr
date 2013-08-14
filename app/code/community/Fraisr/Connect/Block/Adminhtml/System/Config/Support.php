@@ -90,6 +90,16 @@ class Fraisr_Connect_Block_Adminhtml_System_Config_Support
     }
 
     /**
+     * Get commercial register url
+     *
+     * @return string
+     */
+    public function getCommercialRegisterUrl()
+    {
+        return $this->getConfig()->getCommercialRegisterUrl();
+    }
+
+    /**
      * Get Config Model
      * 
      * @return Fraisr_Connect_Model_Config

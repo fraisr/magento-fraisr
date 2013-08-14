@@ -173,6 +173,7 @@
             </catalog_export>
             <static>
                 <support_email>support@fraisr.com</support_email>
+                <commercial_register_url>https://www.fraisr.com/register-business</commercial_register_url>
                 <api>
                     <live> </live>
                     <sandbox>https://fraisr-test.herokuapp.com/</sandbox>

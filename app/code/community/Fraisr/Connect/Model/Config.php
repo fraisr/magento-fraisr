@@ -76,6 +76,16 @@ class Fraisr_Connect_Model_Config
     }
 
     /**
+     * Get commercial register url
+     * 
+     * @return string
+     */
+    public function getCommercialRegisterUrl()
+    {
+        return (string) Mage::getStoreConfig('fraisrconnect/static/commercial_register_url');
+    }
+
+    /**
      * Get API URL depending on Sandbox/Live settings
      * 
      * @return string
@@ -151,6 +161,16 @@ class Fraisr_Connect_Model_Config
     public function getCatalogExportStoreId()
     {
         return (int) Mage::getStoreConfig('fraisrconnect/catalog_export/scope');
+    }
+
+    /**
+     * Get product attribute for fraisr description
+     * 
+     * @return string
+     */
+    public function getProductDescriptionAttribute()
+    {
+        return Mage::getStoreConfig('fraisrconnect/catalog_export/description_attribute');
     }
 
     /**
