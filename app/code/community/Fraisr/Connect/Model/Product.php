@@ -345,28 +345,36 @@ class Fraisr_Connect_Model_Product extends Mage_Core_Model_Abstract
             '%s product(s) were successfully added to fraisr.',
             (int) count($this->newProductsReport)
         );
-        Mage::getSingleton('adminhtml/session')->addNotice($newProductsMessage);
+        if (count($this->newProductsReport) > 0) {
+            Mage::getSingleton('adminhtml/session')->addNotice($newProductsMessage);
+        }
 
         //Add admin notice message about updated products
         $updatedProductsMessage = $this->getAdminHelper()->__(
             '%s product(s) were successfully updated in fraisr.',
             (int) count($this->updatedProductsReport)
         );
-        Mage::getSingleton('adminhtml/session')->addNotice($updatedProductsMessage);
+        if (count($this->updatedProductsReport) > 0) {
+            Mage::getSingleton('adminhtml/session')->addNotice($updatedProductsMessage);
+        }
 
         //Add admin notice message about deleted products
         $deletedProductsMessage = $this->getAdminHelper()->__(
             '%s product(s) were successfully deleted from fraisr.',
             (int) count($this->deletedProductsReport)
         );
-        Mage::getSingleton('adminhtml/session')->addNotice($deletedProductsMessage);
+        if (count($this->deletedProductsReport) > 0) {
+            Mage::getSingleton('adminhtml/session')->addNotice($deletedProductsMessage);
+        }
 
         //Add admin notice message about transmission failed products
         $failedProductsMessage = $this->getAdminHelper()->__(
             'The transmission of %s product(s) failed during fraisr synchronisation.',
             (int) count($this->failedProductsReport)
         );
-        Mage::getSingleton('adminhtml/session')->addNotice($failedProductsMessage);
+        if (count($this->failedProductsReport) > 0) {
+            Mage::getSingleton('adminhtml/session')->addNotice($failedProductsMessage);
+        }
 
         //Write detailed log report
         $logMessage = sprintf(
@@ -461,40 +469,35 @@ class Fraisr_Connect_Model_Product extends Mage_Core_Model_Abstract
                 $newAndUpdateFraisrProducts
             );
             //Success Message
-            $this->getAdminHelper()->logAndAdminOutputSuccess(
-                $this->getAdminHelper()->__(
-                    '%s product(s) were successfully marked as to synchronize (create/update) to fraisr.',
-                    count($newAndUpdateFraisrProducts)
-                ),
-                Fraisr_Connect_Model_Log::LOG_TASK_CAUSE_SYNC
-            );
+            if (count($newAndUpdateFraisrProducts) > 0) {
+                $this->getAdminHelper()->logAndAdminOutputSuccess(
+                    $this->getAdminHelper()->__(
+                        '%s product(s) were successfully marked as to synchronize (create/update) to fraisr.',
+                        count($newAndUpdateFraisrProducts)
+                    ),
+                    Fraisr_Connect_Model_Log::LOG_TASK_CAUSE_SYNC
+                );
+            }
 
             //Get product collection of to delete products
             $toDeleteProducts = Mage::helper('fraisrconnect/synchronisation_product')->getDeleteFraisrProducts();
+            //Get product collection of to delete products (from queue)
+            $toDeleteProductsByQueue = Mage::getModel('fraisrconnect/config')->getProductsFromDeleteQueue();
 
             //Mark as to synchronize
             Mage::helper('fraisrconnect/synchronisation_product')->markProductCollectionAsToSynchronize(
                 $toDeleteProducts
             );
             //Success Message
-            $this->getAdminHelper()->logAndAdminOutputSuccess(
-                $this->getAdminHelper()->__(
-                    '%s product(s) were successfully marked as to synchronize (delete) to fraisr.',
-                    count($toDeleteProducts)
-                ),
-                Fraisr_Connect_Model_Log::LOG_TASK_CAUSE_SYNC
-            );
-
-            //Get product collection of to delete products (from queue)
-            $toDeleteProductsByQueue = Mage::getModel('fraisrconnect/config')->getProductsFromDeleteQueue();
-            //Notice Message
-            $this->getAdminHelper()->logAndAdminOutputNotice(
-                $this->getAdminHelper()->__(
-                    '%s product(s) are waiting in the queue to be deleted in fraisr.',
-                    count($toDeleteProductsByQueue)
-                ),
-                Fraisr_Connect_Model_Log::LOG_TASK_CAUSE_SYNC
-            );
+            if ((count($toDeleteProducts) + count($toDeleteProductsByQueue)) > 0) {
+                $this->getAdminHelper()->logAndAdminOutputSuccess(
+                    $this->getAdminHelper()->__(
+                        '%s product(s) were successfully marked as to synchronize (delete) to fraisr.',
+                        count($toDeleteProducts) + count($toDeleteProductsByQueue)
+                    ),
+                    Fraisr_Connect_Model_Log::LOG_TASK_CAUSE_SYNC
+                );
+            }
         } catch (Exception $e) {
             $this->getAdminHelper()->logAndAdminOutputException(
                 $this->getAdminHelper()->__(
