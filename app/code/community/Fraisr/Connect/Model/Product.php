@@ -152,7 +152,8 @@ class Fraisr_Connect_Model_Product extends Mage_Core_Model_Abstract
                 }
 
                 //New product
-                if (true === is_null($product->getFraisrId())) {
+                if (true === is_null($product->getFraisrId())
+                    && 1 == $product->getFraisrEnabled()) {
                     $this->requestNewProduct($product);
                 }
 
