@@ -165,4 +165,15 @@ class Fraisr_Connect_Model_Log extends Mage_Core_Model_Abstract
             ->save();
         return $this;
     }
+
+    /**
+     * Rewrite save method to add the current GMT created_at date
+     * 
+     * @return Fraisr_Connect_Model_Log
+     */
+    public function save()
+    {
+        $this->setCreatedAt(Mage::getModel('core/date')->gmtDate());
+        return parent::save();
+    }
 }
