@@ -54,4 +54,37 @@ class Fraisr_Connect_Helper_Data extends Mage_Core_Helper_Abstract
         );
         return Zend_Json::encode($frontendSettings);
     }
+
+    /**
+     * Build hash for donation label iframe
+     *
+     * @param string $fraisrId
+     * @return string
+     */
+    public function buildIframeHash($fraisrId)
+    {
+        $config = Mage::getModel('fraisrconnect/config');
+
+        //Build hash array
+        $hashValues = array(
+            $config->getApiKey(),
+            $config->getApiSecret(),
+            $fraisrId,
+            Mage::getBaseUrl()
+        );
+
+        //Caclulate hash
+        $hash = hash("sha512", implode('|', $hashValues));
+
+        //Build base64-encoded hash
+        $base64Values = array(
+            $fraisrId,
+            Mage::getBaseUrl(),
+            $hash
+        );
+
+        return base64_encode(
+            implode('|', $base64Values)
+        );
+    }
 }

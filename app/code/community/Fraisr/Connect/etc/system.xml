@@ -116,7 +116,7 @@
                     </fields>
                 </catalog_export>
                 <frontend translate="label" module="fraisrconnect">
-                    <label>Frontend rendering</label>
+                    <label>Donation label product list</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>300</sort_order>
                     <show_in_default>1</show_in_default>
@@ -154,6 +154,36 @@
                         </banderole_position>
                     </fields>
                 </frontend>
+                <frontend_detailpage translate="label" module="fraisrconnect">
+                    <label>Donation label product view</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>400</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <area_top translate="label comment">
+                            <label>Top area</label>
+                            <comment><![CDATA[Show the donation label in the top area. The donation label will be included under the short description if the structure of the product detail page wasn't modified.]]></comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </area_top>
+                        <area_bottom translate="label comment">
+                            <label>Bottom area</label>
+                            <comment><![CDATA[Show the donation label in the bottom area. The donation label will be included above the additional informations if the structure of the product detail page wasn't modified.]]></comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>200</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </area_bottom>
+                    </fields>
+                </frontend_detailpage>
             </groups>
         </fraisrconnect>
     </sections>

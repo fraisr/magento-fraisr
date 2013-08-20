@@ -154,6 +154,20 @@ class Fraisr_Connect_Model_Config
     }
 
     /**
+     * Get donation label iframe url
+     *
+     * @param string $fraisrId
+     * @return string
+     */
+    public function getDonationLabelIframeUri($fraisrId = '')
+    {
+        return (string) sprintf(
+            Mage::getStoreConfig('fraisrconnect/static/api/donation_label_iframe'),
+            $fraisrId
+        );
+    }
+
+    /**
      * Get store id for the product synchronisation
      * 
      * @return int

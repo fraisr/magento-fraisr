@@ -176,15 +176,20 @@
                 <icon_position>top</icon_position>
                 <banderole_position>topleft</banderole_position>
             </frontend>
+            <frontend_detailpage>
+                <area_top>1</area_top>
+                <area_bottom>0</area_bottom>
+            </frontend_detailpage>
             <static>
                 <support_email>support@fraisr.com</support_email>
                 <commercial_register_url>https://www.fraisr.com/register-business</commercial_register_url>
                 <api>
-                    <live> </live>
+                    <live>https://fraisr.com/</live>
                     <sandbox>https://fraisr-test.herokuapp.com/</sandbox>
                     <cause>api/v1/causes</cause>
                     <category>api/v1/categories</category>
                     <product>api/v1/products/%s</product>
+                    <donation_label_iframe>de/trusted-shop/%s</donation_label_iframe>
                 </api>
             </static>
         </fraisrconnect>

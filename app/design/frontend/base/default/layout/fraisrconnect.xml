@@ -28,8 +28,40 @@
             <block
                 type="fraisrconnect/catalog_product_json_view"
                 name="fraisrconnect_catalog_product_json_view">
-                <action ifconfig="fraisrconnect/general/active" method="setTemplate">
+                <action
+                    ifconfig="fraisrconnect/general/active"
+                    method="setTemplate">
                     <template>fraisrconnect/catalog/product/json/view.phtml</template>
+                </action>
+            </block>
+        </reference>
+
+        <reference name="product.info">
+            <block
+                type="fraisrconnect/catalog_product_view_label"
+                name="fraisrconnect_catalog_product_view_label_top"
+                as="other">
+                <action
+                    ifconfig="fraisrconnect/frontend_detailpage/area_top"
+                    method="setTemplate">
+                    <template>fraisrconnect/catalog/product/view/label_top.phtml</template>
+                </action>
+            </block>
+
+            <block
+                type="fraisrconnect/catalog_product_view_label"
+                name="fraisrconnect_catalog_product_view_label_bottom"
+                as="fraisrconnect-catalog-product-view-label-bottom"
+                before="-">
+                <action
+                    method="addToParentGroup"
+                    ifconfig="fraisrconnect/frontend_detailpage/area_bottom">
+                    <group>detailed_info</group>
+                </action>
+                <action
+                    method="setTemplate"
+                    ifconfig="fraisrconnect/frontend_detailpage/area_bottom">
+                    <template>fraisrconnect/catalog/product/view/label_bottom.phtml</template>
                 </action>
             </block>
         </reference>
