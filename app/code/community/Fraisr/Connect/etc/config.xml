@@ -171,6 +171,11 @@
                 <scope>#global#</scope>
                 <description_attribute>description</description_attribute>
             </catalog_export>
+            <frontend>
+                <donation_label>icon</donation_label>
+                <icon_position>top</icon_position>
+                <banderole_position>topleft</banderole_position>
+            </frontend>
             <static>
                 <support_email>support@fraisr.com</support_email>
                 <commercial_register_url>https://www.fraisr.com/register-business</commercial_register_url>

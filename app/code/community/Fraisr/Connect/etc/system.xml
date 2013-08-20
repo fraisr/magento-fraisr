@@ -18,7 +18,7 @@
 -->
 <config>
     <sections>
-        <fraisrconnect translate="label"  module="fraisrconnect">
+        <fraisrconnect translate="label" module="fraisrconnect">
             <label>fraisr</label>
             <tab>service</tab>
             <sort_order>500</sort_order>
@@ -115,6 +115,45 @@
                         </description_attribute>
                     </fields>
                 </catalog_export>
+                <frontend translate="label" module="fraisrconnect">
+                    <label>Frontend rendering</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>300</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <donation_label translate="label comment">
+                            <label>Donation label</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>fraisrconnect/system_config_source_donationLabel</source_model>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </donation_label>
+                        <icon_position translate="label comment">
+                            <label>Icon position</label>
+                            <comment><![CDATA[This setup is used if "Donation label" is set to "Icon".]]></comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>fraisrconnect/system_config_source_iconPosition</source_model>
+                            <sort_order>200</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </icon_position>
+                        <banderole_position translate="label comment">
+                            <label>Banderole position</label>
+                            <comment><![CDATA[This setup is used if "Donation label" is set to "Banderole".]]></comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>fraisrconnect/system_config_source_banderolePosition</source_model>
+                            <sort_order>300</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </banderole_position>
+                    </fields>
+                </frontend>
             </groups>
         </fraisrconnect>
     </sections>

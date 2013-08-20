@@ -174,6 +174,54 @@ class Fraisr_Connect_Model_Config
     }
 
     /**
+     * Get donation label
+     * 
+     * @return string
+     */
+    public function getDonationLabel()
+    {
+        return Mage::getStoreConfig('fraisrconnect/frontend/donation_label');
+    }
+
+
+    /**
+     * Get donation label icon position
+     * 
+     * @return string
+     */
+    public function getDonationLabelIconPosition()
+    {
+        return Mage::getStoreConfig('fraisrconnect/frontend/icon_position');
+    }
+
+    /**
+     * Get donation label banderole position
+     * 
+     * @return string
+     */
+    public function getDonationLabelBanderolePosition()
+    {
+        return Mage::getStoreConfig('fraisrconnect/frontend/banderole_position');
+    }
+
+    /**
+     * Get donation label position
+     * 
+     * @return string
+     */
+    public function getDonationLabelPosition()
+    {
+        if (Fraisr_Connect_Model_System_Config_Source_DonationLabel::DONATION_LABEL_ICON 
+            == $this->getDonationLabel()) {
+            return $this->getDonationLabelIconPosition();
+        } elseif (Fraisr_Connect_Model_System_Config_Source_DonationLabel::DONATION_LABEL_BANDEROLE
+                  == $this->getDonationLabelBanderolePosition()) {
+            return $this->getDonationLabelIconPosition();
+        }
+        return '';
+    }
+
+    /**
      * Get fraisr product delete queue
      *
      * returns array(

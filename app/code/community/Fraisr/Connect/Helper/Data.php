@@ -40,4 +40,18 @@ class Fraisr_Connect_Helper_Data extends Mage_Core_Helper_Abstract
             'name' => $product->getName(),
         );
     }
+
+    /**
+     * Build fraisr frontend settings JSON
+     *
+     * @return string
+     */
+    public function getFraisrFrontendSettingsJson()
+    {
+        $frontendSettings = array(
+            'label' => Mage::getModel('fraisrconnect/config')->getDonationLabel(),
+            'position' => Mage::getModel('fraisrconnect/config')->getDonationLabelPosition()
+        );
+        return Zend_Json::encode($frontendSettings);
+    }
 }

@@ -38,7 +38,7 @@ class Fraisr_Connect_Model_System_Config_Source_ProductAttribute
         foreach($productAttributesCollection->getItems() as $productAttribute) {
             $productAttributes[] = array(
                 'value' => $productAttribute->getAttributeCode(),
-               'label' => $productAttribute->getFrontendLabel()
+                'label' => $productAttribute->getFrontendLabel()
             );
         }
         return $productAttributes;
