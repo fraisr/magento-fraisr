@@ -154,9 +154,19 @@ class Fraisr_Connect_Model_Observer
      */
     public function addFraisrIdToQuoteItem($observer)
     {
+        //Check if extension is active
+        if (false === Mage::helper('fraisrconnect/adminhtml_data')->isActive(false)) {
+            return;
+        }
+
         $event = $observer->getEvent();
         $quoteItem = $event->getQuoteItem();
-        $quoteItem->setFraisrProductId($quoteItem->getProduct()->getFraisrId());
+        $product = $quoteItem->getProduct();
+
+        if (false === is_null($product->getFraisrId())
+            && 1 == $product->getFraisrEnabled()) {
+            $quoteItem->setFraisrProductId($product->getFraisrId());
+        }
     }
 
     /**
@@ -167,6 +177,11 @@ class Fraisr_Connect_Model_Observer
      */
     public function addFraisrIdToOrderItem($observer)
     {
+        //Check if extension is active
+        if (false === Mage::helper('fraisrconnect/adminhtml_data')->isActive(false)) {
+            return;
+        }
+        
         $event = $observer->getEvent();
         $order_item = $event->getOrderItem();
         $order_item->setFraisrProductId($event->getItem()->getFraisrProductId());

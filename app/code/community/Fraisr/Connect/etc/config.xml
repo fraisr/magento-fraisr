@@ -189,6 +189,9 @@
                 <scope>#global#</scope>
                 <description_attribute>description</description_attribute>
             </catalog_export>
+            <order_export>
+                <synchroinisation_days>7</synchroinisation_days>
+            </order_export>
             <frontend>
                 <donation_label>icon</donation_label>
                 <icon_position>topleft</icon_position>
