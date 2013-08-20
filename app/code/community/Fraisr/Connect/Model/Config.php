@@ -215,8 +215,8 @@ class Fraisr_Connect_Model_Config
             == $this->getDonationLabel()) {
             return $this->getDonationLabelIconPosition();
         } elseif (Fraisr_Connect_Model_System_Config_Source_DonationLabel::DONATION_LABEL_BANDEROLE
-                  == $this->getDonationLabelBanderolePosition()) {
-            return $this->getDonationLabelIconPosition();
+                  == $this->getDonationLabel()) {
+            return $this->getDonationLabelBanderolePosition();
         }
         return '';
     }
