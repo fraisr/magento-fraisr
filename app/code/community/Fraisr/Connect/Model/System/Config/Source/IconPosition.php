@@ -25,14 +25,24 @@
 class Fraisr_Connect_Model_System_Config_Source_IconPosition
 {
     /**
-     * @const DONATION_LABEL_ICON_POSITION_TOP fraisr icon position top
+     * @const DONATION_LABEL_ICON_POSITION_TOPLEFT fraisr icon position topleft
      */
-    const DONATION_LABEL_ICON_POSITION_TOP = 'top';
+    const DONATION_LABEL_ICON_POSITION_TOPLEFT = 'topleft';
 
     /**
-     * @const DONATION_LABEL_ICON_POSITION_BOTTOM fraisr icon position bottom
+     * @const DONATION_LABEL_ICON_POSITION_TOPRIGHT fraisr icon position topright
      */
-    const DONATION_LABEL_ICON_POSITION_BOTTOM = 'bottom';
+    const DONATION_LABEL_ICON_POSITION_TOPRIGHT = 'topright';
+
+    /**
+     * @const DONATION_LABEL_ICON_POSITION_BOTTOMLEFT fraisr icon position bottomleft
+     */
+    const DONATION_LABEL_ICON_POSITION_BOTTOMLEFT = 'bottomleft';
+
+    /**
+     * @const DONATION_LABEL_ICON_POSITION_BOTTOMRIGHT fraisr icon position bottomright
+     */
+    const DONATION_LABEL_ICON_POSITION_BOTTOMRIGHT = 'bottomright';
 
     /**
      * @const DONATION_LABEL_ICON_POSITION_CENTER fraisr icon position center
@@ -49,12 +59,20 @@ class Fraisr_Connect_Model_System_Config_Source_IconPosition
         $iconPositionOptions = array();
 
         $iconPositionOptions[] = array(
-            'value' => self::DONATION_LABEL_ICON_POSITION_TOP,
-            'label' => Mage::helper('fraisrconnect/data')->__('Top')
+            'value' => self::DONATION_LABEL_ICON_POSITION_TOPLEFT,
+            'label' => Mage::helper('fraisrconnect/data')->__('Top left')
         );
         $iconPositionOptions[] = array(
-            'value' => self::DONATION_LABEL_ICON_POSITION_BOTTOM,
-            'label' => Mage::helper('fraisrconnect/data')->__('Bottom')
+            'value' => self::DONATION_LABEL_ICON_POSITION_TOPRIGHT,
+            'label' => Mage::helper('fraisrconnect/data')->__('Top right')
+        );
+        $iconPositionOptions[] = array(
+            'value' => self::DONATION_LABEL_ICON_POSITION_BOTTOMLEFT,
+            'label' => Mage::helper('fraisrconnect/data')->__('Bottom left')
+        );
+        $iconPositionOptions[] = array(
+            'value' => self::DONATION_LABEL_ICON_POSITION_BOTTOMRIGHT,
+            'label' => Mage::helper('fraisrconnect/data')->__('Bottom right')
         );
         $iconPositionOptions[] = array(
             'value' => self::DONATION_LABEL_ICON_POSITION_CENTER,

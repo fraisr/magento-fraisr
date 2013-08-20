@@ -173,8 +173,8 @@
             </catalog_export>
             <frontend>
                 <donation_label>icon</donation_label>
-                <icon_position>top</icon_position>
-                <banderole_position>topleft</banderole_position>
+                <icon_position>topleft</icon_position>
+                <banderole_position>top</banderole_position>
             </frontend>
             <frontend_detailpage>
                 <area_top>1</area_top>

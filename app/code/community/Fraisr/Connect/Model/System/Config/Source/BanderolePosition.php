@@ -25,24 +25,14 @@
 class Fraisr_Connect_Model_System_Config_Source_BanderolePosition
 {
     /**
-     * @const DONATION_LABEL_BANDEROLE_POSITION_TOPLEFT fraisr banderole position topleft
+     * @const DONATION_LABEL_BANDEROLE_POSITION_TOP fraisr banderole position top
      */
-    const DONATION_LABEL_BANDEROLE_POSITION_TOPLEFT = 'topleft';
+    const DONATION_LABEL_BANDEROLE_POSITION_TOP = 'top';
 
     /**
-     * @const DONATION_LABEL_BANDEROLE_POSITION_TOPRIGHT fraisr banderole position topright
+     * @const DONATION_LABEL_BANDEROLE_POSITION_BOTTOM fraisr banderole position bottom
      */
-    const DONATION_LABEL_BANDEROLE_POSITION_TOPRIGHT = 'topright';
-
-    /**
-     * @const DONATION_LABEL_BANDEROLE_POSITION_BOTTOMLEFT fraisr banderole position bottomleft
-     */
-    const DONATION_LABEL_BANDEROLE_POSITION_BOTTOMLEFT = 'bottomleft';
-
-    /**
-     * @const DONATION_LABEL_BANDEROLE_POSITION_BOTTOMRIGHT fraisr banderole position bottomright
-     */
-    const DONATION_LABEL_BANDEROLE_POSITION_BOTTOMRIGHT = 'bottomright';
+    const DONATION_LABEL_BANDEROLE_POSITION_BOTTOM = 'bottom';
 
     /**
      * @const DONATION_LABEL_BANDEROLE_POSITION_CENTER fraisr banderole position center
@@ -50,7 +40,7 @@ class Fraisr_Connect_Model_System_Config_Source_BanderolePosition
     const DONATION_LABEL_BANDEROLE_POSITION_CENTER = 'center';
 
     /**
-     * Get fraisr icon position source options
+     * Get fraisr banderole position source options
      * 
      * @return array
      */
@@ -59,20 +49,12 @@ class Fraisr_Connect_Model_System_Config_Source_BanderolePosition
         $banderolePositionOptions = array();
 
         $banderolePositionOptions[] = array(
-            'value' => self::DONATION_LABEL_BANDEROLE_POSITION_TOPLEFT,
-            'label' => Mage::helper('fraisrconnect/data')->__('Top left')
+            'value' => self::DONATION_LABEL_BANDEROLE_POSITION_TOP,
+            'label' => Mage::helper('fraisrconnect/data')->__('Top')
         );
         $banderolePositionOptions[] = array(
-            'value' => self::DONATION_LABEL_BANDEROLE_POSITION_TOPRIGHT,
-            'label' => Mage::helper('fraisrconnect/data')->__('Top right')
-        );
-        $banderolePositionOptions[] = array(
-            'value' => self::DONATION_LABEL_BANDEROLE_POSITION_BOTTOMLEFT,
-            'label' => Mage::helper('fraisrconnect/data')->__('Bottom left')
-        );
-        $banderolePositionOptions[] = array(
-            'value' => self::DONATION_LABEL_BANDEROLE_POSITION_BOTTOMRIGHT,
-            'label' => Mage::helper('fraisrconnect/data')->__('Bottom right')
+            'value' => self::DONATION_LABEL_BANDEROLE_POSITION_BOTTOM,
+            'label' => Mage::helper('fraisrconnect/data')->__('Bottom')
         );
         $banderolePositionOptions[] = array(
             'value' => self::DONATION_LABEL_BANDEROLE_POSITION_CENTER,
