@@ -19,7 +19,7 @@
 <config>
     <modules>
         <Fraisr_Connect>
-            <version>0.2.2</version>
+            <version>0.3.0</version>
         </Fraisr_Connect>
     </modules>
     <global>
@@ -70,6 +70,24 @@
                     </fraisr_add_product_to_queue>
                 </observers>
             </catalog_product_delete_before>
+            <sales_quote_add_item>
+                <observers>
+                    <fraisr_add_fraisrid_to_quote_item>
+                        <class>fraisrconnect/observer</class>
+                        <method>addFraisrIdToQuoteItem</method>
+                        <type>singleton</type>
+                    </fraisr_add_fraisrid_to_quote_item>
+                </observers>
+            </sales_quote_add_item>
+            <sales_convert_quote_item_to_order_item>
+                <observers>
+                    <fraisr_add_fraisrid_to_order_item>
+                        <class>fraisrconnect/observer</class>
+                        <method>addFraisrIdToOrderItem</method>
+                        <type>singleton</type>
+                    </fraisr_add_fraisrid_to_order_item>
+                </observers>
+            </sales_convert_quote_item_to_order_item>
         </events>
     </global>
     <frontend>

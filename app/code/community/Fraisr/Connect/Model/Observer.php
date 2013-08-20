@@ -145,4 +145,30 @@ class Fraisr_Connect_Model_Observer
             Mage::getModel('fraisrconnect/config')->addProductToDeleteQueue($product);
         }
     }
+
+    /**
+     * Add the fraisr_id to the fraisr_product_id element of the quote_item - object
+     *
+     * @param  Mage_Cron_Model_Schedule $observer
+     * @return void
+     */
+    public function addFraisrIdToQuoteItem($observer)
+    {
+        $event = $observer->getEvent();
+        $quoteItem = $event->getQuoteItem();
+        $quoteItem->setFraisrProductId($quoteItem->getProduct()->getFraisrId());
+    }
+
+    /**
+     * Add the fraisr_id to the fraisr_product_id element of the order_item - object
+     *
+     * @param  Mage_Cron_Model_Schedule $observer
+     * @return void
+     */
+    public function addFraisrIdToOrderItem($observer)
+    {
+        $event = $observer->getEvent();
+        $order_item = $event->getOrderItem();
+        $order_item->setFraisrProductId($event->getItem()->getFraisrProductId());
+    }
 }
