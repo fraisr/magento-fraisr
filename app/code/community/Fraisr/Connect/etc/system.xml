@@ -133,7 +133,7 @@
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
                         </order_status>
-                        <synchroinisation_days>
+                        <synchronisation_days>
                             <label>Recent days to synchronize</label>
                             <comment><![CDATA[All orders which were created and/or updated during the last defined days will be synchronized.]]></comment>
                             <frontend_type>text</frontend_type>
@@ -142,7 +142,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
-                        </synchroinisation_days>
+                        </synchronisation_days>
                     </fields>
                 </order_export>
                 <frontend translate="label" module="fraisrconnect">

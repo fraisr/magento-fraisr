@@ -106,3 +106,8 @@
 "Show the donation label in the top area. The donation label will be included under the short description if the structure of the product detail page wasn't modified.","Show the donation label in the top area. The donation label will be included under the short description if the structure of the product detail page wasn't modified."
 "Bottom area","Bottom area"
 "Show the donation label in the bottom area. The donation label will be included above the additional informations if the structure of the product detail page wasn't modified.","Show the donation label in the bottom area. The donation label will be included above the additional informations if the structure of the product detail page wasn't modified."
+"Synchronize orders","Synchronize orders"
+"Not all orders have been synchronized because of a transmission error or a script timeout. Please start the process again.","Not all orders have been synchronized because of a transmission error or a script timeout. Please start the process again."
+"Order synchronisation aborted with message: ""%s"".","Order synchronisation aborted with message: ""%s""."
+"An unknown error during order synchronisation happened with message: ""%s"".","An unknown error during order synchronisation happened with message: ""%s""."
+"FraisrOrderId was not given for new order request, order ""%s"" and item ""%s"".","FraisrOrderId was not given for new order request, order ""%s"" and item ""%s""."

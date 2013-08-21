@@ -19,7 +19,7 @@
 <config>
     <modules>
         <Fraisr_Connect>
-            <version>0.3.0</version>
+            <version>0.3.3</version>
         </Fraisr_Connect>
     </modules>
     <global>
@@ -177,6 +177,15 @@
                     <model>fraisrconnect/observer::synchronizeProducts</model>
                 </run>
             </fraisrconnect_synchronisation_products>
+            <!-- Orders synchronisation -->
+            <fraisrconnect_synchronisation_order>
+                <schedule>
+                    <cron_expr>0 4 * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>fraisrconnect/observer::synchronizeOrders</model>
+                </run>
+            </fraisrconnect_synchronisation_order>
         </jobs>
     </crontab>
     <default>
@@ -190,7 +199,7 @@
                 <description_attribute>description</description_attribute>
             </catalog_export>
             <order_export>
-                <synchroinisation_days>7</synchroinisation_days>
+                <synchronisation_days>7</synchronisation_days>
             </order_export>
             <frontend>
                 <donation_label>icon</donation_label>
@@ -210,6 +219,7 @@
                     <cause>api/v1/causes</cause>
                     <category>api/v1/categories</category>
                     <product>api/v1/products/%s</product>
+                    <order>/api/v1/orders/%s</order>
                     <donation_label_iframe>de/trusted-shop/%s</donation_label_iframe>
                 </api>
             </static>

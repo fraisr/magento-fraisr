@@ -141,14 +141,28 @@ class Fraisr_Connect_Model_Config
     /**
      * Get product api url
      *
-     * @param string $fraisrId
+     * @param string $fraisrProductId
      * @return string
      */
-    public function getProductApiUri($fraisrId = '')
+    public function getProductApiUri($fraisrProductId = '')
     {
         return (string) sprintf(
             Mage::getStoreConfig('fraisrconnect/static/api/product'),
-            $fraisrId
+            $fraisrProductId
+        );
+    }
+
+    /**
+     * Get order api url
+     *
+     * @param string $fraisrOrderId
+     * @return string
+     */
+    public function getOrderApiUri($fraisrOrderId = '')
+    {
+        return (string) sprintf(
+            Mage::getStoreConfig('fraisrconnect/static/api/order'),
+            $fraisrOrderId
         );
     }
 
@@ -174,6 +188,26 @@ class Fraisr_Connect_Model_Config
     public function getCatalogExportStoreId()
     {
         return (int) Mage::getStoreConfig('fraisrconnect/catalog_export/scope');
+    }
+
+    /**
+     * Get allowed order status for order synchronisation
+     * 
+     * @return array
+     */
+    public function getOrderExportOrderStatus()
+    {
+        return explode(',', Mage::getStoreConfig('fraisrconnect/order_export/order_status'));
+    }
+
+    /**
+     * Get days to check in past for order synchronisation
+     * 
+     * @return int
+     */
+    public function getOrderExportDays()
+    {
+        return (int) Mage::getStoreConfig('fraisrconnect/order_export/synchronisation_days');
     }
 
     /**

@@ -147,7 +147,7 @@ class Fraisr_Connect_Model_Observer
     }
 
     /**
-     * Add the fraisr_id to the fraisr_product_id element of the quote_item - object
+     * Add the fraisr_id to the fraisr_product_id column of the quote_item - object
      *
      * @param  Mage_Cron_Model_Schedule $observer
      * @return void
@@ -164,13 +164,17 @@ class Fraisr_Connect_Model_Observer
         $product = $quoteItem->getProduct();
 
         if (false === is_null($product->getFraisrId())
-            && 1 == $product->getFraisrEnabled()) {
+            && 1 == $product->getFraisrEnabled()
+            && false === is_null($product->getFraisrCause())
+            && false === is_null($product->getFraisrDonationPercentage())) {
             $quoteItem->setFraisrProductId($product->getFraisrId());
+            $quoteItem->setFraisrCauseId($product->getFraisrCause());
+            $quoteItem->setFraisrDonationPercentage($product->getFraisrDonationPercentage());
         }
     }
 
     /**
-     * Add the fraisr_id to the fraisr_product_id element of the order_item - object
+     * Add the fraisr_id to the fraisr_product_id column of the order_item - object
      *
      * @param  Mage_Cron_Model_Schedule $observer
      * @return void
@@ -185,5 +189,21 @@ class Fraisr_Connect_Model_Observer
         $event = $observer->getEvent();
         $order_item = $event->getOrderItem();
         $order_item->setFraisrProductId($event->getItem()->getFraisrProductId());
+        $order_item->setFraisrCauseId($event->getItem()->getFraisrCauseId());
+        $order_item->setFraisrDonationPercentage($event->getItem()->getFraisrDonationPercentage());
+    }
+
+    /**
+     * Initiate order synchronisation
+     *
+     * @param  Mage_Cron_Model_Schedule $observer
+     * @return void
+     */
+    public function synchronizeOrders($observer)
+    {
+        //Check if extension is active
+        if (false === Mage::helper('fraisrconnect/adminhtml_data')->isActive(false)) {
+            return;
+        }
     }
 }

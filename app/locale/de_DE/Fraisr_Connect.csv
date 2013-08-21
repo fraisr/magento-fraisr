@@ -106,3 +106,8 @@
 "Show the donation label in the top area. The donation label will be included under the short description if the structure of the product detail page wasn't modified.","Zeigt das Spendenlabel im oberen Bereich der Produktdetailseite. Sofern die Struktur der Produktdetailseite nicht verändert wurde, erfolgt die Platzierung des Spendenlabels unter der Kurzbeschreibung."
 "Bottom area","Unterer Bereich"
 "Show the donation label in the bottom area. The donation label will be included above the additional informations if the structure of the product detail page wasn't modified.","Zeigt das Spendenlabel im unteren Bereich der Produktdetailseite. Sofern die Struktur der Produktdetailseite nicht verändert wurde, erfolgt die Platzierung des Spendenlabels über der langen Produktbeschreibung."
+"Synchronize orders","Bestellungen synchronisieren"
+"Not all orders have been synchronized because of a transmission error or a script timeout. Please start the process again.","Wegen eines Übertragungsfehlers oder eines Script Timeouts konnten nicht alle Bestellungen synchronisiert werden. Bitte starten Sie die Synchronisierung erneut."
+"Order synchronisation aborted with message: ""%s"".","Die Bestellungs-Synchronisierung wurde abgebrochen: ""%s""."
+"An unknown error during order synchronisation happened with message: ""%s"".","Ein unbekannter Fehler ist während der Bestellungs-Synchronisierung aufgetreten: ""%s""."
+"FraisrOrderId was not given for new order request, order ""%s"" and item ""%s"".","Die fraisr-Bestellnummer wurde beim Anlegen einer neuen Bestellung nicht übermittelt, Bestellung ""%s"" und Produkt ""%s""."
