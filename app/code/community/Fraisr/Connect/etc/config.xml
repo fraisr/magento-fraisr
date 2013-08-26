@@ -180,7 +180,7 @@
             <!-- Orders synchronisation -->
             <fraisrconnect_synchronisation_orders>
                 <schedule>
-                    <cron_expr>0 11 * * *</cron_expr>
+                    <cron_expr>0 4 * * *</cron_expr>
                 </schedule>
                 <run>
                     <model>fraisrconnect/observer::synchronizeOrders</model>
