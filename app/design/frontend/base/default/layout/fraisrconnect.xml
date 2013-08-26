@@ -34,6 +34,13 @@
                     <template>fraisrconnect/catalog/product/json/view.phtml</template>
                 </action>
             </block>
+            <block
+                type="fraisrconnect/frontend_widget"
+                name="fraisrconnect_frontend_widget">
+                <action ifconfig="fraisrconnect/general/active" method="setTemplate">
+                    <template>fraisrconnect/frontend/widget.phtml</template>
+                </action>
+            </block>
         </reference>
 
         <reference name="product.info">
@@ -74,6 +81,13 @@
                 name="fraisrconnect_catalog_product_json_list">
                 <action ifconfig="fraisrconnect/general/active" method="setTemplate">
                     <template>fraisrconnect/catalog/product/json/list.phtml</template>
+                </action>
+            </block>
+            <block
+                type="fraisrconnect/frontend_widget"
+                name="fraisrconnect_frontend_widget">
+                <action ifconfig="fraisrconnect/general/active" method="setTemplate">
+                    <template>fraisrconnect/frontend/widget.phtml</template>
                 </action>
             </block>
         </reference>

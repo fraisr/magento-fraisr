@@ -181,6 +181,26 @@ class Fraisr_Connect_Model_Config
     }
 
     /**
+     * Get fraisr widget js uri
+     *
+     * @return string
+     */
+    public function getFrontendWidgetJsUri()
+    {
+        return $this->getApiUri().Mage::getStoreConfig('fraisrconnect/static/api/frontend_js');
+    }
+
+    /**
+     * Get fraisr widget css uri
+     *
+     * @return string
+     */
+    public function getFrontendWidgetCssUri()
+    {
+        return $this->getApiUri().Mage::getStoreConfig('fraisrconnect/static/api/frontend_css');
+    }
+
+    /**
      * Get store id for the product synchronisation
      * 
      * @return int
