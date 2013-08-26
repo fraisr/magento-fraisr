@@ -22,7 +22,7 @@
  * @package    Fraisr_Connect
  * @author     André Herrn <andre.herrn@das-medienkombinat.de>
  */
-class Fraisr_Connect_Helper_Synchronisation_Order extends Fraisr_Connect_Helper_Data
+class Fraisr_Connect_Helper_Synchronisation_Order extends Fraisr_Connect_Helper_Synchronisation_Abstract
 {
     /**
      * Get order item collection which has to be synchronized
@@ -46,7 +46,6 @@ class Fraisr_Connect_Helper_Synchronisation_Order extends Fraisr_Connect_Helper_
             ->addFieldToFilter('main_table.fraisr_product_id', array('notnull' => 'true'))
             ->addFieldToFilter('main_table.parent_item_id', array('null' => 'true'))
             ->addFieldToFilter('main_table.updated_at', array('gt' => $gmtDate))
-            ->addFieldToFilter('sales_order.status', array('in' => $config->getOrderExportOrderStatus()))
         ;
 
         //Join sales_order - table => necessary to filter for order_status and to get the increment_id
@@ -75,10 +74,46 @@ class Fraisr_Connect_Helper_Synchronisation_Order extends Fraisr_Connect_Helper_
      */
     public function getOrderItemQty($orderItem)
     {
-        return (int) ($orderItem->getQtyOrdered()
-            - $orderItem->getQtyRefunded()
-            - $orderItem->getQtyCanceled()
-        );
+        //reference ordered amount - depending on configuration ordered or invoiced items
+        if (true === Mage::getModel('fraisrconnect/config')->getOrderExportInvoiceReference()) {
+            return (int) ($orderItem->getQtyInvoiced() - $orderItem->getQtyRefunded());
+        } else {
+            return (int) ($orderItem->getQtyOrdered() - $orderItem->getQtyRefunded() - $orderItem->getQtyCanceled());
+        }
+    }
 
+    /**
+     * Create a new order synchronisation cron task to continue the previous one (+x minutes)
+     *
+     * @param Mage_Cron_Model_Schedule $observer
+     * @return Mage_Cron_Core_Schedule
+     */
+    public function createOrderSyncCronTask($observer)
+    {
+        //Check if the $observer consists the necessary data and has the correct jobCode
+        if ('fraisrconnect_synchronisation_orders' != $observer->getJobCode()) {
+            throw new Fraisr_Connect_Exception(
+                $this->__('Observer job code is missing.')
+            );
+        }
+
+        //Create new cron schedule
+        $schedule = Mage::getModel('cron/schedule');
+        $schedule
+            ->setJobCode($observer->getJobCode())
+            ->setStatus(Mage_Cron_Model_Schedule::STATUS_PENDING)
+            ->setScheduledAt(
+                date(
+                    'Y-m-d H:i:s',
+                    strtotime($schedule->getScheduledAt(). ' + '.self::CRON_TASK_ADDITIONAL_MINUTES.' minutes')
+                )
+            )
+            ->setMessages($this->__(
+                'This schedule was created to continue %s (schedule_id)',
+                $observer->getScheduleId())
+            )
+            ->save();
+
+        return $schedule;
     }
 }

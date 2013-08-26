@@ -211,6 +211,16 @@ class Fraisr_Connect_Model_Config
     }
 
     /**
+     * Check if invoice item amount should be taken as reference instead of order item amount
+     * 
+     * @return boolean
+     */
+    public function getOrderExportInvoiceReference()
+    {
+        return (1 ==  Mage::getStoreConfig('fraisrconnect/order_export/invoice_items'));
+    }
+
+    /**
      * Get product attribute for fraisr description
      * 
      * @return string

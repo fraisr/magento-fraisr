@@ -138,6 +138,10 @@ class Fraisr_Connect_Adminhtml_SynchronisationController extends Mage_Adminhtml_
                 Mage::getSingleton('adminhtml/session')->addWarning(
                     Mage::helper('fraisrconnect/data')->__('Not all orders have been synchronized because of a transmission error or a script timeout. Please start the process again.')
                 );
+            } else {
+                Mage::getSingleton('adminhtml/session')->addSuccess(
+                    Mage::helper('fraisrconnect/data')->__('fraisr order synchronisation completed.')
+                );
             }
         }
 

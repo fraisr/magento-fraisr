@@ -86,7 +86,7 @@
                     </fields>
                 </general>
                 <catalog_export>
-                    <label>Catalog export</label>
+                    <label>Product synchronisation</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>200</sort_order>
                     <show_in_default>1</show_in_default>
@@ -116,7 +116,7 @@
                     </fields>
                 </catalog_export>
                 <order_export>
-                    <label>Order export</label>
+                    <label>Order synchronisation</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>250</sort_order>
                     <show_in_default>1</show_in_default>
@@ -124,8 +124,8 @@
                     <show_in_store>0</show_in_store>
                     <fields>
                         <order_status translate="label comment">
-                            <label>Order status</label>
-                            <comment><![CDATA[Only orders with this status will be synchronized.]]></comment>
+                            <label>Order status (new orders)</label>
+                            <comment><![CDATA[Only orders with this status will be added in fraisr.]]></comment>
                             <frontend_type>multiselect</frontend_type>
                             <source_model>Mage_Adminhtml_Model_System_Config_Source_Order_Status</source_model>
                             <sort_order>100</sort_order>
@@ -143,6 +143,16 @@
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
                         </synchronisation_days>
+                        <invoice_items translate="label comment">
+                            <label>Invoice items</label>
+                            <comment>If activated invoice item amount will be taken as reference instead of order item amount.</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>300</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </invoice_items>
                     </fields>
                 </order_export>
                 <frontend translate="label" module="fraisrconnect">

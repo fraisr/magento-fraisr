@@ -205,5 +205,41 @@ class Fraisr_Connect_Model_Observer
         if (false === Mage::helper('fraisrconnect/adminhtml_data')->isActive(false)) {
             return;
         }
+
+        //Trigger order synchronisation
+        $orderSyncronisation = Mage::getModel('fraisrconnect/order');
+        $orderSyncronisation->synchronize();
+
+        try {
+            //Check if order synchronisation is complete, if not add a next cronjob task manually
+            if (false === $orderSyncronisation->isSynchronisationComplete()) {
+                //Add a next cronjob task
+                $cronTask = Mage::helper('fraisrconnect/synchronisation_order')->createOrderSyncCronTask(
+                    $observer
+                );
+                
+                //Log about adding a next cronjob task
+                $logTitle = Mage::helper('fraisrconnect/data')->__(
+                    'Not all orders have been synchronized because of a transmission error or a script timeout. Therefore another cron task was added for GMT-Datetime %s.',
+                    $cronTask->getScheduledAt()
+                );
+                Mage::getModel('fraisrconnect/log')
+                    ->setTitle($logTitle)
+                    ->setTask(Fraisr_Connect_Model_Log::LOG_TASK_ORDER_SYNC)
+                    ->logNotice();
+            }
+        } catch (Exception $e) {
+            //Log error title
+            $logTitle = Mage::helper('fraisrconnect/data')->__(
+                'An error occured during the creation of the following cron task for the order sychronisation with message: "%s".',
+                $e->getMessage()
+            );
+
+            //Error message that the next crontask may could not be added
+            Mage::getModel('fraisrconnect/log')
+                ->setTitle($logTitle)
+                ->setTask(Fraisr_Connect_Model_Log::LOG_TASK_ORDER_SYNC)
+                ->logError();
+        }
     }
 }

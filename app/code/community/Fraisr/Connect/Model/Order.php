@@ -45,6 +45,13 @@ class Fraisr_Connect_Model_Order extends Mage_Core_Model_Abstract
     protected $updatedOrdersReport = array();
 
     /**
+     * collection of updated orders
+     * 
+     * @var array
+     */
+    protected $deletedOrdersReport = array();
+
+    /**
      * collection of transmission failed orders
      * 
      * @var array
@@ -80,7 +87,7 @@ class Fraisr_Connect_Model_Order extends Mage_Core_Model_Abstract
             $this->synchronizeOrders();
 
             //Set synchronisation as finished if runtime is not exceeded
-            if (false === Mage::helper('fraisrconnect/synchronisation_product')
+            if (false === Mage::helper('fraisrconnect/synchronisation_order')
                         ->isRuntimeExceeded($this->synchronisationStartTime)) {
                 $this->synchronisationFinished = true;
             }
@@ -105,7 +112,7 @@ class Fraisr_Connect_Model_Order extends Mage_Core_Model_Abstract
         }
 
         //Output order synchronisation report
-        //TODO REPORT
+        $this->outputSynchronisationReport();
     }
 
     /**
@@ -115,25 +122,52 @@ class Fraisr_Connect_Model_Order extends Mage_Core_Model_Abstract
      */
     public function synchronizeOrders()
     {
-        $orderItemsToSynchronize = Mage::helper('fraisrconnect/synchronisation_order')
-            ->getOrderItemsToSynchronize();
+        $orderSyncHelper = Mage::helper('fraisrconnect/synchronisation_order');
+        $config = Mage::getModel('fraisrconnect/config');
+        $orderItemsToSynchronize = $orderSyncHelper->getOrderItemsToSynchronize();
 
         //Loop through every order
         foreach ($orderItemsToSynchronize as $orderItem) {
-            //Validate order/order_item
-            if (false === $this->isOrderItemValid($orderItem)) {
-                continue;
+            try {
+                //Validate order/order_item
+                if (false === $this->isOrderItemValid($orderItem)) {
+                    continue;
+                }
+
+                /**
+                 * New order
+                 *
+                 * Only if fraisr_order_id is empty (only the case if the order was not transmitted as a new order)
+                 * AND the status is one of the allowed status for new orders
+                 */
+                if (true === is_null($orderItem->getFraisrOrderId())
+                    && true === in_array($orderItem->getData('status'), $config->getOrderExportOrderStatus())) {
+                    $this->requestNewOrder($orderItem);
+                }
+
+                /**
+                 * Update order
+                 *
+                 * Only if fraisr_order_id exists (only the case if the order was once transmitted as a new order)
+                 * AND the transmitted fraisr_qty_ordered is different from the current calculated amount
+                 */
+                if (false === is_null($orderItem->getFraisrOrderId())
+                    && $orderItem->getFraisrQtyOrdered() != $orderSyncHelper->getOrderItemQty($orderItem)) {
+                    $this->requestUpdateOrder($orderItem);
+                }
+            } catch (Fraisr_Connect_Model_Api_Exception $e) {
+                $logDetails = $this->prepareOrderRequestData($orderItem);
+                $logDetails['fraisr_order_id'] = $orderItem->getFraisrOrderId();
+                $logDetails['error_message'] = $e->getMessage();
+
+                //Add item to failed order list
+                $this->failedOrdersReport[] = $logDetails;
             }
 
-            //New order
-            if (true === is_null($orderItem->getFraisrOrderId())) {
-                $this->requestNewOrder($orderItem);
-                exit("new order");
-            }
-
-            //Update order
-            if (false === is_null($orderItem->getFraisrOrderId())) {
-                var_dump("update order");
+            //Check if the script runtime is already close to exceed
+            if (true === $orderSyncHelper->isRuntimeExceeded($this->synchronisationStartTime)) {
+                //Break the loop, stop the syncronisation and return
+                return;
             }
         }
     }
@@ -197,6 +231,11 @@ class Fraisr_Connect_Model_Order extends Mage_Core_Model_Abstract
     {
         $orderRequestData = $this->prepareOrderRequestData($orderItem);
 
+        //If amount is not greater then 0 -> continue
+        if ($orderRequestData['amount'] < 1) {
+            return;
+        }
+
         $reponse = Mage::getModel('fraisrconnect/api_request')->requestPost(
             Mage::getModel('fraisrconnect/config')->getOrderApiUri(),
             $orderRequestData
@@ -222,8 +261,120 @@ class Fraisr_Connect_Model_Order extends Mage_Core_Model_Abstract
         //Add order_id to success list
         $this->newOrdersReport[] = array(
             'magento_order_id' => $orderItem->getIncrementId(),
-            'fraisr_order_id' => $orderItem->getFraisrProductId()
+            'fraisr_order_id' => $orderItem->getFraisrOrderId(),
+            'product' => $orderRequestData['product'],
+            'amount' => $orderRequestData['amount'],
+            'price' => $orderRequestData['price'],
+            'donation' => $orderRequestData['donation'],
+            'cause' => $orderRequestData['cause']
         );
+    }
+
+    /**
+     * Trigger update order request and save new fraisr_qty_ordered
+     * 
+     * @param  Mage_Sales_Model_Order_Item $orderItem
+     * @return void
+     */
+    protected function requestUpdateOrder($orderItem)
+    {
+        $amount = Mage::helper('fraisrconnect/synchronisation_order')->getOrderItemQty($orderItem);
+
+        $reponse = Mage::getModel('fraisrconnect/api_request')->requestPut(
+            Mage::getModel('fraisrconnect/config')->getOrderApiUri(
+                $orderItem->getFraisrOrderId()
+            ),
+            array('amount' => $amount)
+        );
+
+        //Save FraisrQtyOrdered
+        $orderItem
+            ->setFraisrQtyOrdered($amount)
+            ->save();
+
+        if ($amount > 0) {
+            //Add order_id to update success list
+            $this->updatedOrdersReport[] = array(
+                'magento_order_id' => $orderItem->getIncrementId(),
+                'fraisr_order_id' => $orderItem->getFraisrOrderId(),
+                'amount' => $amount,
+            );
+        } else {
+            //Add order_id to delete success list
+            $this->deletedOrdersReport[] = array(
+                'magento_order_id' => $orderItem->getIncrementId(),
+                'fraisr_order_id' => $orderItem->getFraisrProductId(),
+                'amount' => $amount,
+            );
+        }
+    }
+
+    /**
+     * Output order synchronisation report
+     *
+     * Write admin notification messages
+     * And generate an overview log entry
+     * 
+     * @return void
+     */
+    protected function outputSynchronisationReport()
+    {
+        //Add admin notice message about new added orders
+        $newOrdersMessage = $this->getAdminHelper()->__(
+            '%s order(s) were successfully added to fraisr.',
+            (int) count($this->newOrdersReport)
+        );
+        if (count($this->newOrdersReport) > 0) {
+            Mage::getSingleton('adminhtml/session')->addNotice($newOrdersMessage);
+        }
+
+        //Add admin notice message about updated orders
+        $updatedOrdersMessage = $this->getAdminHelper()->__(
+            '%s order(s) were successfully updated in fraisr.',
+            (int) count($this->updatedOrdersReport)
+        );
+        if (count($this->updatedOrdersReport) > 0) {
+            Mage::getSingleton('adminhtml/session')->addNotice($updatedOrdersMessage);
+        }
+
+        //Add admin notice message about deleted orders
+        $deletedOrdersMessage = $this->getAdminHelper()->__(
+            '%s order(s) were successfully deleted from fraisr.',
+            (int) count($this->deletedOrdersReport)
+        );
+        if (count($this->deletedOrdersReport) > 0) {
+            Mage::getSingleton('adminhtml/session')->addNotice($deletedOrdersMessage);
+        }
+
+        //Add admin notice message about transmission failed orders
+        $failedOrdersMessage = $this->getAdminHelper()->__(
+            'The transmission of %s order(s) failed during fraisr synchronisation.',
+            (int) count($this->failedOrdersReport)
+        );
+        if (count($this->failedOrdersReport) > 0) {
+            Mage::getSingleton('adminhtml/session')->addNotice($failedOrdersMessage);
+        }
+
+        //Write detailed log report
+        $logMessage = sprintf(
+            "#%s\n%s\n\n"
+            ."#%s\n%s\n\n"
+            ."#%s\n%s\n\n"
+            ."#%s\n%s\n\n",
+            $newOrdersMessage,
+            Mage::helper('fraisrconnect/synchronisation_order')->buildSyncReportDetails($this->newOrdersReport),
+            $updatedOrdersMessage,
+            Mage::helper('fraisrconnect/synchronisation_order')->buildSyncReportDetails($this->updatedOrdersReport),
+            $deletedOrdersMessage,
+            Mage::helper('fraisrconnect/synchronisation_order')->buildSyncReportDetails($this->deletedOrdersReport),
+            $failedOrdersMessage,
+            Mage::helper('fraisrconnect/synchronisation_order')->buildSyncReportDetails($this->failedOrdersReport)
+        );
+        Mage::getModel('fraisrconnect/log')
+            ->setTitle($this->getAdminHelper()->__('Order synchronisation report'))
+            ->setMessage($logMessage)
+            ->setTask(Fraisr_Connect_Model_Log::LOG_TASK_ORDER_SYNC)
+            ->logNotice();
     }
 
     /**
