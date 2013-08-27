@@ -26,7 +26,7 @@ Extension zur Anbindung von Magento an den fraisr-Marktplatz
 
    PageBreak
 
-.. contents:: fraisr - Benutzerdokumentation
+.. contents:: Inhaltsverzeichnis
 
 .. raw:: pdf
 
@@ -53,7 +53,7 @@ Server
 ------
 
 Die Anforderungen der Extension an den Server sind identisch zu den 
-Magento-Voraussetzungen (http://www.magentocommerce.com/system-requirements).
+Magento-Server-Voraussetzungen (siehe http://www.magentocommerce.com/system-requirements).
 
 Auszug:
 
@@ -121,7 +121,7 @@ Basiskonfiguration
 
    * - Sandbox
 
-     - Sofern aktiviert werden alle Aktionen gegen die Sandbox-API ausgeführt. Damit lässt sich die Integration und Funktionalität der Extension im Shop überprüfen. Die Zugangsdaten zur Sandbox sind identisch mit denen der Live-Umgebung. Eine Freischaltung zur Sandbox-Umgebung erfolgt auf Anfrage beim fraisr-Support.
+     - Sofern aktiviert, werden alle Aktionen gegen die Sandbox-API ausgeführt. Damit lässt sich die Integration und Funktionalität der Extension im Shop überprüfen. Die Zugangsdaten zur Sandbox sind identisch mit denen der Live-Umgebung. Eine Freischaltung zur Sandbox-Umgebung erfolgt auf Anfrage beim fraisr-Support.
 
    * - Key
 
@@ -161,10 +161,11 @@ Produkt-Synchronisierung
 Bestellungs-Synchronisierung
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. figure:: images/screenshots/configarea_frontend.png
+.. figure:: images/screenshots/configarea_order_sync.png
    :width: 12cm
 
-   Bestellungs-Synchronisierung
+   Spendenlabel Bestellungs-Synchronisierung
+
 
 .. list-table:: Bestellungs-Synchronisierung
    :widths: 15 40
@@ -179,7 +180,7 @@ Bestellungs-Synchronisierung
      - Nur Bestellungen mit diesem Bestellstatus werden als "neu" erkannt und an fraisr übertragen. Auf eine Zahlung wartende Bestellungen können so von der Synchronisierung ausgeschlossen werden. Für die Aktualisierung und Stornierung (Löschung) von Bestellungen ist diese Einstellung nicht mehr relevant.
 
 
-   * - Tage (Synchronisierungs-Zeitraum)
+   * - Tage (Synchronisierungs - Zeitraum)
 
      - Hier kann festgelegt werden, in welchem Zeitraum die Extension nach zu synchronisierenden Bestellungen filtern soll. In der Standardeinstellung "7" wird für die letzten 7 Tage nach zu synchronisierenden Bestellungen gesucht. Als Referenz gilt das Erstellungs- bzw. Aktualisierungsdatum der Bestellungen. Dieser Zeitraum ist ausreichend, sofern die Bestellungs-Synchronisierung mindestens einmal täglich (z.B. durch den Cronjob) durchgeführt wird.
 
@@ -190,10 +191,11 @@ Bestellungs-Synchronisierung
 Spendenlabel Produktübersicht
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. figure:: images/screenshots/configarea_frontend_product_detail.png
+.. figure:: images/screenshots/configarea_frontend.png
    :width: 12cm
 
    Spendenlabel Produktübersicht
+
 
 .. list-table:: Spendenlabel Produktübersicht
    :widths: 15 40
@@ -219,10 +221,11 @@ Spendenlabel Produktübersicht
 Spendenlabel Produktdetailansicht
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. figure:: images/screenshots/configarea_order_sync.png
+.. figure:: images/screenshots/configarea_frontend_product_detail.png
    :width: 12cm
 
    Spendenlabel Produktdetailansicht
+
 
 .. list-table:: Spendenlabel Produktübersicht
    :widths: 15 40
@@ -259,10 +262,13 @@ Unter System -> "fraisr Protokoll" finden Sie alle Buttons um die Prozesse der S
 
 Dies empfiehlt sich im Besonderen bei der Inbetriebnahme oder bei Fehlern im Synchronisationsprozess.
 
+Zusätzlich finden Sie in der Liste ein Protokoll aller Synchronisierungs-Prozesse, unabhängig davon ob diese manuell oder automatisch
+ausgeführt wurden. Bei Fehlern können Sie beim Klick auf eine Meldung ggf. genauere Details erhalten.
+
 Synchronisation der Spendenpartner und Kategorien
 -------------------------------------------------
 
-Nach der Installation und Konfiguration der Extension erscheint beim Editieren eines Produkts im Backend der Hinweis,
+Nach der Installation und Konfiguration der Extension erscheint beim Bearbeiten eines Produkts im Backend der Hinweis,
 dass eine Synchronisierung der fraisr-Spendenpartner und fraisr-Kategorien notwendig ist.
 
 .. figure:: images/screenshots/product_edit_sync_notice.png
@@ -282,7 +288,7 @@ Spendenpartner
    Erfolgreiche Spendenpartner-Synchronisierung
 
 Die Synchronisierung der fraisr-Spendenpartner kann im Magento-Backend unter "System" -> "fraisr Protokoll" -> "Spendenpartner synchronisieren" 
-gestartet werden. Im Erfolgsfall erscheint die Meldung "Die Spendenpartner-Synchronisierung wurde erfolgreich abgeschlossen (27 Spendenpartner).".
+gestartet werden. Im Erfolgsfall erscheint die Meldung "Die Spendenpartner-Synchronisierung wurde erfolgreich abgeschlossen (xx Spendenpartner).".
 
 Eine automatische Synchronisierung der fraisr-Spendenpartner erfolgt täglich nachts per Cronjob um 01:30Uhr Shop-Zeit.
 
@@ -298,9 +304,9 @@ Kategorien
    Erfolgreiche Kategorie-Synchronisierung
 
 Die Synchronisierung der fraisr-Kategorien kann im Magento-Backend unter "System" -> "fraisr Protokoll" -> "Kategorien synchronisieren" 
-gestartet werden. Im Erfolgsfall erscheint die Meldung "Die Kategorie-Synchronisierung wurde erfolgreich abgeschlossen (235 Kategorien).".
+gestartet werden. Im Erfolgsfall erscheint die Meldung "Die Kategorie-Synchronisierung wurde erfolgreich abgeschlossen (xxx Kategorien).".
 
-Eine automatische Synchronisierung der fraisr-Spendenpartner erfolgt täglich nachts per Cronjob um 02:00Uhr Shop-Zeit.
+Eine automatische Synchronisierung der fraisr-Kategorien erfolgt täglich nachts per Cronjob um 02:00Uhr Shop-Zeit.
 
 Labeln eines Produktes im Shop
 ------------------------------
@@ -310,8 +316,9 @@ Labeln eines Produktes im Shop
 
    Festlegung der fraisr-Attributwerte am Produkt
 
-Um ein Produkt im nächsten Schritt "Produkt-Synchronisation" an fraisr übertragen zu können, muss dieses zuerst im Shop angelegt werden.
-Anschließend können beim Editieren eines Produktes im Tab "fraisr" folgende Werte festgelegt werden:
+Um ein Produkt im nächsten Schritt "Produkt-Synchronisation" an fraisr übertragen zu können, muss dieses zuerst im Shop angelegt werden
+(selbstverständlich können Sie auch bereits vorhandene Produkte für fraisr labeln).
+Anschließend können beim Editieren eines Produktes im Tab "fraisr" folgende Werte festgelegt werde n:
 
 .. list-table:: fraisr Produkt-Attribute - editierbar
    :widths: 15 40
@@ -352,7 +359,7 @@ Die folgenden Werte werden von der Extension vergeben und können nicht vom Shop
 
      - Die fraisr ID wird nach der Synchronisation des Produktes durch fraisr vergeben und in diesem Attribut gespeichert.
 
-   * - fraisr Synchronisierungs-Durchläufe
+   * - fraisr Synchronisierungs - Durchläufe
 
      - Dieses Attribut wird intern zur Produkt-Synchronisation verwendet. Im Fall, dass es bei der Synchronisierung zu einem Verbindungsfehler kommt,
        wird versucht das Produkt max. 3 mal zu übertragen bevor kein erneuter Übertragungsversuch erfolgt.
@@ -374,10 +381,11 @@ Produkt-Synchronisation
 
 Das Verfahren zur Produkt-Synchronisation läuft in zwei Schritten ab:
 
-# Markierung der Produkte
-# Synchronisation der markierten Produkte
+#. Markierung der Produkte
+#. Synchronisation der markierten Produkte
 
-Die Aufteilung in zwei Schritte ist notwendig, damit im Fall von Übertragungsfehlern nicht alle Produkte erneut synchronisiert werden müssen.
+Die Aufteilung in zwei Schritte ist notwendig, damit im Fall von Übertragungsfehlern oder Limits in der Script-Laufzeit
+nicht alle Produkte erneut synchronisiert werden müssen.
 
 Markierung der Produkte
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -389,7 +397,7 @@ Markierung der Produkte
 
 Per System -> fraisr Protokoll -> "Produkte als zu Synchronisieren markieren" werden die Produkte manuell als zu Synchronisieren markiert.
 
-Folgende Konstellationen werden dabei markiert:
+Folgende Konstellationen werden dabei beachtet:
 
 .. list-table:: Markierung der Produkte - Konstellationen
    :widths: 15 40
@@ -412,8 +420,8 @@ Folgende Konstellationen werden dabei markiert:
    * - Zu löschende Produkte
 
      - Es gibt zwei Wege, wie ein Produkt für fraisr als zu löschend markiert werden kann. Zum einen gilt ein Produkt als zu löschen, 
-       wenn "fraisr aktiv":"Nein" auf eingestellt ist und das Produkt bereits eine fraisr ID besitzt. Zum anderen wird im Fall, dass ein Produkt im Shop
-       gelöscht wird, welches eine fraisr ID besitzt, dieses in einer Lösch-Queue (Warteschleife) gespeichert.
+       wenn "fraisr aktiv" auf "Nein" eingestellt ist und das Produkt bereits eine fraisr ID besitzt. Zum anderen wird im Fall, dass ein Produkt im Shop
+       gelöscht wird, welches eine fraisr ID besitzt, in einer Lösch-Queue (Warteschleife) gespeichert.
 
 Die Markierung ob zu Synchronisieren ist, geschieht im Produktattribut "fraisr_update" bzw. "fraisr Synchronisierungs-Durchläufe".
 
@@ -470,9 +478,9 @@ Dieser Prozess wird ebenfalls täglich nachts um 04:00Uhr Shop-Zeit automatisch 
 
    Synchronisation der Bestellungen
 
-Die Extension prüft an Hand der Konfigurationseinstellungen (Bestellstatus, Tage) ob Bestellungen synchronisiert werden müssen.
+Die Extension prüft an Hand der Konfigurationseinstellungen (Bestellstatus, Tage) ob Bestellungen zu synchronisieren sind.
 Wichtig: Jeder Artikel einer Bestellung wird, sofern es sich um einen fraisr-Artikel handelt, einzeln an fraisr übertragen und 
-erhält in Folge dessen eine eigene fraisr-Bestellnummer.
+erhält in­fol­ge­des­sen eine eigene fraisr-Bestellnummer.
 
 Beispiel: Bestellung #100000123
 
