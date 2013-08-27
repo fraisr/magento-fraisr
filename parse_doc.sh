@@ -1,0 +1,1 @@
+rst2pdf -b 1 -o doc/Fraisr_Connect/Benutzerdokumentation.pdf -s doc/src/fraisr.style doc/src/Benutzerdokumentation.rst --real-footnotes
