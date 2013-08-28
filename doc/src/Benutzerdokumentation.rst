@@ -369,11 +369,10 @@ Gegenwärtig werden folgende Produkt-Typen unterstützt:
 - einfache Produkte (Simple Products)
 - virtuelle Produkte (Virtual Products)
 - Download-Produkte (Downloadable Products)
-
-Die Unterstützung der folgenden Produkt-Typen ist in Planung, jedoch noch nicht abgeschlossen:
-
 - konfigurierbare Produkte (Configurable Products)
-- gebündelte (Bundle Products)
+- gebündelte Produkte (Bundle Products)
+
+Gruppierte Produkte werden nicht unterstützt.
 
 
 Produkt-Synchronisation
