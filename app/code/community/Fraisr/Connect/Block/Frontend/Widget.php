@@ -26,7 +26,8 @@ class Fraisr_Connect_Block_Frontend_Widget extends Mage_Core_Block_Template
 {
     /**
      * Get fraisr widget js uri
-     * 
+     *
+     * @deprecated Currently a directly link to https://s3-eu-west-1.amazonaws.com/fraisr-com/ is used
      * @return string
      */
     public function getFraisrWidgetJsUri()
@@ -36,7 +37,8 @@ class Fraisr_Connect_Block_Frontend_Widget extends Mage_Core_Block_Template
 
     /**
      * Get fraisr widget css uri
-     * 
+     *
+     * @deprecated Currently a directly link to https://s3-eu-west-1.amazonaws.com/fraisr-com/ is used
      * @return string
      */
     public function getFraisrWidgetCssUri()
