@@ -25,6 +25,11 @@
 class Fraisr_Connect_Helper_Synchronisation_Product extends Fraisr_Connect_Helper_Synchronisation_Abstract
 {
     /**
+     * @const PRODUCT_MIN_QTY Minimum product qty in case it is 0 or can't be estimated
+     */
+    const PRODUCT_MIN_QTY = 1;
+
+    /**
     * Calculate price and special price information
     * 
     * @param Mage_Catalog_Model_Product $product
@@ -176,5 +181,33 @@ class Fraisr_Connect_Helper_Synchronisation_Product extends Fraisr_Connect_Helpe
             ->save();
 
         return $schedule;
+    }
+
+    /**
+     * Get product qty
+     *
+     * If qty = 0 (for configurable and bundle products) set "1" by default
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @return int
+     */
+    public function getProductQty($product)
+    {
+        //If product type is "configurable" or "bundle" return the min qty
+        if ('configurable' == $product->getTypeId() || 'bundle' == $product->getTypeId()) {
+            return self::PRODUCT_MIN_QTY;
+        }
+
+        //Get regular product qty
+        $qty = (int) Mage::getModel('cataloginventory/stock_item')
+                                   ->loadByProduct($product)
+                                   ->getQty();
+
+        //If qty is < 0, return the min qty too
+        if ($qty < self::PRODUCT_MIN_QTY) {
+            $qty = self::PRODUCT_MIN_QTY;
+        }
+
+        return (int) $qty;
     }
 }

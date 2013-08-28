@@ -291,9 +291,7 @@ class Fraisr_Connect_Model_Product extends Mage_Core_Model_Abstract
             'url'           => $product->getProductUrl(false),
             'cause'         => $product->getFraisrCause(),
             'donation'      => $product->getFraisrDonationPercentage(),
-            'qty'           => (int) Mage::getModel('cataloginventory/stock_item')
-                                   ->loadByProduct($product)
-                                   ->getQty(),
+            'qty'           => Mage::helper('fraisrconnect/synchronisation_product')->getProductQty($product),
         );
 
         //Calculate prices

@@ -121,7 +121,7 @@ Basiskonfiguration
 
    * - Sandbox
 
-     - Sofern aktiviert, werden alle Aktionen gegen die Sandbox-API ausgeführt. Damit lässt sich die Integration und Funktionalität der Extension im Shop überprüfen. Die Zugangsdaten zur Sandbox sind identisch mit denen der Live-Umgebung. Eine Freischaltung zur Sandbox-Umgebung erfolgt auf Anfrage beim fraisr-Support.
+     - Sofern aktiviert, werden alle Aktionen gegen die Sandbox-API ausgeführt. Damit lässt sich die Integration und Funktionalität der Extension im Shop überprüfen. Die Zugangsdaten zur Sandbox sind nicht identisch mit denen der Live-Umgebung. Eine Freischaltung zur Sandbox-Umgebung erfolgt auf Anfrage beim fraisr-Support.
 
    * - Key
 
@@ -447,9 +447,13 @@ Werte:
 - Sonderpreis
 - URL
 - Bilder
+- Lagermenge
 - fraisr Kategorie
 - fraisr Spendenpartner
 - fraisr Spendenanteil
+
+Sollte die Lagermenge unter 1 betragen oder wie bei konfigurierbaren und gebündelten Artikel nicht für das Hauptprodukt zu ermitteln sein,
+wird generell 1 übertragen.
 
 Um eine ungewollte Unterbrechung der Synchronisierung zu vermeiden, gibt es in der Extension eine
 permanente Prüfung auf die maximale Script-Laufzeit. Zehn Sekunden bevor diese abläuft, wird die Synchronisierung gestoppt.
