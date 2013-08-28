@@ -36,11 +36,8 @@ class Fraisr_Connect_Block_Catalog_Product_Json_List extends Mage_Catalog_Block_
         //Get every product of the current selection and loop through it
         foreach ($this->getLoadedProductCollection() as $product) {
             //Continue only if product is tagged with 'Fraisr':'Yes' and has a 'fraisr_id'
-            /**
-             * TODO: Uncomment later if products have a fraisr_id
-             * || true === is_null($product->getFraisrId()
-             */
-            if ('1' !== $product->getFraisrEnabled()) { 
+            if ('1' !== $product->getFraisrEnabled()
+                || true === is_null($product->getFraisrId())) { 
                 continue;
             }
 
