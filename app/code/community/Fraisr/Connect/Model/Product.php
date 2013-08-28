@@ -279,23 +279,26 @@ class Fraisr_Connect_Model_Product extends Mage_Core_Model_Abstract
      */
     protected function buildFaisrProductRequestData($product)
     {
+        $productSynchronisationHelper = Mage::helper('fraisrconnect/synchronisation_product');
+
         $requestData = array(
-            'internalid'    => $product->getSku(),
-            'name'          => $product->getName(),
-            'description'   => strip_tags(
+            'internalid'     => $product->getSku(),
+            'name'           => $product->getName(),
+            'description'    => strip_tags(
                                     $product->getData(
                                         Mage::getModel('fraisrconnect/config')->getProductDescriptionAttribute()
                                     )
                                 ),
-            'category'      => $product->getFraisrCategory(),
-            'url'           => $product->getProductUrl(false),
-            'cause'         => $product->getFraisrCause(),
-            'donation'      => $product->getFraisrDonationPercentage(),
-            'qty'           => Mage::helper('fraisrconnect/synchronisation_product')->getProductQty($product),
+            'category'       => $product->getFraisrCategory(),
+            'url'            => $product->getProductUrl(false),
+            'cause'          => $product->getFraisrCause(),
+            'donation'       => $product->getFraisrDonationPercentage(),
+            'qty'            => $productSynchronisationHelper->getProductQty($product),
+            'is_start_price' => $productSynchronisationHelper->getIsStartPrice($product)
         );
 
         //Calculate prices
-        $prices = Mage::helper('fraisrconnect/synchronisation_product')->calculatePrices($product);
+        $prices = $productSynchronisationHelper->calculatePrices($product);
         $requestData["price"] = $prices["price"];
         if ($prices["special_price"] > 0) {
             $requestData["special_price"] = $prices["special_price"];
@@ -325,6 +328,7 @@ class Fraisr_Connect_Model_Product extends Mage_Core_Model_Abstract
                 $requestData["images"][] = $image->getUrl();
             }
         }
+
         return $requestData;
     }
 

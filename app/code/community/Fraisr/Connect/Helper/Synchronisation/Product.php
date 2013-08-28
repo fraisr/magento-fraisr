@@ -47,7 +47,27 @@ class Fraisr_Connect_Helper_Synchronisation_Product extends Fraisr_Connect_Helpe
             $prices["special_price"] = "";
             $prices["price"] = round($product->getFinalPrice(), 2);
         }
+
         return $prices;
+    }
+
+    /**
+     * Check if 'is_start_price'-flag should be set
+     * 
+     * @param  Mage_Catalog_Model_Product $product
+     * @return int
+     */
+    public function getIsStartPrice($product)
+    {
+        /**
+         * Return 1 only if product type is bundle or configurable
+         * This is of course no real check about is_start_price but a legal issue
+         */
+        if ('configurable' == $product->getTypeId() || 'bundle' == $product->getTypeId()) {
+            return 1;
+        } else {
+            return 0;
+        }
     }
 
     /**
