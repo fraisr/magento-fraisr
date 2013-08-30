@@ -71,7 +71,7 @@ Um Artikel über die Magento-Extension bei fraisr einzustellen zu können, müss
 Händler registriert sein. Sofern Sie noch nicht registriert sind, melden Sie sich bitte auf folgender Seite an:
 https://www.fraisr.com/register-business .
 
-Folgende Zugangsdaten sind zur Konfiguration notwendig (im fraisr-Backend einsehbar):
+Folgende Zugangsdaten sind zur Konfiguration notwendig und im Nutzer-Dashboard von fraisr zu beantragen:
 
 - Key
 - Secret
@@ -102,9 +102,13 @@ Basiskonfiguration
 ~~~~~~~~~~~~~~~~~~
 
 .. figure:: images/screenshots/configarea_basic.png
-   :width: 12cm
+   :width: 14.5cm
 
    Basiskonfiguration
+
+.. raw:: pdf
+
+   PageBreak
 
 .. list-table:: Basiskonfiguration
    :widths: 15 40
@@ -157,6 +161,9 @@ Produkt-Synchronisierung
 
      - Dieses Attribut wird als Produktbeschreibung für den Export zu fraisr verwendet. HTML-Quellcode wird bei der Synchronisation an fraisr entfernt.
 
+.. raw:: pdf
+
+   PageBreak
 
 Bestellungs-Synchronisierung
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -188,6 +195,10 @@ Bestellungs-Synchronisierung
 
      - Sofern aktiviert, werden anstatt der Anzahl der bestellten Artikel die Anzahl der in Rechnung gestellten Artikel als Referenz verwendet. Dies ist für Shops relevant, bei denen nur im Shop in Rechnung gestellte Artikel als wirklich verkaufte Artikel gelten.
 
+.. raw:: pdf
+
+   PageBreak
+
 Spendenlabel Produktübersicht
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -195,7 +206,6 @@ Spendenlabel Produktübersicht
    :width: 12cm
 
    Spendenlabel Produktübersicht
-
 
 .. list-table:: Spendenlabel Produktübersicht
    :widths: 15 40
@@ -217,6 +227,15 @@ Spendenlabel Produktübersicht
 
      - Diese Konfiguration gibt die Position der Banderole im Frontend an und wird verwendet wenn "Spendenkennzeichnung" auf "Banderole" eingestellt ist.
 
+.. figure:: images/screenshots/example_banderole.png
+   :width: 4cm
+
+   Produkt mit Spendenkennzeichnung "Banderole" im Frontend
+
+.. figure:: images/screenshots/example_icon.png
+   :width: 4cm
+
+   Produkt mit Spendenkennzeichnung "Icon" im Frontend
 
 Spendenlabel Produktdetailansicht
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -279,6 +298,10 @@ dass eine Synchronisierung der fraisr-Spendenpartner und fraisr-Kategorien notwe
 Nach der Durchführung beider Synchronisierungen können die importieren Werte der Felder "fraisr Spendenpartner" und
 "fraisr Spendenanteil" in der Produktverwaltung ausgewählt werden.
 
+.. raw:: pdf
+
+   PageBreak
+
 Spendenpartner
 ~~~~~~~~~~~~~~
 
@@ -307,6 +330,10 @@ Die Synchronisierung der fraisr-Kategorien kann im Magento-Backend unter "System
 gestartet werden. Im Erfolgsfall erscheint die Meldung "Die Kategorie-Synchronisierung wurde erfolgreich abgeschlossen (xxx Kategorien).".
 
 Eine automatische Synchronisierung der fraisr-Kategorien erfolgt täglich nachts per Cronjob um 02:00Uhr Shop-Zeit.
+
+.. raw:: pdf
+
+   PageBreak
 
 Labeln eines Produktes im Shop
 ------------------------------
@@ -513,6 +540,10 @@ permanente Prüfung auf die maximale Script-Laufzeit. Zehn Sekunden bevor diese 
 Im Fall dass die Synchronisierung manuell im Backend angestoßen wurde, wird eine Nachricht ausgegeben, dass die Aktion noch einmal angestoßen
 werden muss. Im Fall dass die Synchronisierung per Cronjob ausgeführt wurde, wird dynamisch ein erneuter Cronjob erstellt, 
 der die Synchronisierung 15 Minuten nach der aktuellen Ausführungszeit fortsetzt.
+
+.. raw:: pdf
+
+   PageBreak
 
 Shop Frontend
 -------------
