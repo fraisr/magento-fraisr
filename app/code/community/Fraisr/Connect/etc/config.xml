@@ -19,7 +19,7 @@
 <config>
     <modules>
         <Fraisr_Connect>
-            <version>0.3.3</version>
+            <version>0.3.5</version>
         </Fraisr_Connect>
     </modules>
     <global>
@@ -218,7 +218,7 @@
                 <api>
                     <live>https://fraisr.com/</live>
                     <sandbox>https://fraisr-test.herokuapp.com/</sandbox>
-                    <cause>api/v1/causes</cause>
+                    <cause>api/v1/causes/for-shops</cause>
                     <category>api/v1/categories</category>
                     <product>api/v1/products/%s</product>
                     <order>/api/v1/orders/%s</order>

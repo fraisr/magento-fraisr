@@ -56,8 +56,14 @@ class Fraisr_Connect_Model_Entity_Attribute_Source_Cause
 
             //For every synched cause => create a select option
             foreach ($causeCollection as $cause) {
+                //Add restriction in brackets if existing
+                $restriction = '';
+                if (false === is_null($cause->getRestrictions())) {
+                    $restriction = ' ('.$cause->getRestrictions().')';
+                }
+
                 $this->_options[] = array(
-                    'label' => $cause->getName(),
+                    'label' => $cause->getName().$restriction,
                     'value' =>  $cause->getId(),
                 );
             }

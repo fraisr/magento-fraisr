@@ -122,6 +122,7 @@ class Fraisr_Connect_Model_Cause extends Mage_Core_Model_Abstract
                 ->setUrl($retrievedCause['url'])
                 ->setImageUrl($retrievedCause['images']['source'])
                 ->setOfficial($retrievedCause['official'])
+                ->setRestrictions($this->getRestrictions($retrievedCause))
                 ->save();
         }
     }
@@ -215,5 +216,28 @@ class Fraisr_Connect_Model_Cause extends Mage_Core_Model_Abstract
             ),
             Fraisr_Connect_Model_Log::LOG_TASK_CAUSE_SYNC
         );
+    }
+
+    /**
+     * Get restrictions list from api and transform it into a comma-separated string
+     * 
+     * @param  array $retrievedCause
+     * @return string|null
+     */
+    protected function getRestrictions($retrievedCause)
+    {
+        //Return null if no restrictions were given
+        if (true === is_null($retrievedCause['restrictions'])) {
+            return null;
+        }
+
+        //Loop through restrictions
+        $restriction = array();
+        foreach ($retrievedCause['restrictions'] as $restrictionKey => $restrictionName) {
+            $restriction[] = $restrictionKey;
+        }
+
+        //Return restrictions comma-separated
+        return implode(',', $restriction);
     }
 }
