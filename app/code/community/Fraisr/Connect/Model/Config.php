@@ -139,6 +139,16 @@ class Fraisr_Connect_Model_Config
     }
 
     /**
+     * Get plugin identification value
+     * 
+     * @return string
+     */
+    public function getPluginIdentificationValue()
+    {
+        return (string) Mage::getStoreConfig('fraisrconnect/static/api/plugin_identification_value');
+    }
+
+    /**
      * Get product api url
      *
      * @param string $fraisrProductId

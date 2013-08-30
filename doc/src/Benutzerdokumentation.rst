@@ -553,6 +553,11 @@ Die Extension beeinflusst die Darstellung der Produkte in der Kategorieansicht/P
 Kategorieansicht/Produktliste und Suchergebnis-Seiten
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+.. figure:: images/screenshots/product_list_icon_topleft.png
+   :width: 12cm
+
+   Produktliste im Frontend - Icon oben links
+
 .. figure:: images/screenshots/product_list_banderole_bottom.png
    :width: 12cm
 

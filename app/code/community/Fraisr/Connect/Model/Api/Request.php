@@ -50,6 +50,11 @@ class Fraisr_Connect_Model_Api_Request extends Zend_Http_Client
     const API_KEY_SECRET = 'secret';
 
     /**
+     * @const PLUGIN_IDENTIFICATION_KEY Plugin identification header key
+     */
+    const PLUGIN_IDENTIFICATION_KEY = 'fraisr-plugin';
+
+    /**
      * Paginated data
      * @var array
      */
@@ -83,6 +88,9 @@ class Fraisr_Connect_Model_Api_Request extends Zend_Http_Client
 
         //Set Authentication Header
         $this->setAuthenticationHeader();
+
+        //Set Plugin Infomation Header
+        $this->setPluginInformationHeader();
 
         //Set GET-Method
         $this->setMethod(Zend_Http_Client::GET);
@@ -133,6 +141,9 @@ class Fraisr_Connect_Model_Api_Request extends Zend_Http_Client
         //Set Authentication Header
         $this->setAuthenticationHeader();
 
+        //Set Plugin Infomation Header
+        $this->setPluginInformationHeader();
+
         //Set POST-Method
         $this->setMethod(Zend_Http_Client::POST);
 
@@ -170,6 +181,9 @@ class Fraisr_Connect_Model_Api_Request extends Zend_Http_Client
         //Set Authentication Header
         $this->setAuthenticationHeader();
 
+        //Set Plugin Infomation Header
+        $this->setPluginInformationHeader();
+
         //Set PUT-Method
         $this->setMethod(Zend_Http_Client::PUT);
         $this->setEncType(Zend_Http_Client::ENC_URLENCODED);
@@ -204,6 +218,9 @@ class Fraisr_Connect_Model_Api_Request extends Zend_Http_Client
 
         //Set Authentication Header
         $this->setAuthenticationHeader();
+
+        //Set Plugin Infomation Header
+        $this->setPluginInformationHeader();
 
         //Set DELETE-Method
         $this->setMethod(Zend_Http_Client::DELETE);
@@ -279,6 +296,19 @@ class Fraisr_Connect_Model_Api_Request extends Zend_Http_Client
             $this->getConfig()->getApiKey(),
             $this->getConfig()->getApiSecret(),
             self::AUTH_BASIC
+        );
+    }
+
+    /**
+     * Set plugin information header to indentify the request as "Magento" in fraisr
+     *
+     * @return void
+     */
+    protected function setPluginInformationHeader()
+    {
+        $this->setHeaders(
+            self::PLUGIN_IDENTIFICATION_KEY,
+            $this->getConfig()->getPluginIdentificationValue()
         );
     }
 }
