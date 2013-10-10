@@ -222,7 +222,7 @@
                     <category>api/v1/categories</category>
                     <product>api/v1/products/%s</product>
                     <order>/api/v1/orders/%s</order>
-                    <donation_label_iframe>de/trusted-shop/%s</donation_label_iframe>
+                    <donation_label_iframe>%s/trusted-shop/%s</donation_label_iframe>
                     <frontend_js>widgets/javascripts/magento/fraisr.js</frontend_js>
                     <frontend_css>widgets/stylesheets/magento/fraisr.css</frontend_css>
                     <plugin_identification_value>magento</plugin_identification_value>

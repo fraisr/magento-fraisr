@@ -50,7 +50,8 @@ class Fraisr_Connect_Helper_Data extends Mage_Core_Helper_Abstract
     {
         $frontendSettings = array(
             'label' => Mage::getModel('fraisrconnect/config')->getDonationLabel(),
-            'position' => Mage::getModel('fraisrconnect/config')->getDonationLabelPosition()
+            'position' => Mage::getModel('fraisrconnect/config')->getDonationLabelPosition(),
+            'language' => substr(Mage::app()->getLocale()->getLocaleCode(), 0, 2)
         );
         return Zend_Json::encode($frontendSettings);
     }
