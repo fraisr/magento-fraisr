@@ -242,4 +242,36 @@ class Fraisr_Connect_Model_Observer
                 ->logError();
         }
     }
+
+    public function connectToApi(){
+        $logger = Mage::getModel("fraisrconnect/log");
+        $config = Mage::getModel("fraisrconnect/config");
+        $callback_url = Mage::getUrl("fraisrconnect");
+
+        if($config->isActive() !== true)
+            return;
+
+        try{
+            $response = Mage::getModel('fraisrconnect/api_request')->requestPost(
+                Mage::getModel('fraisrconnect/config')->getConnectApiUri(),
+                compact("callback_url")
+            );
+
+            if($response["success"] !== true){
+                if(array_key_exists($response["error"])){
+                    throw new Exception($response["error"]);
+                }
+
+                throw new Exception("Unknown error occured:" . Zend_Json::encode($response));
+            }
+
+            $logger->setTitle("Connected to fraisr");
+            $logger->setMessage("Successfully connected to fraisr.");
+            $logger->logSuccess();
+        }catch(Exception $error){
+            $logger->setTitle("Connect Error");
+            $logger->setMessage($error->getMessage());
+            $logger->logError();
+        }
+    }
 }

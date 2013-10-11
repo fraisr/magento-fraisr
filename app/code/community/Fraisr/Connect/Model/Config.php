@@ -177,6 +177,16 @@ class Fraisr_Connect_Model_Config
     }
 
     /**
+     * Get connect api url
+     *
+     * @return string
+     */
+    public function getConnectApiUri()
+    {
+        return (string) Mage::getStoreConfig('fraisrconnect/static/api/connect');
+    }
+
+    /**
      * Get donation label iframe url
      *
      * @param string $fraisrId

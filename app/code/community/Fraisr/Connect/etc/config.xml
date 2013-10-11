@@ -88,6 +88,15 @@
                     </fraisr_add_fraisrid_to_order_item>
                 </observers>
             </sales_convert_quote_item_to_order_item>
+            <admin_system_config_changed_section_fraisrconnect>
+                <observers>
+                    <fraisr_connect_to_api>
+                        <class>fraisrconnect/observer</class>
+                        <method>connectToApi</method>
+                        <type>singleton</type>
+                    </fraisr_connect_to_api>
+                </observers>
+            </admin_system_config_changed_section_fraisrconnect>
         </events>
     </global>
     <frontend>
@@ -218,6 +227,7 @@
                 <api>
                     <live>https://www.fraisr.com/</live>
                     <sandbox>https://fraisr-test.herokuapp.com/</sandbox>
+                    <connect>api/v1/connect</connect>
                     <cause>api/v1/causes/for-shops</cause>
                     <category>api/v1/categories</category>
                     <product>api/v1/products/%s</product>
