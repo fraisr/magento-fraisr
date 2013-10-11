@@ -126,24 +126,24 @@ class Fraisr_Connect_Adminhtml_SynchronisationController extends Mage_Adminhtml_
     /**
      * Trigger order synchronisation
      * 
-     * @return void
+     * @deprecated
      */
     public function orderAction()
     {
-        if (true === Mage::helper('fraisrconnect/adminhtml_data')->isActive(true)) {
-            $orderSyncronisation = Mage::getModel('fraisrconnect/order');
-            $orderSyncronisation->synchronize();
+        // if (true === Mage::helper('fraisrconnect/adminhtml_data')->isActive(true)) {
+        //     $orderSyncronisation = Mage::getModel('fraisrconnect/order');
+        //     $orderSyncronisation->synchronize();
 
-            if (false === $orderSyncronisation->isSynchronisationComplete()) {
-                Mage::getSingleton('adminhtml/session')->addWarning(
-                    Mage::helper('fraisrconnect/data')->__('Not all orders have been synchronized because of a transmission error or a script timeout. Please start the process again.')
-                );
-            } else {
-                Mage::getSingleton('adminhtml/session')->addSuccess(
-                    Mage::helper('fraisrconnect/data')->__('fraisr order synchronisation completed.')
-                );
-            }
-        }
+        //     if (false === $orderSyncronisation->isSynchronisationComplete()) {
+        //         Mage::getSingleton('adminhtml/session')->addWarning(
+        //             Mage::helper('fraisrconnect/data')->__('Not all orders have been synchronized because of a transmission error or a script timeout. Please start the process again.')
+        //         );
+        //     } else {
+        //         Mage::getSingleton('adminhtml/session')->addSuccess(
+        //             Mage::helper('fraisrconnect/data')->__('fraisr order synchronisation completed.')
+        //         );
+        //     }
+        // }
 
         $this->_redirectReferer();
         return;

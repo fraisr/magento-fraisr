@@ -19,7 +19,7 @@
 <config>
     <modules>
         <Fraisr_Connect>
-            <version>0.3.5</version>
+            <version>0.4.0</version>
         </Fraisr_Connect>
     </modules>
     <global>
@@ -187,6 +187,7 @@
                 </run>
             </fraisrconnect_synchronisation_products>
             <!-- Orders synchronisation -->
+            <!--
             <fraisrconnect_synchronisation_orders>
                 <schedule>
                     <cron_expr>0 4 * * *</cron_expr>
@@ -195,6 +196,7 @@
                     <model>fraisrconnect/observer::synchronizeOrders</model>
                 </run>
             </fraisrconnect_synchronisation_orders>
+            -->
         </jobs>
     </crontab>
     <default>

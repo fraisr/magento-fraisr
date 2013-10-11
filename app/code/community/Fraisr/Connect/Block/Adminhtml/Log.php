@@ -82,10 +82,10 @@ class Fraisr_Connect_Block_Adminhtml_Log extends Mage_Adminhtml_Block_Widget_Gri
         ));
 
         //Add order sync button
-        $this->_addButton('order_synchronisation', array(
-            'label'     => $helper->__('Synchronize orders'),
-            'onclick'   => 'setLocation(\'' . $urlModel->getUrl('fraisrconnect/adminhtml_synchronisation/order') .'\')',
-            'class'     => 'add',
-        ));
+        // $this->_addButton('order_synchronisation', array(
+        //     'label'     => $helper->__('Synchronize orders'),
+        //     'onclick'   => 'setLocation(\'' . $urlModel->getUrl('fraisrconnect/adminhtml_synchronisation/order') .'\')',
+        //     'class'     => 'add',
+        // ));
     }
 }
