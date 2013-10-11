@@ -1,115 +1,19 @@
-<_>
-   <form_key>1VjdwZxEkgs8uXFd</form_key>
-   <name>Fraisr</name>
-   <channel>community</channel>
-   <version_ids>
-      <version_ids>2</version_ids>
-   </version_ids>
-   <summary>Extension zur Anbindung von Magento an den fraisr-Marktplatz</summary>
-   <description>Extension zur Anbindung von Magento an den fraisr-Marktplatz</description>
-   <license>OSL 3.0</license>
-   <license_uri>http://opensource.org/licenses/osl-3.0.php</license_uri>
-   <version>0.3.5</version>
-   <stability>stable</stability>
-   <notes>Initial release</notes>
-   <authors>
-      <name>
-         <name>Andre Herrn</name>
-      </name>
-      <user>
-         <user>fraisr</user>
-      </user>
-      <email>
-         <email>andre.herrn@das-medienkombinat.de</email>
-      </email>
-   </authors>
-   <depends_php_min>5.2.0</depends_php_min>
-   <depends_php_max>6.0.0</depends_php_max>
-   <depends>
-      <package>
-         <name>
-            <name/>
-         </name>
-         <channel>
-            <channel/>
-         </channel>
-         <min>
-            <min/>
-         </min>
-         <max>
-            <max/>
-         </max>
-         <files>
-            <files>    </files>
-         </files>
-      </package>
-      <extension>
-         <name>
-            <name>Core</name>
-         </name>
-         <min>
-            <min/>
-         </min>
-         <max>
-            <max/>
-         </max>
-      </extension>
-   </depends>
-   <contents>
-      <target>
-         <target>magelocal</target>
-         <target>magecommunity</target>
-         <target>mageetc</target>
-         <target>magedesign</target>
-         <target>magedesign</target>
-         <target>magedesign</target>
-         <target>magelocale</target>
-         <target>magelocale</target>
-         <target>mage</target>
-      </target>
-      <path>
-         <path/>
-         <path>Fraisr/Connect</path>
-         <path>modules/Fraisr_Connect.xml</path>
-         <path>frontend/base/default/template/fraisrconnect</path>
-         <path>frontend/base/default/layout/fraisrconnect.xml</path>
-         <path>adminhtml/default/default/template/fraisrconnect</path>
-         <path>de_DE/Fraisr_Connect.csv</path>
-         <path>en_US/Fraisr_Connect.csv</path>
-         <path>doc/Fraisr_Connect</path>
-      </path>
-      <type>
-         <type>file</type>
-         <type>dir</type>
-         <type>file</type>
-         <type>dir</type>
-         <type>file</type>
-         <type>dir</type>
-         <type>file</type>
-         <type>file</type>
-         <type>dir</type>
-      </type>
-      <include>
-         <include/>
-         <include/>
-         <include/>
-         <include/>
-         <include/>
-         <include/>
-         <include/>
-         <include/>
-         <include/>
-      </include>
-      <ignore>
-         <ignore/>
-         <ignore/>
-         <ignore/>
-         <ignore/>
-         <ignore/>
-         <ignore/>
-         <ignore/>
-         <ignore/>
-         <ignore/>
-      </ignore>
-   </contents>
-</_>
+<?xml version="1.0"?>
+<package>
+    <name>Fraisr</name>
+    <version>0.4.0</version>
+    <stability>stable</stability>
+    <license uri="http://opensource.org/licenses/osl-3.0.php">OSL 3.0</license>
+    <channel>community</channel>
+    <extends/>
+    <summary>Extension zur Anbindung von Magento an den fraisr-Marktplatz</summary>
+    <description>Extension zur Anbindung von Magento an den fraisr-Marktplatz</description>
+    <notes>* Added language support&#xD;
+* Added connection to fraisr</notes>
+    <authors><author><name>Andre Herrn</name><user>fraisr</user><email>andre.herrn@das-medienkombinat.de</email></author><author><name>Christopher Kn&#xF6;tschke</name><user>fraisr</user><email>chris@fraisr.com</email></author></authors>
+    <date>2013-10-11</date>
+    <time>13:28:19</time>
+    <contents><target name="magecommunity"><dir name="Fraisr"><dir name="Connect"><dir name="Block"><dir name="Adminhtml"><dir name="Entity"><dir name="Attribute"><file name="FraisrId.php" hash="3b5b31fa5ea711b2ff7fd62493af9385"/><file name="FraisrUpdate.php" hash="7c4cd9a33e95d2a6157aa7e19e58faac"/></dir></dir><dir name="Log"><dir name="Edit"><file name="Form.php" hash="738ccce441a380d9e550dbb195d4ca65"/></dir><file name="Edit.php" hash="a7a9d340645576c63d48f878e7f89553"/><file name="Grid.php" hash="5fdad267ad670efa9ff8219aa6e81f58"/></dir><file name="Log.php" hash="70da89bf7cff8f93993701d3e97e57dc"/><dir name="System"><dir name="Config"><file name="Support.php" hash="87cefd408ad58ea5b60aa32960dbfcb9"/></dir></dir></dir><dir name="Catalog"><dir name="Product"><dir name="Json"><file name="List.php" hash="bac5ca7939aba90877528281ab1c7d67"/><file name="View.php" hash="010195c62bded52ecaad7c5f2040f732"/></dir><dir name="View"><file name="Label.php" hash="de5f606295354b19ac28bdd18370c3b6"/></dir></dir></dir><dir name="Frontend"><file name="Widget.php" hash="104642fb642c5bc4d160df189d033f5a"/></dir></dir><file name="Exception.php" hash="56e65be5923c5095d3741b282d2dfd69"/><dir name="Helper"><dir name="Adminhtml"><file name="Data.php" hash="38160355e1a0e54f9a5306c5b5a413b2"/></dir><file name="Data.php" hash="1e11e42b6d3e5ed038aa5dd3faf07c68"/><dir name="Synchronisation"><file name="Abstract.php" hash="ddb949841004ec8aeb9d03f03753d6aa"/><file name="Order.php" hash="84a2996123f842415675670b37767d4b"/><file name="Product.php" hash="3870e04fb00db2e7f16f148d28509b89"/></dir></dir><dir name="Model"><dir name="Api"><file name="Exception.php" hash="e07c7c64278f3d1b6982eb36ac08e59f"/><file name="Request.php" hash="8f0359bf541e3fd6404a34976478a650"/><file name="Response.php" hash="6fcff68389fb6bff85b0743066e5f0cd"/></dir><file name="Category.php" hash="82c652c89ea5038e7a0a25a779acd481"/><file name="Cause.php" hash="c9fef8c82e096485a5a8945fe02a6115"/><file name="Config.php" hash="9fdcaf654f4544516ff684ef647dcfc8"/><dir name="Entity"><dir name="Attribute"><dir name="Source"><file name="Category.php" hash="8516fdca6750d63b4e0c2b1430b12c36"/><file name="Cause.php" hash="45b934d6baa7e60c17b85f0ab444c824"/><file name="DonationPercentage.php" hash="603bccb9c8fcf68f76ed41fa421f4964"/><file name="Visibility.php" hash="eabb285ce7c1d02f88e3a5e909429da2"/></dir></dir></dir><file name="Log.php" hash="afa03219f67f5dfa3d6da9c69525b9f7"/><dir name="Mysql4"><dir name="Category"><file name="Collection.php" hash="572bdc6a3a818a644a8afa170bd79a1c"/></dir><file name="Category.php" hash="ec8b07d6447905add97f3934622b839d"/><dir name="Cause"><file name="Collection.php" hash="37294f0c2b82e7dce37ef3aef99c45c2"/></dir><file name="Cause.php" hash="795bab5edab9c89987e09a8f260b2c73"/><dir name="Log"><file name="Collection.php" hash="1f0e9993959e694112be1762691600b3"/></dir><file name="Log.php" hash="88f831dc313b2873871a8db508717a47"/></dir><file name="Observer.php" hash="321a53a41ff22dadca94d1c38958a2fa"/><file name="Order.php" hash="0bb42ff34f3aa898d027df2ec28bd26c"/><file name="Product.php" hash="c7b3a18ce6e0f428929d2dc3e4fccc6f"/><dir name="Resource"><file name="Setup.php" hash="6e188164f57fe01fdade6af0e2b5966c"/></dir><dir name="System"><dir name="Config"><dir name="Source"><file name="BanderolePosition.php" hash="6950b70d023c8d7ff475b7a1ec157363"/><file name="DonationLabel.php" hash="cad5e736745ec3d81a53c67e9cf2f018"/><file name="IconPosition.php" hash="70d21f296eea0833f8f2b5fd7278e1ec"/><file name="ProductAttribute.php" hash="9cbe063b1adc8e6441d490106cb290a8"/><file name="Scope.php" hash="90070b38db18fc47b07c590337253651"/></dir></dir></dir></dir><dir name="controllers"><file name="AbstractController.php" hash="f31bdb501dd175254a135eb63a760054"/><dir name="Adminhtml"><file name="LogController.php" hash="96be78d8f0bc0b927cb0296434066bed"/><file name="SynchronisationController.php" hash="c5034246cd58b91955a26a0cd1947b31"/></dir><file name="OrdersController.php" hash="4ae0b2dd6cb672485503b5695812439e"/></dir><dir name="etc"><file name="adminhtml.xml" hash="c45830aa9aa1d61cb578280836fd1d77"/><file name="config.xml" hash="f50ed64513b12c502c29a1b28e367433"/><file name="system.xml" hash="3d33fe5e508b0667dc141b84d27e296e"/></dir><dir name="sql"><dir name="fraisrconnect_setup"><file name="mysql4-install-0.1.0.php" hash="538c2dda212b55e84facbe02020e8a1c"/><file name="mysql4-upgrade-0.1.0-0.1.2.php" hash="3c3826353e7aef17db3d43614022bd05"/><file name="mysql4-upgrade-0.1.2-0.1.3.php" hash="64341dc3b0e89ea6cce00ade40225305"/><file name="mysql4-upgrade-0.1.3-0.1.4.php" hash="746c98b109deea2b7648f16c9629a28d"/><file name="mysql4-upgrade-0.1.4-0.1.5.php" hash="04c452067cc87efd6140a369de5c0a27"/><file name="mysql4-upgrade-0.1.5-0.1.6.php" hash="a24f127685ec51d289b964a353258e05"/><file name="mysql4-upgrade-0.1.6-0.1.7.php" hash="011d3d7df9c2532d3295a53095764731"/><file name="mysql4-upgrade-0.1.7-0.1.8.php" hash="59b871795b0cef1789895a9e0de827eb"/><file name="mysql4-upgrade-0.1.8-0.2.0.php" hash="ca49d4510a5c6fbec8ce7414e11046a2"/><file name="mysql4-upgrade-0.2.0-0.2.1.php" hash="f9c5a6f192d10ef8985ae62904b7f68b"/><file name="mysql4-upgrade-0.2.1-0.2.2.php" hash="ca4e5fca6c3ab44f21a1d3cc92033bac"/><file name="mysql4-upgrade-0.2.2-0.3.0.php" hash="ef0fe908d322f82ebbb8b60b19320111"/><file name="mysql4-upgrade-0.3.0-0.3.3.php" hash="2f0b456b26f5d0fe02d59965c7ec1c47"/><file name="mysql4-upgrade-0.3.3-0.3.4.php" hash="12c4cf36ff8c0b4e64d1d3a46fed844a"/><file name="mysql4-upgrade-0.3.4-0.3.5.php" hash="d28242fa6ce43180fad6bcf501d90532"/><file name="mysql4-upgrade-0.3.5-0.4.0.php" hash="04c452067cc87efd6140a369de5c0a27"/></dir></dir></dir></dir></target><target name="mageetc"><dir name="modules"><file name="Fraisr_Connect.xml" hash="e037cdec4cbb114352f359be5167baf2"/></dir></target><target name="magedesign"><dir name="frontend"><dir name="base"><dir name="default"><dir name="template"><dir name="fraisrconnect"><dir name="catalog"><dir name="product"><dir name="json"><file name="list.phtml" hash="3361fe64acda92225d82cf028c960514"/><file name="view.phtml" hash="bf4b2a000e4c6f0748bf34f51f4238b5"/></dir><dir name="view"><file name="label_bottom.phtml" hash="bfa63e6c013424207d2d7df1d240ccb1"/><file name="label_top.phtml" hash="c9b9eec5c7bb546791eac70b770e9b68"/></dir></dir></dir><dir name="frontend"><file name="widget.phtml" hash="95f14bb9e6f2591a6b81d54437352e86"/></dir></dir></dir><dir name="layout"><file name="fraisrconnect.xml" hash="4f04d956b570f8e57f423fb77d408938"/></dir></dir></dir></dir><dir name="adminhtml"><dir name="default"><dir name="default"><dir name="template"><dir name="fraisrconnect"><dir name="system"><dir name="config"><file name="support.phtml" hash="be21e090f46e29ca2ce6e19474085fc4"/></dir></dir></dir></dir></dir></dir></dir></target><target name="magelocale"><dir name="de_DE"><file name="Fraisr_Connect.csv" hash="31eb112fb42c472d3b20781442f4c0d7"/></dir><dir name="en_US"><file name="Fraisr_Connect.csv" hash="8b3cbd33722724a7183fbfe3d6c1e5a2"/></dir></target></contents>
+    <compatible/>
+    <dependencies><required><php><min>5.2.0</min><max>6.0.0</max></php></required></dependencies>
+</package>
