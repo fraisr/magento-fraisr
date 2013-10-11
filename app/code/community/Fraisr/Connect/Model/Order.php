@@ -130,7 +130,7 @@ class Fraisr_Connect_Model_Order extends Mage_Core_Model_Abstract
         foreach ($orderItemsToSynchronize as $orderItem) {
             try {
                 //Validate order/order_item
-                if (false === $this->isOrderItemValid($orderItem)) {
+                if (false === $orderSyncHelper->isOrderItemValid($orderItem)) {
                     continue;
                 }
 
@@ -173,30 +173,6 @@ class Fraisr_Connect_Model_Order extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Check if the order_item is valid to be transferred to fraisr
-     *
-     * @param  Mage_Sales_Model_Order_Item $orderItem
-     * @return boolean
-     */
-    protected function isOrderItemValid($orderItem)
-    {
-        //Check if all necessary data for the transfer is existing
-        if (true === is_null($orderItem->getFraisrProductId())
-            || true === is_null($orderItem->getFraisrCauseId())
-            || true === is_null($orderItem->getFraisrDonationPercentage())) {
-            return false;
-        }
-
-        //Check if 'base_currency_code' or 'order_currency_code' is EUR 
-        if ('EUR' !== $orderItem->getBaseCurrencyCode()
-            && 'EUR' === $orderItem->getOrderCurrencyCode()) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
      * Prepare the data for the fraisr order create request
      * 
      * @param  Mage_Sales_Model_Order_Item $orderItem
@@ -204,21 +180,25 @@ class Fraisr_Connect_Model_Order extends Mage_Core_Model_Abstract
      */
     protected function prepareOrderRequestData($orderItem)
     {
-        //Calculate price
-        $price = 0;
-        if ('EUR' === $orderItem->getBaseCurrencyCode()) {
-            $price = $orderItem->getBasePriceInclTax();
-        } elseif ('EUR' === $orderItem->getOrderCurrencyCode()) {
-            $price = $orderItem->getPriceInclTax();
-        }
+        return Mage::helper('fraisrconnect/synchronisation_order')->getJsonObject($orderItem);
 
-        return array(
-            'product' => $orderItem->getFraisrProductId(),
-            'amount' => Mage::helper('fraisrconnect/synchronisation_order')->getOrderItemQty($orderItem),
-            'price' => $price,
-            'cause' => $orderItem->getFraisrCauseId(),
-            'donation' => $orderItem->getFraisrDonationPercentage()
-        );
+        //deprecated
+        
+        //Calculate price
+        // $price = 0;
+        // if ('EUR' === $orderItem->getBaseCurrencyCode()) {
+        //     $price = $orderItem->getBasePriceInclTax();
+        // } elseif ('EUR' === $orderItem->getOrderCurrencyCode()) {
+        //     $price = $orderItem->getPriceInclTax();
+        // }
+
+        // return array(
+        //     'product' => $orderItem->getFraisrProductId(),
+        //     'amount' => Mage::helper('fraisrconnect/synchronisation_order')->getOrderItemQty($orderItem),
+        //     'price' => $price,
+        //     'cause' => $orderItem->getFraisrCauseId(),
+        //     'donation' => $orderItem->getFraisrDonationPercentage()
+        // );
     }
 
     /**

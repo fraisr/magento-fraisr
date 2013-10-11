@@ -67,6 +67,49 @@ class Fraisr_Connect_Helper_Synchronisation_Order extends Fraisr_Connect_Helper_
     }
 
     /**
+     * Check if the order_item is valid to be transferred to fraisr
+     *
+     * @param  Mage_Sales_Model_Order_Item $orderItem
+     * @return boolean
+     */
+    public function isOrderItemValid($orderItem)
+    {
+        //Check if all necessary data for the transfer is existing
+        if (true === is_null($orderItem->getFraisrProductId())
+            || true === is_null($orderItem->getFraisrCauseId())
+            || true === is_null($orderItem->getFraisrDonationPercentage())) {
+            return false;
+        }
+
+        //Check if 'base_currency_code' or 'order_currency_code' is EUR 
+        if ('EUR' !== $orderItem->getBaseCurrencyCode()
+            && 'EUR' === $orderItem->getOrderCurrencyCode()) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public function getJsonObject($orderItem){
+        $price = 0;
+        if ('EUR' === $orderItem->getBaseCurrencyCode()) {
+            $price = $orderItem->getBasePriceInclTax();
+        } elseif ('EUR' === $orderItem->getOrderCurrencyCode()) {
+            $price = $orderItem->getPriceInclTax();
+        }
+
+        return array(
+            'external_id' => $orderItem->getId(),
+            'fraisr_id' => $orderItem->getFraisrOrderId(),
+            'product' => $orderItem->getFraisrProductId(),
+            'amount' => $this->getOrderItemQty($orderItem),
+            'price' => $price,
+            'cause' => $orderItem->getFraisrCauseId(),
+            'donation' => $orderItem->getFraisrDonationPercentage()
+        );
+    }
+
+    /**
      * Get order item qty for fraisr-synchronisation
      * 
      * @param  Mage_Sales_Model_Order_Item $orderItem
