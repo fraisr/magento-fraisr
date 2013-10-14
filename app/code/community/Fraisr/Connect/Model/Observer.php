@@ -325,11 +325,56 @@ class Fraisr_Connect_Model_Observer
      */
     public function salesConvertQuoteItemToOrderItem($observer){
         $quoteItem = $observer->getItem();
+
         if ($additionalOptions = $quoteItem->getOptionByCode('additional_options')) {
             $orderItem = $observer->getOrderItem();
             $options = $orderItem->getProductOptions();
             $options['additional_options'] = unserialize($additionalOptions->getValue());
             $orderItem->setProductOptions($options);
         }
+    }
+
+    /**
+     * Adding grid collumn "has fraisr items"
+     * @param $observer
+     * @return void
+     */
+    public function customgridColumnAppend($observer){
+        $block = $observer->getBlock();
+
+        if(!isset($block))
+            return;
+
+        if($block->getType() !== "adminhtml/sales_order_grid")
+            return;
+
+        $block->addColumnAfter("has_fraisr_items", array(
+            "header" => Mage::helper("fraisrconnect/data")->__("Has fraisr items"),
+            "index" => "has_fraisr_items",
+            'type'  => "options",
+            "width" => "70px",
+            "options" => array("0" => "no", "1" => "yes"),
+        ), "status");
+    }
+
+    /**
+     * Set column has_fraisr_id to sales/order table
+     * @param $observer
+     * @return void
+     */
+    public function salesConvertQuoteToOrder($observer){
+        $quote = $observer->getEvent()->getQuote();
+        $order = $observer->getEvent()->getOrder();
+        $has_fraisr_items = 0;
+
+        foreach($quote->getAllVisibleItems() AS $quoteItem){
+            if(is_null($quoteItem->getFraisrProductId()))
+                continue;
+
+            $has_fraisr_items = 1;
+            break;
+        }
+        
+        $order->setHasFraisrItems($has_fraisr_items);
     }
 }
