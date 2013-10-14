@@ -125,7 +125,18 @@ Basiskonfiguration
 
    * - Sandbox
 
-     - Sofern aktiviert, werden alle Aktionen gegen die Sandbox-API ausgeführt. Damit lässt sich die Integration und Funktionalität der Extension im Shop überprüfen. Die Zugangsdaten zur Sandbox sind nicht identisch mit denen der Live-Umgebung. Eine Freischaltung zur Sandbox-Umgebung erfolgt auf Anfrage beim fraisr-Support.
+     - Sofern aktiviert, werden alle Aktionen gegen die Sandbox-API ausgeführt. Damit lässt sich die Integration und Funktionalität der Extension im Shop überprüfen. Die Zugangsdaten zur Sandbox sind nicht identisch mit denen der Live-Umgebung.  
+
+       | Die Zugansdaten für die Testumgebung sind:  
+       | 
+       | Key: **key**
+       | Secret: **secret**  
+       | 
+       | Mit der Sandbox Site können Sie überprüfen, wie Ihre Produkte in unserem Marktplatz angezeigt werden und ob die Synchronisierung grundsätzlich funktioniert.  
+       | 
+       | Ihre Artikel landen in unserem Testsystem und können noch nicht gekauft werden.
+       |
+       | http://fraisr-test.herokuapp.com
 
    * - Key
 
