@@ -243,6 +243,10 @@ class Fraisr_Connect_Model_Observer
         }
     }
 
+    /**
+     * Makes an request to api/v1/connect with callback_url
+     * @return void
+     */
     public function connectToApi(){
         $logger = Mage::getModel("fraisrconnect/log");
         $config = Mage::getModel("fraisrconnect/config");
@@ -272,6 +276,58 @@ class Fraisr_Connect_Model_Observer
             $logger->setTitle("Connect Error");
             $logger->setMessage($error->getMessage());
             $logger->logError();
+        }
+    }
+
+    /**
+     * Adds an additional options which indivates this order item as a fraisr product
+     * @param $observer
+     * @return void
+     */
+    public function catalogProductLoadAfter($observer){
+        $action = Mage::app()->getFrontController()->getAction();
+
+        if($action->getFullActionName() !== "checkout_cart_add")
+            return;
+
+        $product = $observer->getProduct();
+
+        if(is_null($product->getFraisrId()))
+            return;
+
+        if(is_null($product->getFraisrCause()))
+            return;
+
+        if(is_null($product->getFraisrDonationPercentage()))
+            return;
+
+        $additionalOptions = array();
+        if($additionalOption = $product->getCustomOption("additional_options")){
+            $additionalOptions = (array) unserialize($additionalOption->getValue());
+        }
+
+        $additionalOptions[] = array(
+            "label" => "fraisr",
+            "value" => sprintf("%s%% Spende gehen an %s", 
+                $product->getFraisrDonationPercentage(),
+                Mage::getModel('fraisrconnect/cause')->load($product->getFraisrCause())->getName()),
+        );
+
+        $product->addCustomOption("additional_options", serialize($additionalOptions));
+    }
+
+    /**
+     * adds additional options from quote item to order item
+     * @param $observer
+     * @return void
+     */
+    public function salesConvertQuoteItemToOrderItem($observer){
+        $quoteItem = $observer->getItem();
+        if ($additionalOptions = $quoteItem->getOptionByCode('additional_options')) {
+            $orderItem = $observer->getOrderItem();
+            $options = $orderItem->getProductOptions();
+            $options['additional_options'] = unserialize($additionalOptions->getValue());
+            $orderItem->setProductOptions($options);
         }
     }
 }
