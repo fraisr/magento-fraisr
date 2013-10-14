@@ -306,9 +306,11 @@ class Fraisr_Connect_Model_Observer
             $additionalOptions = (array) unserialize($additionalOption->getValue());
         }
 
+        $helper = Mage::helper('fraisrconnect/data');
+
         $additionalOptions[] = array(
             "label" => "fraisr",
-            "value" => sprintf("%s%% Spende gehen an %s", 
+            "value" => $helper->__("%s%% donation will go to %s", 
                 $product->getFraisrDonationPercentage(),
                 Mage::getModel('fraisrconnect/cause')->load($product->getFraisrCause())->getName()),
         );

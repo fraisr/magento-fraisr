@@ -126,3 +126,4 @@
 "Order synchronisation","Bestellungs-Synchronisierung"
 "Invoice items","Rechnungsartikel"
 "If activated invoice item amount will be taken as reference instead of order item amount.","Sofern aktiviert, werden anstatt der Anzahl der bestellten Artikel die Anzahl der in Rechnung gestellten Artikel als Referenz verwendet."
+"%s%% donation will go to %s","%s%% Spende gehen an %s"
