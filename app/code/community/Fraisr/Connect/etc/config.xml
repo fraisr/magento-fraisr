@@ -250,6 +250,10 @@
                 <synchronisation_days>7</synchronisation_days>
                 <invoice_items>0</invoice_items>
             </order_export>
+            <urls>
+                <js>https://fraisr-com.s3-eu-west-1.amazonaws.com/assets/magento/fraisr.js</js>
+                <css>https://fraisr-com.s3-eu-west-1.amazonaws.com/assets/magento/fraisr.css</css>
+            </urls>
             <frontend>
                 <donation_label>icon</donation_label>
                 <icon_position>topleft</icon_position>

@@ -208,7 +208,7 @@ class Fraisr_Connect_Model_Config
      */
     public function getFrontendWidgetJsUri()
     {
-        return $this->getApiUri().Mage::getStoreConfig('fraisrconnect/static/api/frontend_js');
+        return Mage::getStoreConfig('fraisrconnect/urls/js');
     }
 
     /**
@@ -218,7 +218,7 @@ class Fraisr_Connect_Model_Config
      */
     public function getFrontendWidgetCssUri()
     {
-        return $this->getApiUri().Mage::getStoreConfig('fraisrconnect/static/api/frontend_css');
+        return Mage::getStoreConfig('fraisrconnect/urls/css');
     }
 
     /**
