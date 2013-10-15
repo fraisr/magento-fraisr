@@ -128,3 +128,4 @@
 "If activated invoice item amount will be taken as reference instead of order item amount.","Sofern aktiviert, werden anstatt der Anzahl der bestellten Artikel die Anzahl der in Rechnung gestellten Artikel als Referenz verwendet."
 "%s%% donation will go to %s","%s%% Spende gehen an %s"
 "Has fraisr items","Hat fraisr Artikel"
+"There are no products to synchronize.","Es gibt keine Produkte, die synchronisiert werden müssen."

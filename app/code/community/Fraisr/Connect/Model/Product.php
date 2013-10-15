@@ -464,7 +464,22 @@ class Fraisr_Connect_Model_Product extends Mage_Core_Model_Abstract
     {
         try {
             //Get product collection of new and update products
-            $newAndUpdateFraisrProducts = Mage::helper('fraisrconnect/synchronisation_product')->getNewAndUpdateFraisrProducts();
+            $newAndUpdateFraisrProducts = array();
+            foreach(Mage::helper('fraisrconnect/synchronisation_product')->getNewAndUpdateFraisrProducts() AS $product){
+                $data = $this->buildFaisrProductRequestData($product);
+                ksort($data);
+                $hash = hash("sha512", implode("", $data));
+                
+                if($hash === $product->getFraisrSyncHash())
+                    continue;
+
+                $product
+                    ->setFraisrSyncHash($hash)
+                    ->getResource()
+                    ->saveAttribute($product, 'fraisr_sync_hash');
+
+                $newAndUpdateFraisrProducts[] = $product;
+            }
 
             //Mark as to synchronize
             Mage::helper('fraisrconnect/synchronisation_product')->markProductCollectionAsToSynchronize(
@@ -477,7 +492,14 @@ class Fraisr_Connect_Model_Product extends Mage_Core_Model_Abstract
                         '%s product(s) were successfully marked as to synchronize (create/update) to fraisr.',
                         count($newAndUpdateFraisrProducts)
                     ),
-                    Fraisr_Connect_Model_Log::LOG_TASK_CAUSE_SYNC
+                    Fraisr_Connect_Model_Log::LOG_TASK_PRODUCT_SYNC
+                );
+            }else{
+                $this->getAdminHelper()->logAndAdminOutputSuccess(
+                    $this->getAdminHelper()->__(
+                        'There are no products to synchronize.'
+                    ),
+                    Fraisr_Connect_Model_Log::LOG_TASK_PRODUCT_SYNC
                 );
             }
 
@@ -497,7 +519,7 @@ class Fraisr_Connect_Model_Product extends Mage_Core_Model_Abstract
                         '%s product(s) were successfully marked as to synchronize (delete) to fraisr.',
                         count($toDeleteProducts) + count($toDeleteProductsByQueue)
                     ),
-                    Fraisr_Connect_Model_Log::LOG_TASK_CAUSE_SYNC
+                    Fraisr_Connect_Model_Log::LOG_TASK_PRODUCT_SYNC
                 );
             }
         } catch (Exception $e) {
