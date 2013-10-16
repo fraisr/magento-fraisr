@@ -42,7 +42,7 @@ class Fraisr_Connect_Block_Catalog_Product_Json_View extends Mage_Catalog_Block_
         if (!($product instanceof Mage_Catalog_Model_Product)
             || true === is_null($product->getId())
             || '1' !== $product->getFraisrEnabled()) { 
-            continue;
+            return Zend_Json::encode(null);
         }
 
         //Add product entry
