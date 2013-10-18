@@ -122,6 +122,7 @@ class Fraisr_Connect_Adminhtml_SynchronisationController extends Mage_Adminhtml_
      */
     public function productAction()
     {
+        $this->setDefaultStore();
         if (true === Mage::helper('fraisrconnect/adminhtml_data')->isActive(true)) {
             $productSyncronisation = Mage::getModel('fraisrconnect/product');
             $productSyncronisation->synchronize();
@@ -132,6 +133,7 @@ class Fraisr_Connect_Adminhtml_SynchronisationController extends Mage_Adminhtml_
                 );
             }
         }
+        $this->resetStore();
 
         $this->_redirectReferer();
         return;
@@ -149,6 +151,8 @@ class Fraisr_Connect_Adminhtml_SynchronisationController extends Mage_Adminhtml_
         if (true === Mage::helper('fraisrconnect/adminhtml_data')->isActive(true)) {
             Mage::getModel('fraisrconnect/product')->markProductsAsToSynchronize();
         }
+
+        $this->resetStore();
 
         $this->_redirectReferer();
         return;
