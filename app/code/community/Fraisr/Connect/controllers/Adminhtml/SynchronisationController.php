@@ -23,7 +23,36 @@
  * @author     André Herrn <andre.herrn@das-medienkombinat.de>
  */
 class Fraisr_Connect_Adminhtml_SynchronisationController extends Mage_Adminhtml_Controller_Action
-{
+{   
+    /**
+     * Current store code
+     * @var String
+     */
+    protected $_currentStoreCode = null;
+
+    /**
+     * @constructor
+     */
+    public function _construct(){
+        $this->_currentStoreCode = Mage::app()->getStore()->getCode();
+    }
+
+    /**
+     * sets to default store
+     */
+    protected function setDefaultStore(){
+        $websites = Mage::app()->getWebsites();
+        $code = $websites[1]->getDefaultStore()->getCode();
+        Mage::app()->setCurrentStore($code);
+    }
+
+    /**
+     * resets store
+     * @return [type] [description]
+     */
+    protected function resetStore(){
+        Mage::app()->setCurrentStore($this->_currentStoreCode);
+    }
     /**
      * Check if the admin user is allowed to execute this controller action
      * 
@@ -115,6 +144,8 @@ class Fraisr_Connect_Adminhtml_SynchronisationController extends Mage_Adminhtml_
      */
     public function markProductAction()
     {
+        $this->setDefaultStore();
+
         if (true === Mage::helper('fraisrconnect/adminhtml_data')->isActive(true)) {
             Mage::getModel('fraisrconnect/product')->markProductsAsToSynchronize();
         }

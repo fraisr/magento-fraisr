@@ -25,6 +25,36 @@
 class Fraisr_Connect_Model_Observer
 {
     /**
+     * Current store code
+     * @var String
+     */
+    protected $_currentStoreCode = null;
+
+    /**
+     * @constructor
+     */
+    public function __construct(){
+        $this->_currentStoreCode = Mage::app()->getStore()->getCode();
+    }
+
+    /**
+     * sets to default store
+     */
+    protected function setDefaultStore(){
+        $websites = Mage::app()->getWebsites();
+        $code = $websites[1]->getDefaultStore()->getCode();
+        Mage::app()->setCurrentStore($code);
+    }
+
+    /**
+     * resets store
+     * @return [type] [description]
+     */
+    protected function resetStore(){
+        Mage::app()->setCurrentStore($this->_currentStoreCode);
+    }
+
+    /**
      * Initiate cause synchronisation
      * & check for products with non-existing causes
      *
@@ -76,6 +106,8 @@ class Fraisr_Connect_Model_Observer
             return;
         }
 
+        $this->setDefaultStore();
+
         //Trigger product synchronisation
         $productSyncronisation = Mage::getModel('fraisrconnect/product');
         $productSyncronisation->synchronize();
@@ -111,6 +143,8 @@ class Fraisr_Connect_Model_Observer
                 ->setTask(Fraisr_Connect_Model_Log::LOG_TASK_PRODUCT_SYNC)
                 ->logError();
         }
+
+        $this->resetStore();
     }
 
     /**
@@ -125,7 +159,12 @@ class Fraisr_Connect_Model_Observer
         if (false === Mage::helper('fraisrconnect/adminhtml_data')->isActive(true)) {
             return;
         }
+
+        $this->setDefaultStore();
+
         Mage::getModel('fraisrconnect/product')->markProductsAsToSynchronize();
+
+        $this->resetStore();
     }
 
     /**
@@ -255,6 +294,8 @@ class Fraisr_Connect_Model_Observer
         if($config->isActive() !== true)
             return;
 
+        $this->setDefaultStore();
+
         try{
             $response = Mage::getModel('fraisrconnect/api_request')->requestPost(
                 Mage::getModel('fraisrconnect/config')->getConnectApiUri(),
@@ -277,6 +318,8 @@ class Fraisr_Connect_Model_Observer
             $logger->setMessage($error->getMessage());
             $logger->logError();
         }
+
+        $this->resetStore();
     }
 
     /**
