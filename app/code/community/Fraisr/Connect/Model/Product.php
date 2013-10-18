@@ -470,7 +470,7 @@ class Fraisr_Connect_Model_Product extends Mage_Core_Model_Abstract
                 ksort($data);
                 $hash = hash("sha512", implode("", $data));
                 
-                if($hash === $product->getFraisrSyncHash())
+                if($hash === $product->getFraisrSyncHash() && !is_null($product->getFraisrId()))
                     continue;
 
                 $product
