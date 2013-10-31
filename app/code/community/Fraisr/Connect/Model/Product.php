@@ -135,8 +135,10 @@ class Fraisr_Connect_Model_Product extends Mage_Core_Model_Abstract
 
         foreach ($productsToSynchronize as $product) {
             try {
+                $hasFraisrId = (false === is_null($product->getFraisrId()) && strlen($product->getFraisrId()));
+
                 //Delete product
-                if (false === is_null($product->getFraisrId())
+                if ($hasFraisrId
                     && 0 == $product->getFraisrEnabled()) {
                     //Trigger delete request
                     $this->requestDeleteProduct($product->getFraisrId(), $product->getSku());
@@ -146,13 +148,13 @@ class Fraisr_Connect_Model_Product extends Mage_Core_Model_Abstract
                 }
 
                 //Update product
-                if (false === is_null($product->getFraisrId())
+                if ($hasFraisrId
                     && 1 == $product->getFraisrEnabled()) {
                     $this->requestUpdateProduct($product);
                 }
 
                 //New product
-                if (true === is_null($product->getFraisrId())
+                if (!$hasFraisrId
                     && 1 == $product->getFraisrEnabled()) {
                     $this->requestNewProduct($product);
                 }
