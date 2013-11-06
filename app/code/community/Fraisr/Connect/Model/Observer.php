@@ -43,6 +43,9 @@ class Fraisr_Connect_Model_Observer
     protected function setDefaultStore(){
         $websites = Mage::app()->getWebsites();
         $code = $websites[1]->getDefaultStore()->getCode();
+        if(($store = Mage::getModel('fraisrconnect/config')->getCatalogExportStoreId()) !== 0){
+            $code = Mage::app()->getStore($store)->getCode();
+        }
         Mage::app()->setCurrentStore($code);
     }
 
