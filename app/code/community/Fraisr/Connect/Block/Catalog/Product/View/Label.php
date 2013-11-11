@@ -39,7 +39,7 @@ class Fraisr_Connect_Block_Catalog_Product_View_Label extends Mage_Catalog_Block
         );
 
         //Return iframe url
-        return $config->getApiUri().$config->getDonationLabelIframeUri(
+        return $config->getTrustedUri().$config->getDonationLabelIframeUri(
             substr(Mage::app()->getLocale()->getLocaleCode(), 0, 2),
             $base64Hash
         );

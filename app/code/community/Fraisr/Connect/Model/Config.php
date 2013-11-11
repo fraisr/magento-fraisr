@@ -103,6 +103,16 @@ class Fraisr_Connect_Model_Config
      * 
      * @return string
      */
+    public function getTrustedUri()
+    {
+        return (string) Mage::getStoreConfig('fraisrconnect/static/api/trusted');
+    }
+
+    /**
+     * Get Live API URL
+     * 
+     * @return string
+     */
     public function getLiveApiUri()
     {
         return (string) Mage::getStoreConfig('fraisrconnect/static/api/live');
