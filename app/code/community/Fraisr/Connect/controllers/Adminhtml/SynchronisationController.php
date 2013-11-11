@@ -56,6 +56,7 @@ class Fraisr_Connect_Adminhtml_SynchronisationController extends Mage_Adminhtml_
     protected function resetStore(){
         Mage::app()->setCurrentStore($this->_currentStoreCode);
     }
+
     /**
      * Check if the admin user is allowed to execute this controller action
      * 
@@ -63,22 +64,7 @@ class Fraisr_Connect_Adminhtml_SynchronisationController extends Mage_Adminhtml_
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')
-                ->isAllowed('system/tools/fraisrconnect_synchronisation');
-    }
-
-    /**
-     * Check if the admin user is allowed to see this section
-     *
-     * @param string $section
-     * @param boolean
-     */
-    protected function _checkSectionAllowed($section)
-    {
-        if (false == Mage::getSingleton('admin/session')
-                ->isAllowed('system/tools/fraisrconnect_synchronisation/')) {
-            $this->forward('denied');
-        }
+        return Mage::getSingleton('admin/session')->isAllowed('system/fraisr_log');
     }
 
     /**
