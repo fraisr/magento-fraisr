@@ -51,4 +51,14 @@ class Fraisr_Connect_Adminhtml_LogController extends Mage_Adminhtml_Controller_A
         );
         $this->renderLayout();
     }
+
+    /**
+     * Check if the admin user is allowed to execute this controller action
+     * 
+     * @return boolean
+     */
+    protected function _isAllowed()
+    {
+        return Mage::getSingleton('admin/session')->isAllowed('system/fraisr_log');
+    }
 }
