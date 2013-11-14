@@ -46,12 +46,24 @@ class Fraisr_Connect_Model_Entity_Attribute_Source_Category
             );
 
             $categoryCollection = Mage::getModel('fraisrconnect/category')->getCollection();
+
             //If no categories exist, add a notice that categories have to be synched
             if (true === Mage::getModel('fraisrconnect/config')->isActive()
                 && $categoryCollection->count() === 0) {
                 Mage::getSingleton('adminhtml/session')->addNotice(
                     Mage::helper('fraisrconnect/data')->__('fraisr categories have to be synchronized.')
                 );
+            }
+
+            $isParent = array();
+            $parent = array();
+            foreach ($categoryCollection as $category){
+                $parent[$category->getId()] = $category->getParentId();
+                if (true === is_null($category->getParentId())) {
+                    $isParent[$category->getId()] = true;
+                } else {
+                    $isParent[$category->getParentId()] = true;
+                }
             }
 
             //For every synched category => create a select option
@@ -62,7 +74,30 @@ class Fraisr_Connect_Model_Entity_Attribute_Source_Category
                         'label' => $category->getName(),
                         'value' =>  array(),
                     );
-                } else { //Create a real selectable value for the category children
+                } elseif (array_key_exists($category->getId(), $isParent)) {
+                    $label = $category->getName();
+                    $parents = array();
+                    $p = $category->getId();
+                    $o = &$this->_options;
+                    $i = 0;
+
+                    while(($p = $parent[$p]) !== null){
+                        array_unshift($parents, $p);
+                        $i++;
+                    }
+
+                    foreach($parents AS $c => $p){
+                        if($c + 1 == $i){
+                            $label = $o[$p]["label"] . " / " . $label;
+                        }
+                        $o = &$o[$p]["value"];
+                    }
+
+                    $o[$category->getId()] = array(
+                        'label' => $label,
+                        'value' =>  array(),
+                    );
+                } else {
                     $label = $category->getName();
 
                     //Add label in brackets if existing
@@ -70,7 +105,24 @@ class Fraisr_Connect_Model_Entity_Attribute_Source_Category
                         $label .= ' ('.$category->getLabel().')';
                     }
 
-                    $this->_options[$category->getParentId()]['value'][] = array(
+                    $parents = array();
+                    $p = $category->getId();
+                    $o = &$this->_options;
+                    $i = 0;
+
+                    while(($p = $parent[$p]) !== null){
+                        array_unshift($parents, $p);
+                        $i++;
+                    }
+
+                    foreach($parents AS $c => $p){
+                        if($c + 1 == $i){
+                            $label = $o[$p]["label"] . " / " . $label;
+                        }
+                        $o = &$o[$p]["value"];
+                    }
+
+                    $o[] = array(
                         'label' => $label,
                         'value' =>  $category->getId(),
                     );
