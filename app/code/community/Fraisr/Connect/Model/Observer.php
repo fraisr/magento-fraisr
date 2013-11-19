@@ -338,6 +338,9 @@ class Fraisr_Connect_Model_Observer
     public function catalogProductLoadAfter($observer){
         $action = Mage::app()->getFrontController()->getAction();
 
+        if(true === is_null($action))
+            return;
+
         if($action->getFullActionName() !== "checkout_cart_add")
             return;
 
