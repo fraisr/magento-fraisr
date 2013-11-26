@@ -22,5 +22,6 @@
  * @package    Fraisr_Connect
  * @author     André Herrn <andre.herrn@das-medienkombinat.de>
  */
-class Fraisr_Connect_Model_Api_Exception extends Zend_Http_Client_Adapter_Exception
-{ }
+class Fraisr_Connect_Model_Api_Exception extends Zend_Http_Client_Adapter_Exception {
+    
+}

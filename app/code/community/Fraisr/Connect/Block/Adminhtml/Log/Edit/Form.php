@@ -104,12 +104,14 @@ class Fraisr_Connect_Block_Adminhtml_Log_Edit_Form extends Mage_Adminhtml_Block_
         
         $form->setValues(Mage::registry('current_fraisrlog')->getData());
         
-        if ($logData['created_at']!="") $form->getElement('created_at')->setValue(
-            Mage::app()->getLocale()->date(
-                $logData['created_at'],
-                Varien_Date::DATETIME_INTERNAL_FORMAT
-            )
-        ); 
+        if ($logData['created_at']!="") {
+            $form->getElement('created_at')->setValue(
+                Mage::app()->getLocale()->date(
+                    $logData['created_at'],
+                    Varien_Date::DATETIME_INTERNAL_FORMAT
+                )
+            ); 
+        }
         
         $this->setForm($form);
         return parent::_prepareForm();

@@ -40,7 +40,6 @@ class Fraisr_Connect_Block_Adminhtml_System_Config_Support
      */
     public function render(Varien_Data_Form_Element_Abstract $fieldset)
     {
-        $originalData = $fieldset->getOriginalData();
         $this->addData(array(
             'fieldset_label' => $fieldset->getLegend(),
         ));

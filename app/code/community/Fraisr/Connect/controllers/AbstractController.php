@@ -1,6 +1,6 @@
 <?php
 
-abstract class Fraisr_Connect_AbstractController extends Mage_Core_Controller_Front_Action{
+abstract class Fraisr_Connect_AbstractController extends Mage_Core_Controller_Front_Action {
     /**
      * @type Fraisr_Connect_Model_Config
      */
@@ -12,7 +12,12 @@ abstract class Fraisr_Connect_AbstractController extends Mage_Core_Controller_Fr
      * @param Zend_Controller_Response_Abstract $response
      * @param array                             $invokeArgs
      */
-    public function __construct(Zend_Controller_Request_Abstract $request, Zend_Controller_Response_Abstract $response, array $invokeArgs = array()){
+    public function __construct(
+        Zend_Controller_Request_Abstract $request, 
+        Zend_Controller_Response_Abstract $response, 
+        array $invokeArgs = array()
+    ){
+
         parent::__construct($request, $response, $invokeArgs);
 
         $this->getResponse()->setHeader("Content-Type", "application/json", true);
@@ -32,8 +37,9 @@ abstract class Fraisr_Connect_AbstractController extends Mage_Core_Controller_Fr
      * @throws Exception when plugin is disabled
      */
     protected function _checkActive(){
-        if (!$this->_config->isActive())
+        if (!$this->_config->isActive()) {
             throw new Exception("The fraisr plugin is currently disabled");
+        }
     }
 
     /**
@@ -41,11 +47,13 @@ abstract class Fraisr_Connect_AbstractController extends Mage_Core_Controller_Fr
      * @throws Exception when token is invalid
      */
     protected function _checkRequest(){
-        if (null === ($token = $this->getRequest()->getParam("token", null)))
+        if (null === ($token = $this->getRequest()->getParam("token", null))) {
             throw new Exception("Missing param 'token'");
+        }
 
-        if ($token !== $this->_getToken())
+        if ($token !== $this->_getToken()) {
             throw new Exception("Param 'token' is invalid.");
+        }
     }
 
     /**
@@ -56,7 +64,7 @@ abstract class Fraisr_Connect_AbstractController extends Mage_Core_Controller_Fr
         $key = $this->_config->getApiKey();
         $secret = $this->_config->getApiSecret();
 
-        if(strlen($key) > 0 && strlen($secret) > 0){
+        if (strlen($key) > 0 && strlen($secret) > 0) {
             return hash("sha512", implode('|', array($key, $secret)));
         }
 
@@ -83,8 +91,6 @@ abstract class Fraisr_Connect_AbstractController extends Mage_Core_Controller_Fr
         $response = $this->getResponse();
         $body = Zend_Json::encode($body);
         $response->setBody($body);
-        die($response->sendResponse());
+        exit($response->sendResponse());
     }
 }
-
-?>

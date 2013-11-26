@@ -184,8 +184,10 @@ class Fraisr_Connect_Model_Cause extends Mage_Core_Model_Abstract
         //If causeIds were given, add them as filter
         if (count($causeIds) > 0) {
             $products
-                ->addFieldToFilter('fraisr_cause', array('notnull' => true)) //fraisr_cause is not null -> has values
-                ->addFieldToFilter('fraisr_cause', array('nin' => $causeIds)); //fraisr_cause is non of the current causes
+                //fraisr_cause is not null -> has values
+                ->addFieldToFilter('fraisr_cause', array('notnull' => true)) 
+                //fraisr_cause is non of the current causes
+                ->addFieldToFilter('fraisr_cause', array('nin' => $causeIds)); 
         }
         return $products;
     }
@@ -210,7 +212,9 @@ class Fraisr_Connect_Model_Cause extends Mage_Core_Model_Abstract
 
         $helper->logAndAdminOutputNotice(
             $helper->__(
-                'Set "Fraisr enabled" to "No" for %s products because their cause is not available anymore. Skus: "%s". In case of questions please the contact fraisr support.',
+                'Set "Fraisr enabled" to "No" for %s products because ' .
+                'their cause is not available anymore. Skus: "%s". ' .
+                'In case of questions please the contact fraisr support.',
                 count($disabledSkus),
                 implode(',', $disabledSkus)
             ),

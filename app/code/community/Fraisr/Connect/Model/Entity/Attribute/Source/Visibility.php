@@ -22,25 +22,23 @@
  * @package    Fraisr_Connect
  * @author     André Herrn <andre.herrn@das-medienkombinat.de>
  */
-class Fraisr_Connect_Model_Entity_Attribute_Source_Visibility
-    extends Mage_Eav_Model_Entity_Attribute_Source_Abstract
-{
-   /**
+class Fraisr_Connect_Model_Entity_Attribute_Source_Visibility extends Mage_Eav_Model_Entity_Attribute_Source_Abstract {
+    /**
      * @const FRAISR_VISIBILITY_KEY Translation prefix constant
      */
     const FRAISR_VISIBILITY_KEY = 'visibility_';
 
-   /**
+    /**
      * @const FRAISR_VISIBILITY_BOTH Visible in fraisr and in the shop
      */
     const FRAISR_VISIBILITY_BOTH = 'both';
 
-   /**
+    /**
      * @const FRAISR_VISIBILITY_SHOP Visible in the shop only
      */
     const FRAISR_VISIBILITY_SHOP = 'shop';
 
-   /**
+    /**
      * @const FRAISR_VISIBILITY_FRAISR Visible in fraisr only
      */
     const FRAISR_VISIBILITY_FRAISR = 'fraisr';

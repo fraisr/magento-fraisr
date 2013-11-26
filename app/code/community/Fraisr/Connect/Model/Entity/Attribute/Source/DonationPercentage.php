@@ -22,19 +22,18 @@
  * @package    Fraisr_Connect
  * @author     André Herrn <andre.herrn@das-medienkombinat.de>
  */
-class Fraisr_Connect_Model_Entity_Attribute_Source_DonationPercentage
-    extends Mage_Eav_Model_Entity_Attribute_Source_Abstract
-{
+class Fraisr_Connect_Model_Entity_Attribute_Source_DonationPercentage 
+    extends Mage_Eav_Model_Entity_Attribute_Source_Abstract {
     /**
      * Allowed donation percentages
      * 
      * @var array 
      */
-    protected $donationPercentages = array(
+    protected $_donationPercentages = array(
         5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100
     );
 
-   /**
+    /**
      * @const FRAISR_DONATION_PERCENTAGE_DEFAULT Default donation value
      */
     const FRAISR_DONATION_PERCENTAGE_DEFAULT = '';
@@ -55,7 +54,7 @@ class Fraisr_Connect_Model_Entity_Attribute_Source_DonationPercentage
             );
 
             //For every defined percentage => create a select option
-            foreach ($this->donationPercentages as $percentage) {
+            foreach ($this->_donationPercentages as $percentage) {
                 $this->_options[] = array(
                     'label' => Mage::helper('fraisrconnect/data')->__('%s %s', $percentage, '%'),
                     'value' =>  $percentage,

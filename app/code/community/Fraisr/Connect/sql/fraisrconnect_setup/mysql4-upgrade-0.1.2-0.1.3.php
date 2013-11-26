@@ -101,6 +101,7 @@ $setup->addAttribute(
 );
 
 //Donation percentage
+$default = Fraisr_Connect_Model_Entity_Attribute_Source_DonationPercentage::FRAISR_DONATION_PERCENTAGE_DEFAULT;
 $setup->addAttribute(
     'catalog_product',
     'fraisr_donation_percentage',
@@ -110,7 +111,7 @@ $setup->addAttribute(
         'type'                          => 'int',
         'label'                         => $fraisrHelper->__("fraisr donation percentage"),
         'source'                        => 'fraisrconnect/entity_attribute_source_donationPercentage',
-        'default'                       => Fraisr_Connect_Model_Entity_Attribute_Source_DonationPercentage::FRAISR_DONATION_PERCENTAGE_DEFAULT,
+        'default'                       => $default,
         'global'                        => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
         'apply_to'                      => implode(",", $productTypes),
         'sort_order'                    => 300,
@@ -128,6 +129,7 @@ $setup->addAttribute(
 );
 
 //Category
+$default = Fraisr_Connect_Model_Entity_Attribute_Source_Category::FRAISR_CATEGORY_DEFAULT;
 $setup->addAttribute(
     'catalog_product',
     'fraisr_category',
@@ -137,7 +139,7 @@ $setup->addAttribute(
         'type'                          => 'varchar',
         'label'                         => $fraisrHelper->__("fraisr category"),
         'source'                        => 'fraisrconnect/entity_attribute_source_category',
-        'default'                       => Fraisr_Connect_Model_Entity_Attribute_Source_Category::FRAISR_CATEGORY_DEFAULT,
+        'default'                       => $default,
         'global'                        => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
         'apply_to'                      => implode(",", $productTypes),
         'sort_order'                    => 400,

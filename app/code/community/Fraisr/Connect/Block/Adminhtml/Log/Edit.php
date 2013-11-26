@@ -39,14 +39,15 @@ class Fraisr_Connect_Block_Adminhtml_Log_Edit extends Mage_Adminhtml_Block_Widge
         $this->_controller = 'adminhtml_log';
         
         //Add Log Entry to Session
-        if( $this->getRequest()->getParam($this->_objectId) ) {
+        if ($this->getRequest()->getParam($this->_objectId)) {
             $formData = Mage::getModel('fraisrconnect/log')
                 ->load($this->getRequest()->getParam($this->_objectId));
                 
             Mage::register('current_fraisrlog', $formData);
         }
         
-        //Remove reset, save and delete button -> Not necessary because we only want to show the log details (not edit them)
+        //Remove reset, save and delete button 
+        //-> Not necessary because we only want to show the log details (not edit them)
         $this->_removeButton('reset');
         $this->_removeButton('save');
         $this->_removeButton('delete');

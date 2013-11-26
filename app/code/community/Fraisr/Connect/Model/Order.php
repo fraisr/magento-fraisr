@@ -28,35 +28,35 @@ class Fraisr_Connect_Model_Order extends Mage_Core_Model_Abstract
      * fraisr admin helper
      * @var Fraisr_Connect_Helper_Adminhtml_Data
      */
-    protected $adminHelper = null;
+    protected $_adminHelper = null;
 
     /**
      * collection of new orders
      * 
      * @var array
      */
-    protected $newOrdersReport = array();
+    protected $_newOrdersReport = array();
 
     /**
      * collection of updated orders
      * 
      * @var array
      */
-    protected $updatedOrdersReport = array();
+    protected $_updatedOrdersReport = array();
 
     /**
      * collection of updated orders
      * 
      * @var array
      */
-    protected $deletedOrdersReport = array();
+    protected $_deletedOrdersReport = array();
 
     /**
      * collection of transmission failed orders
      * 
      * @var array
      */
-    protected $failedOrdersReport = array();
+    protected $_failedOrdersReport = array();
 
     /**
      * Flag to check if the synchronisation is finished/completed or not
@@ -161,7 +161,7 @@ class Fraisr_Connect_Model_Order extends Mage_Core_Model_Abstract
                 $logDetails['error_message'] = $e->getMessage();
 
                 //Add item to failed order list
-                $this->failedOrdersReport[] = $logDetails;
+                $this->_failedOrdersReport[] = $logDetails;
             }
 
             //Check if the script runtime is already close to exceed
@@ -239,7 +239,7 @@ class Fraisr_Connect_Model_Order extends Mage_Core_Model_Abstract
             ->save();
 
         //Add order_id to success list
-        $this->newOrdersReport[] = array(
+        $this->_newOrdersReport[] = array(
             'magento_order_id' => $orderItem->getIncrementId(),
             'fraisr_order_id' => $orderItem->getFraisrOrderId(),
             'product' => $orderRequestData['product'],
@@ -274,14 +274,14 @@ class Fraisr_Connect_Model_Order extends Mage_Core_Model_Abstract
 
         if ($amount > 0) {
             //Add order_id to update success list
-            $this->updatedOrdersReport[] = array(
+            $this->_updatedOrdersReport[] = array(
                 'magento_order_id' => $orderItem->getIncrementId(),
                 'fraisr_order_id' => $orderItem->getFraisrOrderId(),
                 'amount' => $amount,
             );
         } else {
             //Add order_id to delete success list
-            $this->deletedOrdersReport[] = array(
+            $this->_deletedOrdersReport[] = array(
                 'magento_order_id' => $orderItem->getIncrementId(),
                 'fraisr_order_id' => $orderItem->getFraisrProductId(),
                 'amount' => $amount,
@@ -302,36 +302,36 @@ class Fraisr_Connect_Model_Order extends Mage_Core_Model_Abstract
         //Add admin notice message about new added orders
         $newOrdersMessage = $this->getAdminHelper()->__(
             '%s order(s) were successfully added to fraisr.',
-            (int) count($this->newOrdersReport)
+            (int) count($this->_newOrdersReport)
         );
-        if (count($this->newOrdersReport) > 0) {
+        if (count($this->_newOrdersReport) > 0) {
             Mage::getSingleton('adminhtml/session')->addNotice($newOrdersMessage);
         }
 
         //Add admin notice message about updated orders
         $updatedOrdersMessage = $this->getAdminHelper()->__(
             '%s order(s) were successfully updated in fraisr.',
-            (int) count($this->updatedOrdersReport)
+            (int) count($this->_updatedOrdersReport)
         );
-        if (count($this->updatedOrdersReport) > 0) {
+        if (count($this->_updatedOrdersReport) > 0) {
             Mage::getSingleton('adminhtml/session')->addNotice($updatedOrdersMessage);
         }
 
         //Add admin notice message about deleted orders
         $deletedOrdersMessage = $this->getAdminHelper()->__(
             '%s order(s) were successfully deleted from fraisr.',
-            (int) count($this->deletedOrdersReport)
+            (int) count($this->_deletedOrdersReport)
         );
-        if (count($this->deletedOrdersReport) > 0) {
+        if (count($this->_deletedOrdersReport) > 0) {
             Mage::getSingleton('adminhtml/session')->addNotice($deletedOrdersMessage);
         }
 
         //Add admin notice message about transmission failed orders
         $failedOrdersMessage = $this->getAdminHelper()->__(
             'The transmission of %s order(s) failed during fraisr synchronisation.',
-            (int) count($this->failedOrdersReport)
+            (int) count($this->_failedOrdersReport)
         );
-        if (count($this->failedOrdersReport) > 0) {
+        if (count($this->_failedOrdersReport) > 0) {
             Mage::getSingleton('adminhtml/session')->addNotice($failedOrdersMessage);
         }
 
@@ -342,13 +342,13 @@ class Fraisr_Connect_Model_Order extends Mage_Core_Model_Abstract
             ."#%s\n%s\n\n"
             ."#%s\n%s\n\n",
             $newOrdersMessage,
-            Mage::helper('fraisrconnect/synchronisation_order')->buildSyncReportDetails($this->newOrdersReport),
+            Mage::helper('fraisrconnect/synchronisation_order')->buildSyncReportDetails($this->_newOrdersReport),
             $updatedOrdersMessage,
-            Mage::helper('fraisrconnect/synchronisation_order')->buildSyncReportDetails($this->updatedOrdersReport),
+            Mage::helper('fraisrconnect/synchronisation_order')->buildSyncReportDetails($this->_updatedOrdersReport),
             $deletedOrdersMessage,
-            Mage::helper('fraisrconnect/synchronisation_order')->buildSyncReportDetails($this->deletedOrdersReport),
+            Mage::helper('fraisrconnect/synchronisation_order')->buildSyncReportDetails($this->_deletedOrdersReport),
             $failedOrdersMessage,
-            Mage::helper('fraisrconnect/synchronisation_order')->buildSyncReportDetails($this->failedOrdersReport)
+            Mage::helper('fraisrconnect/synchronisation_order')->buildSyncReportDetails($this->_failedOrdersReport)
         );
         Mage::getModel('fraisrconnect/log')
             ->setTitle($this->getAdminHelper()->__('Order synchronisation report'))
@@ -364,10 +364,10 @@ class Fraisr_Connect_Model_Order extends Mage_Core_Model_Abstract
      */
     protected function getAdminHelper()
     {
-        if (true === is_null($this->adminHelper)) {
-            $this->adminHelper = Mage::helper('fraisrconnect/adminhtml_data');
+        if (true === is_null($this->_adminHelper)) {
+            $this->_adminHelper = Mage::helper('fraisrconnect/adminhtml_data');
         }
-        return $this->adminHelper;
+        return $this->_adminHelper;
     }
 
     /**

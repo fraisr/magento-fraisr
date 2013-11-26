@@ -28,35 +28,35 @@ class Fraisr_Connect_Model_Product extends Mage_Core_Model_Abstract
      * fraisr admin helper
      * @var Fraisr_Connect_Helper_Adminhtml_Data
      */
-    protected $adminHelper = null;
+    protected $_adminHelper = null;
 
     /**
      * collection of new added products (sku + fraisr_id)
      * 
      * @var array
      */
-    protected $newProductsReport = array();
+    protected $_newProductsReport = array();
 
     /**
      * collection of updated products (sku + fraisr_id)
      * 
      * @var array
      */
-    protected $updatedProductsReport = array();
+    protected $_updatedProductsReport = array();
 
     /**
      * collection of deleted products (sku + fraisr_id)
      * 
      * @var array
      */
-    protected $deletedProductsReport = array();
+    protected $_deletedProductsReport = array();
 
     /**
      * collection of transmission failed products (sku + optional fraisr_id)
      * 
      * @var array
      */
-    protected $failedProductsReport = array();
+    protected $_failedProductsReport = array();
 
     /**
      * Flag to check if the synchronisation is finished/completed or not
@@ -163,7 +163,7 @@ class Fraisr_Connect_Model_Product extends Mage_Core_Model_Abstract
                 Mage::helper('fraisrconnect/synchronisation_product')->markAsSynchronized($product);
             } catch (Fraisr_Connect_Model_Api_Exception $e) {
                 //Add sku to failed products list
-                $this->failedProductsReport[] = array(
+                $this->_failedProductsReport[] = array(
                     'sku' => $product->getSku(),
                     'fraisr_id' => $product->getFraisrId(),
                     'error_message' => $e->getMessage(),
@@ -223,7 +223,7 @@ class Fraisr_Connect_Model_Product extends Mage_Core_Model_Abstract
         $product->setFraisrId($reponse['_id'])->save();
 
         //Add sku to success list
-        $this->newProductsReport[] = array(
+        $this->_newProductsReport[] = array(
             'sku' => $product->getSku(),
             'fraisr_id' => $reponse['_id']
         );
@@ -247,7 +247,7 @@ class Fraisr_Connect_Model_Product extends Mage_Core_Model_Abstract
         );
 
         //Add sku to success list
-        $this->updatedProductsReport[] = array(
+        $this->_updatedProductsReport[] = array(
             'sku' => $product->getSku(),
             'fraisr_id' => $product->getFraisrId()
         );
@@ -267,7 +267,7 @@ class Fraisr_Connect_Model_Product extends Mage_Core_Model_Abstract
         );
 
         //Add sku to delete list
-        $this->deletedProductsReport[] = array(
+        $this->_deletedProductsReport[] = array(
             'sku' => $sku,
             'fraisr_id' => $fraisrId
         );
@@ -347,36 +347,36 @@ class Fraisr_Connect_Model_Product extends Mage_Core_Model_Abstract
         //Add admin notice message about new added products
         $newProductsMessage = $this->getAdminHelper()->__(
             '%s product(s) were successfully added to fraisr.',
-            (int) count($this->newProductsReport)
+            (int) count($this->_newProductsReport)
         );
-        if (count($this->newProductsReport) > 0) {
+        if (count($this->_newProductsReport) > 0) {
             Mage::getSingleton('adminhtml/session')->addNotice($newProductsMessage);
         }
 
         //Add admin notice message about updated products
         $updatedProductsMessage = $this->getAdminHelper()->__(
             '%s product(s) were successfully updated in fraisr.',
-            (int) count($this->updatedProductsReport)
+            (int) count($this->_updatedProductsReport)
         );
-        if (count($this->updatedProductsReport) > 0) {
+        if (count($this->_updatedProductsReport) > 0) {
             Mage::getSingleton('adminhtml/session')->addNotice($updatedProductsMessage);
         }
 
         //Add admin notice message about deleted products
         $deletedProductsMessage = $this->getAdminHelper()->__(
             '%s product(s) were successfully deleted from fraisr.',
-            (int) count($this->deletedProductsReport)
+            (int) count($this->_deletedProductsReport)
         );
-        if (count($this->deletedProductsReport) > 0) {
+        if (count($this->_deletedProductsReport) > 0) {
             Mage::getSingleton('adminhtml/session')->addNotice($deletedProductsMessage);
         }
 
         //Add admin notice message about transmission failed products
         $failedProductsMessage = $this->getAdminHelper()->__(
             'The transmission of %s product(s) failed during fraisr synchronisation.',
-            (int) count($this->failedProductsReport)
+            (int) count($this->_failedProductsReport)
         );
-        if (count($this->failedProductsReport) > 0) {
+        if (count($this->_failedProductsReport) > 0) {
             Mage::getSingleton('adminhtml/session')->addNotice($failedProductsMessage);
         }
 
@@ -387,13 +387,13 @@ class Fraisr_Connect_Model_Product extends Mage_Core_Model_Abstract
             ."#%s\n%s\n\n"
             ."#%s\n%s\n\n",
             $newProductsMessage,
-            Mage::helper('fraisrconnect/synchronisation_product')->buildSyncReportDetails($this->newProductsReport),
+            Mage::helper('fraisrconnect/synchronisation_product')->buildSyncReportDetails($this->_newProductsReport),
             $updatedProductsMessage,
-            Mage::helper('fraisrconnect/synchronisation_product')->buildSyncReportDetails($this->updatedProductsReport),
+            Mage::helper('fraisrconnect/synchronisation_product')->buildSyncReportDetails($this->_updatedProductsReport),
             $deletedProductsMessage,
-            Mage::helper('fraisrconnect/synchronisation_product')->buildSyncReportDetails($this->deletedProductsReport),
+            Mage::helper('fraisrconnect/synchronisation_product')->buildSyncReportDetails($this->_deletedProductsReport),
             $failedProductsMessage,
-            Mage::helper('fraisrconnect/synchronisation_product')->buildSyncReportDetails($this->failedProductsReport)
+            Mage::helper('fraisrconnect/synchronisation_product')->buildSyncReportDetails($this->_failedProductsReport)
         );
         Mage::getModel('fraisrconnect/log')
             ->setTitle($this->getAdminHelper()->__('Product synchronisation report'))
@@ -409,10 +409,10 @@ class Fraisr_Connect_Model_Product extends Mage_Core_Model_Abstract
      */
     protected function getAdminHelper()
     {
-        if (true === is_null($this->adminHelper)) {
-            $this->adminHelper = Mage::helper('fraisrconnect/adminhtml_data');
+        if (true === is_null($this->_adminHelper)) {
+            $this->_adminHelper = Mage::helper('fraisrconnect/adminhtml_data');
         }
-        return $this->adminHelper;
+        return $this->_adminHelper;
     }
 
     /**
@@ -447,7 +447,7 @@ class Fraisr_Connect_Model_Product extends Mage_Core_Model_Abstract
                 Mage::getModel('fraisrconnect/config')->removeProductFromDeleteQueue($product['sku']);
             } catch (Fraisr_Connect_Model_Api_Exception $e) {
                 //Add sku to delete products list
-                $this->failedProductsReport[] = array(
+                $this->_failedProductsReport[] = array(
                     'sku' => $product['sku'],
                     'fraisr_id' => $product['fraisr_id'],
                     'error_message' => $e->getMessage(),
@@ -467,13 +467,16 @@ class Fraisr_Connect_Model_Product extends Mage_Core_Model_Abstract
         try {
             //Get product collection of new and update products
             $newAndUpdateFraisrProducts = array();
-            foreach(Mage::helper('fraisrconnect/synchronisation_product')->getNewAndUpdateFraisrProducts() AS $product){
+            foreach (Mage::helper('fraisrconnect/synchronisation_product')->getNewAndUpdateFraisrProducts() 
+                AS $product) {
+                
                 $data = $this->buildFaisrProductRequestData($product);
                 ksort($data);
                 $hash = hash("sha512", implode("", $data));
                 
-                if($hash === $product->getFraisrSyncHash() && !is_null($product->getFraisrId()))
+                if($hash === $product->getFraisrSyncHash() && !is_null($product->getFraisrId())) {
                     continue;
+                }
 
                 $product
                     ->setFraisrSyncHash($hash)
@@ -496,7 +499,7 @@ class Fraisr_Connect_Model_Product extends Mage_Core_Model_Abstract
                     ),
                     Fraisr_Connect_Model_Log::LOG_TASK_PRODUCT_SYNC
                 );
-            }else{
+            } else {
                 $this->getAdminHelper()->logAndAdminOutputSuccess(
                     $this->getAdminHelper()->__(
                         'There are no products to synchronize.'

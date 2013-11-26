@@ -22,5 +22,6 @@
  * @package    Fraisr_Connect
  * @author     André Herrn <andre.herrn@das-medienkombinat.de>
  */
-class Fraisr_Connect_Exception extends Exception
-{ }
+class Fraisr_Connect_Exception extends Exception {
+    
+}

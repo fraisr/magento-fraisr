@@ -35,7 +35,7 @@ class Fraisr_Connect_Model_Api_Response
      * 
      * @var array
      */
-    protected $allowedHttpStatusCodes = array(200);
+    protected $_allowedHttpStatusCodes = array(200);
 
     /**
      * Validate GET response
@@ -116,7 +116,7 @@ class Fraisr_Connect_Model_Api_Response
             );
         }
 
-        if (false === in_array($this->response->getStatus(), $this->allowedHttpStatusCodes)) {
+        if (false === in_array($this->response->getStatus(), $this->_allowedHttpStatusCodes)) {
             $fraisrErrorMessage = '';
             $jsonData = Zend_Json::decode($this->response->getBody());
             if (true === is_array($jsonData)
@@ -132,7 +132,7 @@ class Fraisr_Connect_Model_Api_Response
                 $helper->__(
                     'Api response code is "%s" instead of "%s".',
                     $this->response->getStatus(),
-                    implode(',', $this->allowedHttpStatusCodes)
+                    implode(',', $this->_allowedHttpStatusCodes)
                 ).$fraisrErrorMessage,
                 $this->response->getStatus()
             );
@@ -189,7 +189,7 @@ class Fraisr_Connect_Model_Api_Response
      */
     public function setAllowedHttpStatusCodes($statusCodes)
     {
-        $this->allowedHttpStatusCodes = $statusCodes;
+        $this->_allowedHttpStatusCodes = $statusCodes;
         return $this;
     }
 }

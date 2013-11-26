@@ -54,30 +54,34 @@ class Fraisr_Connect_Block_Adminhtml_Log extends Mage_Adminhtml_Block_Widget_Gri
         $this->_removeButton('add');
 
         //Add cause sync button
+        $url = $urlModel->getUrl('fraisrconnect/adminhtml_synchronisation/cause');
         $this->_addButton('cause_synchronisation', array(
             'label'     => $helper->__('Synchronize causes'),
-            'onclick'   => 'setLocation(\'' . $urlModel->getUrl('fraisrconnect/adminhtml_synchronisation/cause') .'\')',
+            'onclick'   => 'setLocation(\'' . $url .'\')',
             'class'     => 'add',
         ));
 
         //Add category sync button
+        $url = $urlModel->getUrl('fraisrconnect/adminhtml_synchronisation/category');
         $this->_addButton('category_synchronisation', array(
             'label'     => $helper->__('Synchronize categories'),
-            'onclick'   => 'setLocation(\'' . $urlModel->getUrl('fraisrconnect/adminhtml_synchronisation/category') .'\')',
+            'onclick'   => 'setLocation(\'' . $url . '\')',
             'class'     => 'add',
         ));
 
         //Add mark products to sync button
+        $url = $urlModel->getUrl('fraisrconnect/adminhtml_synchronisation/markProduct');
         $this->_addButton('product_mark_to_synchronisation', array(
             'label'     => $helper->__('Mark products as to synchronize'),
-            'onclick'   => 'setLocation(\'' . $urlModel->getUrl('fraisrconnect/adminhtml_synchronisation/markProduct') .'\')',
+            'onclick'   => 'setLocation(\'' . $url . '\')',
             'class'     => 'add',
         ));
 
         //Add product sync button
+        $url = $urlModel->getUrl('fraisrconnect/adminhtml_synchronisation/product');
         $this->_addButton('product_synchronisation', array(
             'label'     => $helper->__('Synchronize products'),
-            'onclick'   => 'setLocation(\'' . $urlModel->getUrl('fraisrconnect/adminhtml_synchronisation/product') .'\')',
+            'onclick'   => 'setLocation(\'' . $url .'\')',
             'class'     => 'add',
         ));
 

@@ -22,10 +22,8 @@
  * @package    Fraisr_Connect
  * @author     André Herrn <andre.herrn@das-medienkombinat.de>
  */
-class Fraisr_Connect_Model_Entity_Attribute_Source_Category
-    extends Mage_Eav_Model_Entity_Attribute_Source_Abstract
-{
-   /**
+class Fraisr_Connect_Model_Entity_Attribute_Source_Category extends Mage_Eav_Model_Entity_Attribute_Source_Abstract {
+    /**
      * @const FRAISR_CATEGORY_DEFAULT Default category value
      */
     const FRAISR_CATEGORY_DEFAULT = '';
@@ -57,7 +55,7 @@ class Fraisr_Connect_Model_Entity_Attribute_Source_Category
 
             $isParent = array();
             $parent = array();
-            foreach ($categoryCollection as $category){
+            foreach ($categoryCollection as $category) {
                 $parent[$category->getId()] = $category->getParentId();
                 if (true === is_null($category->getParentId())) {
                     $isParent[$category->getId()] = true;
@@ -86,7 +84,7 @@ class Fraisr_Connect_Model_Entity_Attribute_Source_Category
                         $i++;
                     }
 
-                    foreach($parents AS $c => $p){
+                    foreach ($parents AS $c => $p) {
                         if($c + 1 == $i){
                             $label = $o[$p]["label"] . " / " . $label;
                         }
@@ -115,7 +113,7 @@ class Fraisr_Connect_Model_Entity_Attribute_Source_Category
                         $i++;
                     }
 
-                    foreach($parents AS $c => $p){
+                    foreach ($parents AS $c => $p) {
                         if($c + 1 == $i){
                             $label = $o[$p]["label"] . " / " . $label;
                         }

@@ -22,10 +22,8 @@
  * @package    Fraisr_Connect
  * @author     André Herrn <andre.herrn@das-medienkombinat.de>
  */
-class Fraisr_Connect_Model_Entity_Attribute_Source_Cause
-    extends Mage_Eav_Model_Entity_Attribute_Source_Abstract
-{
-   /**
+class Fraisr_Connect_Model_Entity_Attribute_Source_Cause extends Mage_Eav_Model_Entity_Attribute_Source_Abstract {
+    /**
      * @const FRAISR_CAUSE_DEFAULT Default case value
      */
     const FRAISR_CAUSE_DEFAULT = '';

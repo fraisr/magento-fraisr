@@ -28,7 +28,8 @@ $setup->updateAttribute(
     'catalog_product',
     'fraisr_cause',
     'note',
-    $fraisrHelper->__('Folgende Artikel NICHT für die Organisation verkaufen:<br />"ALK": "Alkohol"<br />"TBK": "Tabakwaren"<br />"LDR": "Lederwaren"<br />
+    $fraisrHelper->__('Folgende Artikel NICHT für die Organisation verkaufen:<br />' . 
+        '"ALK": "Alkohol"<br />"TBK": "Tabakwaren"<br />"LDR": "Lederwaren"<br />
 "PELZ": "Pelzwaren"<br />"FLS": "Fleischprodukte"<br />"TP": "tierische Produkte"')
 );
 

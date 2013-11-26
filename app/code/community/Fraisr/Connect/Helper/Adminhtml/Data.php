@@ -31,7 +31,7 @@ class Fraisr_Connect_Helper_Adminhtml_Data extends Fraisr_Connect_Helper_Data
      * @param  string $task
      * @return void
      */
-    public function logAndAdminOutputException($message, $task = '', Exception $e)
+    public function logAndAdminOutputException($message, $task = '', Exception $error)
     {
         //Add admin error message
         Mage::getSingleton('adminhtml/session')->addError($message);
@@ -40,7 +40,7 @@ class Fraisr_Connect_Helper_Adminhtml_Data extends Fraisr_Connect_Helper_Data
         Mage::getModel('fraisrconnect/log')
             ->setTitle($message)
             ->setTask($task)
-            ->setAdditionalInformation1($e->getTraceAsString())
+            ->setAdditionalInformation1($error->getTraceAsString())
             ->logError();
     }
 

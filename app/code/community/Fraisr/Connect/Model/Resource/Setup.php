@@ -22,5 +22,6 @@
  * @package    Fraisr_Connect
  * @author     André Herrn <andre.herrn@das-medienkombinat.de>
  */
-class Fraisr_Connect_Model_Resource_Setup extends Mage_Core_Model_Resource_Setup
-{ }
+class Fraisr_Connect_Model_Resource_Setup extends Mage_Core_Model_Resource_Setup {
+    
+}

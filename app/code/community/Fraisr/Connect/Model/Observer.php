@@ -44,12 +44,13 @@ class Fraisr_Connect_Model_Observer
         $websites = Mage::app()->getWebsites();
         $code = $websites[1]->getDefaultStore()->getCode();
 
-        if(($store = Mage::getModel('fraisrconnect/config')->getCatalogExportStoreId()) !== 0){
+        if (($store = Mage::getModel('fraisrconnect/config')->getCatalogExportStoreId()) !== 0) {
             $code = Mage::app()->getStore($store)->getCode();
         }
 
-        if($code === $this->_currentStoreCode)
+        if ($code === $this->_currentStoreCode) {
             return;
+        }
         
         Mage::app()->setCurrentStore($code);
     }
@@ -130,7 +131,9 @@ class Fraisr_Connect_Model_Observer
                 
                 //Log about adding a next cronjob task
                 $logTitle = Mage::helper('fraisrconnect/data')->__(
-                    'Not all products have been synchronized because of a transmission error or a script timeout. Therefore another cron task was added for GMT-Datetime %s.',
+                    'Not all products have been synchronized because ' .
+                    'of a transmission error or a script timeout. ' .
+                    'Therefore another cron task was added for GMT-Datetime %s.',
                     $cronTask->getScheduledAt()
                 );
                 Mage::getModel('fraisrconnect/log')
@@ -141,7 +144,8 @@ class Fraisr_Connect_Model_Observer
         } catch (Exception $e) {
             //Log error title
             $logTitle = Mage::helper('fraisrconnect/data')->__(
-                'An error occured during the creation of the following cron task for the product sychronisation with message: "%s".',
+                'An error occured during the creation of the following ' .
+                'cron task for the product sychronisation with message: "%s".',
                 $e->getMessage()
             );
 
@@ -234,10 +238,10 @@ class Fraisr_Connect_Model_Observer
         }
         
         $event = $observer->getEvent();
-        $order_item = $event->getOrderItem();
-        $order_item->setFraisrProductId($event->getItem()->getFraisrProductId());
-        $order_item->setFraisrCauseId($event->getItem()->getFraisrCauseId());
-        $order_item->setFraisrDonationPercentage($event->getItem()->getFraisrDonationPercentage());
+        $orderItem = $event->getOrderItem();
+        $orderItem->setFraisrProductId($event->getItem()->getFraisrProductId());
+        $orderItem->setFraisrCauseId($event->getItem()->getFraisrCauseId());
+        $orderItem->setFraisrDonationPercentage($event->getItem()->getFraisrDonationPercentage());
     }
 
     /**
@@ -267,7 +271,9 @@ class Fraisr_Connect_Model_Observer
                 
                 //Log about adding a next cronjob task
                 $logTitle = Mage::helper('fraisrconnect/data')->__(
-                    'Not all orders have been synchronized because of a transmission error or a script timeout. Therefore another cron task was added for GMT-Datetime %s.',
+                    'Not all orders have been synchronized because ' .
+                    'of a transmission error or a script timeout. ' .
+                    'Therefore another cron task was added for GMT-Datetime %s.',
                     $cronTask->getScheduledAt()
                 );
                 Mage::getModel('fraisrconnect/log')
@@ -278,7 +284,8 @@ class Fraisr_Connect_Model_Observer
         } catch (Exception $e) {
             //Log error title
             $logTitle = Mage::helper('fraisrconnect/data')->__(
-                'An error occured during the creation of the following cron task for the order sychronisation with message: "%s".',
+                'An error occured during the creation of the following ' .
+                'cron task for the order sychronisation with message: "%s".',
                 $e->getMessage()
             );
 
@@ -299,8 +306,9 @@ class Fraisr_Connect_Model_Observer
         $config = Mage::getModel("fraisrconnect/config");
         $callback_url = Mage::getUrl("fraisrconnect");
 
-        if($config->isActive() !== true)
+        if ($config->isActive() !== true) {
             return;
+        }
 
         $this->setDefaultStore();
 
@@ -310,8 +318,8 @@ class Fraisr_Connect_Model_Observer
                 compact("callback_url")
             );
 
-            if($response["success"] !== true){
-                if(array_key_exists($response["error"])){
+            if ($response["success"] !== true) {
+                if (array_key_exists($response["error"])) {
                     throw new Exception($response["error"]);
                 }
 
@@ -338,25 +346,30 @@ class Fraisr_Connect_Model_Observer
     public function catalogProductLoadAfter($observer){
         $action = Mage::app()->getFrontController()->getAction();
 
-        if(true === is_null($action))
+        if (true === is_null($action)) {
             return;
+        }
 
-        if($action->getFullActionName() !== "checkout_cart_add")
+        if ($action->getFullActionName() !== "checkout_cart_add") {
             return;
+        }
 
         $product = $observer->getProduct();
 
-        if(is_null($product->getFraisrId()))
+        if (is_null($product->getFraisrId())) {
             return;
+        }
 
-        if(is_null($product->getFraisrCause()))
+        if (is_null($product->getFraisrCause())) {
             return;
+        }
 
-        if(is_null($product->getFraisrDonationPercentage()))
+        if (is_null($product->getFraisrDonationPercentage())) {
             return;
+        }
 
         $additionalOptions = array();
-        if($additionalOption = $product->getCustomOption("additional_options")){
+        if ($additionalOption = $product->getCustomOption("additional_options")) {
             $additionalOptions = (array) unserialize($additionalOption->getValue());
         }
 
@@ -396,11 +409,13 @@ class Fraisr_Connect_Model_Observer
     public function customgridColumnAppend($observer){
         $block = $observer->getBlock();
 
-        if(!isset($block))
+        if (!isset($block)) {
             return;
+        }
 
-        if($block->getType() !== "adminhtml/sales_order_grid")
+        if ($block->getType() !== "adminhtml/sales_order_grid") {
             return;
+        }
 
         $block->addColumnAfter("has_fraisr_items", array(
             "header" => Mage::helper("fraisrconnect/data")->__("Has fraisr items"),
@@ -421,9 +436,10 @@ class Fraisr_Connect_Model_Observer
         $order = $observer->getEvent()->getOrder();
         $has_fraisr_items = 0;
 
-        foreach($quote->getAllVisibleItems() AS $quoteItem){
-            if(is_null($quoteItem->getFraisrProductId()))
+        foreach ($quote->getAllVisibleItems() AS $quoteItem) {
+            if (is_null($quoteItem->getFraisrProductId())) {
                 continue;
+            }
 
             $has_fraisr_items = 1;
             break;

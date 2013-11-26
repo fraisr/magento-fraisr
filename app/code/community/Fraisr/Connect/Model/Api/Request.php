@@ -58,7 +58,7 @@ class Fraisr_Connect_Model_Api_Request extends Zend_Http_Client
      * Paginated data
      * @var array
      */
-    protected $paginateData = array();
+    protected $_paginateData = array();
 
     /**
      * Workarround to avoid Mage::getModel passed wrong/unwanted parameters to Zend_Http_Client
@@ -113,13 +113,13 @@ class Fraisr_Connect_Model_Api_Request extends Zend_Http_Client
             ->validateGet();
 
         //Set result data
-        $this->paginateData = array_merge($this->paginateData, $responseHandler->getJsonResponseData());
+        $this->_paginateData = array_merge($this->_paginateData, $responseHandler->getJsonResponseData());
 
         //If there is a next page let's run the request again
         if (true === $responseHandler->isPaginateNextPage()) {
             $this->requestPaginatedGet($taskApiUri, $page+1);
         }
-        return $this->paginateData;
+        return $this->_paginateData;
     }
 
     /**
