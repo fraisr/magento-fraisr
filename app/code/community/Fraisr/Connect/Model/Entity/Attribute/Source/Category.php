@@ -105,36 +105,7 @@ class Fraisr_Connect_Model_Entity_Attribute_Source_Category extends Mage_Eav_Mod
                         'label' => $label,
                         'value' =>  array(),
                     );
-                } else {
-                    // $label = $category->getName();
-
-                    // //Add label in brackets if existing
-                    // if (false === is_null($category->getLabel())) {
-                    //     $label .= ' ('.$category->getLabel().')';
-                    // }
-
-                    // $parents = array();
-                    // $p = $category->getId();
-                    // $o = &$this->_options;
-                    // $i = 0;
-
-                    // while(($p = $parent[$p]) !== null){
-                    //     array_unshift($parents, $p);
-                    //     $i++;
-                    // }
-
-                    // foreach ($parents AS $c => $p) {
-                    //     if($c + 1 == $i){
-                    //         $label = $o[$p]["label"] . " / " . $label;
-                    //     }
-                    //     $o = &$o[$p]["value"];
-                    // }
-
-                    // $o[] = array(
-                    //     'label' => $label,
-                    //     'value' =>  $category->getId(),
-                    // );
-                }
+                } 
             }
 
             foreach ($categoryCollection as $category) {
