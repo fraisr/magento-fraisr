@@ -145,13 +145,8 @@ class Fraisr_Connect_Model_Entity_Attribute_Source_Category extends Mage_Eav_Mod
                 if (array_key_exists($category->getId(), $isParent)) {
                     continue;
                 }
-                
-                $label = $category->getName();
 
-                //Add label in brackets if existing
-                if (false === is_null($category->getLabel())) {
-                    $label .= ' ('.$category->getLabel().')';
-                }
+                $label = $category->getName();
 
                 $parents = array();
                 $p = $category->getId();
