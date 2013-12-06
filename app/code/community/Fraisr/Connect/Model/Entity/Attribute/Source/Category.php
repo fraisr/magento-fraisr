@@ -72,8 +72,17 @@ class Fraisr_Connect_Model_Entity_Attribute_Source_Category extends Mage_Eav_Mod
                         'label' => $category->getName(),
                         'value' =>  array(),
                     );
-                } elseif (array_key_exists($category->getId(), $isParent)) {
+                }
+            }
+
+            foreach ($categoryCollection as $category) {
+                if (true === is_null($category->getParentId())) {
+                    continue;
+                }
+
+                if (array_key_exists($category->getId(), $isParent)) {
                     $label = $category->getName();
+                    // var_dump($category->getName());
                     $parents = array();
                     $p = $category->getId();
                     $o = &$this->_options;
@@ -88,6 +97,7 @@ class Fraisr_Connect_Model_Entity_Attribute_Source_Category extends Mage_Eav_Mod
                         if($c + 1 == $i){
                             $label = $o[$p]["label"] . " / " . $label;
                         }
+
                         $o = &$o[$p]["value"];
                     }
 
@@ -96,35 +106,74 @@ class Fraisr_Connect_Model_Entity_Attribute_Source_Category extends Mage_Eav_Mod
                         'value' =>  array(),
                     );
                 } else {
-                    $label = $category->getName();
+                    // $label = $category->getName();
 
-                    //Add label in brackets if existing
-                    if (false === is_null($category->getLabel())) {
-                        $label .= ' ('.$category->getLabel().')';
-                    }
+                    // //Add label in brackets if existing
+                    // if (false === is_null($category->getLabel())) {
+                    //     $label .= ' ('.$category->getLabel().')';
+                    // }
 
-                    $parents = array();
-                    $p = $category->getId();
-                    $o = &$this->_options;
-                    $i = 0;
+                    // $parents = array();
+                    // $p = $category->getId();
+                    // $o = &$this->_options;
+                    // $i = 0;
 
-                    while(($p = $parent[$p]) !== null){
-                        array_unshift($parents, $p);
-                        $i++;
-                    }
+                    // while(($p = $parent[$p]) !== null){
+                    //     array_unshift($parents, $p);
+                    //     $i++;
+                    // }
 
-                    foreach ($parents AS $c => $p) {
-                        if($c + 1 == $i){
-                            $label = $o[$p]["label"] . " / " . $label;
-                        }
-                        $o = &$o[$p]["value"];
-                    }
+                    // foreach ($parents AS $c => $p) {
+                    //     if($c + 1 == $i){
+                    //         $label = $o[$p]["label"] . " / " . $label;
+                    //     }
+                    //     $o = &$o[$p]["value"];
+                    // }
 
-                    $o[] = array(
-                        'label' => $label,
-                        'value' =>  $category->getId(),
-                    );
+                    // $o[] = array(
+                    //     'label' => $label,
+                    //     'value' =>  $category->getId(),
+                    // );
                 }
+            }
+
+            foreach ($categoryCollection as $category) {
+                if (true === is_null($category->getParentId())) {
+                    continue;
+                }
+
+                if (array_key_exists($category->getId(), $isParent)) {
+                    continue;
+                }
+                
+                $label = $category->getName();
+
+                //Add label in brackets if existing
+                if (false === is_null($category->getLabel())) {
+                    $label .= ' ('.$category->getLabel().')';
+                }
+
+                $parents = array();
+                $p = $category->getId();
+                $o = &$this->_options;
+                $i = 0;
+
+                while(($p = $parent[$p]) !== null){
+                    array_unshift($parents, $p);
+                    $i++;
+                }
+
+                foreach ($parents AS $c => $p) {
+                    if($c + 1 == $i){
+                        $label = $o[$p]["label"] . " / " . $label;
+                    }
+                    $o = &$o[$p]["value"];
+                }
+
+                $o[] = array(
+                    'label' => $label,
+                    'value' =>  $category->getId(),
+                );
             }
         }
         return $this->_options;
