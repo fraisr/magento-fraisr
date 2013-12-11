@@ -214,6 +214,13 @@ class Fraisr_Connect_Model_Observer
         $quoteItem = $event->getQuoteItem();
         $product = $quoteItem->getProduct();
 
+        if($product->getTypeId() === "simple" 
+            && get_class($product) === "OrganicInternet_SimpleConfigurableProducts_Catalog_Model_Product"
+            && ($ids = Mage::getModel('catalog/product_type_configurable')->getParentIdsByChild($product->getId()))
+            && count($ids) === 1){
+            $product = Mage::getModel('catalog/product')->load($ids[0]);
+        }
+
         if (false === is_null($product->getFraisrId())
             && 1 == $product->getFraisrEnabled()
             && false === is_null($product->getFraisrCause())
