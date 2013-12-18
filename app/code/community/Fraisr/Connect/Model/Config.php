@@ -35,6 +35,16 @@ class Fraisr_Connect_Model_Config
     }
 
     /**
+     * Ingoring SSL verification?
+     *
+     * @return boolean
+     */
+    public function ignoreSSLVerification()
+    {
+        return (1 == Mage::getStoreConfig('fraisrconnect/general/ignore_ssl_verification'));
+    }
+
+    /**
      * Is sandbox mode on
      *
      * @return boolean

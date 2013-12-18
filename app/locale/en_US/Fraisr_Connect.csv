@@ -129,3 +129,4 @@
 "%s%% donation will go to %s","%s%% donation will go to %s"
 "Has fraisr items","Has fraisr items"
 "There are no products to synchronize.","There are no products to synchronize."
+"Some hosting providers does not allow to connect via SSL, please select "Yes" if your hosting provider is one of these (e.g.: Strato).","Some hosting providers does not allow to connect via SSL, please select "Yes" if your hosting provider is one of these (e.g.: Strato)."

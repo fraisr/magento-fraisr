@@ -239,6 +239,7 @@
         <fraisrconnect>
             <general>
                 <active>0</active>
+                <ignore_ssl_verification>0</ignore_ssl_verification>
                 <sandbox>1</sandbox>
             </general>
             <catalog_export>

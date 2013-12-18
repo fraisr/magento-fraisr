@@ -104,7 +104,7 @@ class Fraisr_Connect_Model_Api_Request extends Zend_Http_Client
         );
 
         //Trigger request
-        parent::request();
+        $this->request();
 
         //Validate and parse response
         $responseHandler = $this->getResponseHandler();
@@ -151,7 +151,7 @@ class Fraisr_Connect_Model_Api_Request extends Zend_Http_Client
         $this->setParameterPost($postParameter);
 
         //Trigger request
-        parent::request();
+        $this->request();
 
         //Validate and parse response
         $responseHandler = $this->getResponseHandler();
@@ -192,7 +192,7 @@ class Fraisr_Connect_Model_Api_Request extends Zend_Http_Client
         $this->setParameterPost($postParameter);
 
         //Trigger request
-        parent::request();
+        $this->request();
 
         //Validate response
         $responseHandler = $this->getResponseHandler();
@@ -226,7 +226,7 @@ class Fraisr_Connect_Model_Api_Request extends Zend_Http_Client
         $this->setMethod(Zend_Http_Client::DELETE);
 
         //Trigger request
-        parent::request();
+        $this->request();
 
         //Validate and parse response
         $responseHandler = $this->getResponseHandler();
@@ -310,5 +310,13 @@ class Fraisr_Connect_Model_Api_Request extends Zend_Http_Client
             self::PLUGIN_IDENTIFICATION_KEY,
             $this->getConfig()->getPluginIdentificationValue()
         );
+    }
+
+    public function request(){
+        if ($this->getConfig()->ignoreSSLVerification()) {
+            $this->getAdapter()->setCurlOption(CURLOPT_SSL_VERIFYPEER, false);
+        }
+
+        parent::request();
     }
 }
