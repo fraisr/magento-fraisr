@@ -144,4 +144,31 @@ class Fraisr_Connect_Model_Entity_Attribute_Source_Category extends Mage_Eav_Mod
         }
         return $this->_options;
     }
+
+    /**
+     * Retrieve Column(s) for Flat
+     *
+     * @return array
+     */
+    public function getFlatColums()
+    {
+        return array($this->getAttribute()->getAttributeCode() => array(
+            'type'      => 'varchar(255)',
+            'unsigned'  => false,
+            'is_null'   => true,
+            'default'   => null,
+            'extra'     => null
+        ));
+    }
+
+    /**
+     * Retrieve Select For Flat Attribute update
+     *
+     * @param int $store
+     * @return Varien_Db_Select|null
+     */
+    public function getFlatUpdateSelect($store)
+    {
+        return Mage::getResourceSingleton('eav/entity_attribute')->getFlatUpdateSelect($this->getAttribute(), $store);
+    }
 }
