@@ -76,6 +76,37 @@ Folgende Zugangsdaten sind zur Konfiguration notwendig und im Nutzer-Dashboard v
 - Key
 - Secret
 
+Deinstallation des Plugins
+==========================
+
+Zum Deinstallieren des Plugins führen Sie bitte folgende Schritte in genau dieser Reihenfolge aus:
+
+#. Deaktivieren Sie alle fraisr Artikel und synchronisieren diese, wie finden Sie im Abschnitt "Schritt für Schritt - Einrichtungsleitfaden".
+#. Löschen Sie alle vom Plugin erstellten Attribute (Grafik "fraisr Attribute") unter "Katalog" -> "Attribute" -> "Attribute Verwalten".
+#. Jetzt deinstallieren Sie das Plugin.
+#. Führen Sie nun noch folgende SQL-Befehle in Ihrer Datenbank aus:
+
+.. code-block:: mysql
+
+  DROP TABLE IF EXISTS fraisrconnect_category;
+  DROP TABLE IF EXISTS fraisrconnect_cause;
+  DROP TABLE IF EXISTS fraisrconnect_log;
+  ALTER TABLE sales_flat_quote_item DROP `fraisr_product_id`;
+  ALTER TABLE sales_flat_quote_item DROP `fraisr_cause_id`;
+  ALTER TABLE sales_flat_quote_item DROP `fraisr_donation_percentage`;
+  ALTER TABLE sales_flat_order_item DROP `fraisr_product_id`;
+  ALTER TABLE sales_flat_order_item DROP `fraisr_order_id`;
+  ALTER TABLE sales_flat_order_item DROP `fraisr_qty_ordered`;
+  ALTER TABLE sales_flat_order_item DROP `fraisr_cause_id`;
+  ALTER TABLE sales_flat_order_item DROP `fraisr_donation_percentage`;
+  ALTER TABLE sales_flat_order DROP `has_fraisr_items`;
+  ALTER TABLE sales_flat_order_grid DROP `has_fraisr_items`;
+
+.. figure:: images/screenshots/fraisr_attributes.png
+   :width: 14.5cm
+
+   fraisr Attribute
+
 Schritt für Schritt - Einrichtungsleitfaden
 ===========================================
 
@@ -652,7 +683,7 @@ Widget zur Integration der externen Dateien fraisr.js und fraisr.css
 
 Die Einbindung erfolgt mittels des Blocks "fraisrconnect_frontend_widget" im Bereich "before_body_end".
 
-.. code:: xml
+.. code-block:: xml
 
  <block
      type="fraisrconnect/frontend_widget"
@@ -669,7 +700,7 @@ Spendenlabel oben/unten in der Produktdetailansicht
 
 Die Einbindung des oberen Blocks "fraisrconnect_catalog_product_view_label_top" erfolgt im Bereich "other".
 
-.. code:: xml
+.. code-block:: xml
 
   <block
       type="fraisrconnect/catalog_product_view_label"
@@ -686,13 +717,13 @@ Für den Fall, dass das Spendenlabel nicht angezeigt wird, prüfen Sie bitte, ob
 Produktdetailseite der Getter für den "other"-Bereich zur Verfügung steht bzw. kein anderes Modul diesen 
 Bereich verwendet.
 
-.. code:: html
+.. code-block:: html
 
  <?php echo $this->getChildHtml('other');?>
 
 Die Einbindung des unteren Blocks "fraisrconnect_catalog_product_view_label_bottom" erfolgt im Bereich "detailed_info".
 
-.. code:: xml
+.. code-block:: xml
 
   <block
       type="fraisrconnect/catalog_product_view_label"
@@ -714,7 +745,7 @@ Die Einbindung des unteren Blocks "fraisrconnect_catalog_product_view_label_bott
 Sofern das Spendenlabel unten nicht angezeigt wird, prüfen Sie, ob der folgende Quellcode korrekt im view.phtml - Template
 der Produktdetailseite eingebunden ist.
 
-.. code:: html
+.. code-block:: html
 
  <?php foreach ($this->getChildGroup('detailed_info', 'getChildHtml') as $alias => $html):?>
     <div class="box-collateral <?php echo "box-{$alias}"?>">
@@ -730,7 +761,7 @@ JSON-Daten in der Kategorieansicht/Produktliste und den Suchergebnis-Seite
 
 Die Einbindung erfolgt mittels des Blocks "fraisrconnect_catalog_product_json_list" im Bereich "before_body_end".
 
-.. code:: xml
+.. code-block:: xml
 
   <block
       type="fraisrconnect/catalog_product_json_list"
@@ -747,7 +778,7 @@ JSON-Daten in der Produktdetailansicht
 
 Die Einbindung erfolgt mittels des Blocks "fraisrconnect_catalog_product_json_view" im Bereich "before_body_end".
 
-.. code:: xml
+.. code-block:: xml
 
   <block
       type="fraisrconnect/catalog_product_json_view"
